@@ -1,14 +1,21 @@
 /// <reference path="api/Matrix.Labels.ts" />
+// Version : VERSION_INFO_PLACEHOLDER
 
 // Use a namespace to isolate your plugin code
 // This avoids conflicts with other plugins
 namespace BoilerPlate {
+    
+   
+
     export class Plugin implements IPlugin {
         public isDefault = true;
         currentFolder: IItem;
         popupModeOrControl: boolean;
         public static fieldType = "plugin_boiler_plate";
-
+        static PLUGIN_NAME = "<PLUGIN_NAME_PLACEHOLDER>";
+        static PLUGIN_VERSION = "<PLUGIN_VERSION_PLACEHOLDER>";
+    
+    
         static settingName: string = "plugin_boiler_plater_settings";
 
         static defaultSettingsProjectSettings: IPluginBoilerPlateProjectSettings = {
@@ -58,11 +65,11 @@ namespace BoilerPlate {
             return true;
         }
         getPluginName() {
-            return Plugin.settingName;
+            return Plugin.PLUGIN_NAME;
         }
 
         getPluginVersion() {
-            return "0.0.1";
+            return Plugin.PLUGIN_VERSION;
         }
         getProjectSettingPages(): ISettingPage[] {
             var pages: ISettingPage[] = [];

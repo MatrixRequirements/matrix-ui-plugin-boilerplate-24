@@ -11,5 +11,8 @@ namespace BoilerPlate {
     export interface IPluginBoilerPlateFieldParameter extends IFieldParameter {
         fieldParameter: string;
     }
+    export interface IPluginSettingPage  extends IAnyMap{
+        renderSettingPage?: () => void,
+     }
     export type IPluginBoilerPlateControlOptions = IBaseControlOptions
 }

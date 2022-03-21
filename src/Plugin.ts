@@ -94,10 +94,10 @@ namespace BoilerPlate {
                     id: "BPP_ProjectSettings",
                     title: "Boiler plate plugin customer settings page",
                     render: (_ui: JQuery) => {
-                        const pbpi = new PluginBoilerPlateCustomerSettingsPage({
+                        const pbpi =  PluginBoilerPlateCustomerSettingsPage({
                             customerSettingsTitle: "BBP CustomerSettings Page!",
                         });
-                        pbpi.renderCustomerSettingPage();
+                        pbpi.renderSettingPage();
                     },
                 },
             ];

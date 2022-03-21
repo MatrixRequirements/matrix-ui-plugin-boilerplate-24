@@ -62,7 +62,7 @@ namespace BoilerPlate {
         }
 
         getPluginVersion() {
-            return "%BUILD_PLUGIN_VERSION%";
+            return "0.0.1";
         }
         getProjectSettingPages(): ISettingPage[] {
             var pages: ISettingPage[] = [];

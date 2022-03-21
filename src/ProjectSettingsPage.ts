@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
-    export function ProjectSettingsPage() {
+    export function ProjectSettingsPage():IPluginSettingPage {
         
         let self: IAnyMap = {};
         if (window["ConfigPage"] !== undefined) {
             self = new ConfigPage();
         }
 
-        self.renderProjectSettingPage = (settings: IPluginBoilerPlateProjectSettings) => {
+        self.renderSettingPage = (settings: IPluginBoilerPlateProjectSettings) => {
             self.settings = settings;
             self.initPage(
                 settings.projectSettingsTitle,

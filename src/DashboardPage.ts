@@ -10,7 +10,9 @@ namespace BoilerPlate {
         getDashboardDOM(settings: IPluginBoilerPlateProjectSettings): JQuery {
             return $(`
         <div class="panel-body-v-scroll fillHeight">
-            This is my content : ${settings.projectSettingsTitle}
+            <div class="panel-body">
+                This is my content : ${settings.projectSettingsTitle}
+            </div>
         </div>
         `);
         }

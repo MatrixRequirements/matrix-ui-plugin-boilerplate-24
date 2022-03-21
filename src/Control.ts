@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 namespace BoilerPlate{
 
    export class  Control extends BaseControl {
@@ -95,7 +96,10 @@ namespace BoilerPlate{
         requiresContent() {
             return this.doesRequireContent;
         }
-    
+       test(first,second)
+       {
+           console.log(first, second);
+       }
        refresh() {
            console.log("Refresh has been called");
         }

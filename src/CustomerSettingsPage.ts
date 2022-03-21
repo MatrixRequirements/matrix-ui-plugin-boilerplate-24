@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     /* Customer Setting page closure*/
     export function PluginBoilerPlateCustomerSettingsPage( settings: IPluginBoilerPlateCustomerSettings ) {

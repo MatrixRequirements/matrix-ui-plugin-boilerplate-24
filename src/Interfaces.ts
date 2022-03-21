@@ -1,4 +1,5 @@
 /* Setting interfaces */
+// eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     export interface IPluginBoilerPlateProjectSettings {
         projectSettingsTitle: string;

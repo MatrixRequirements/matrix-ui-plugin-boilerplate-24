@@ -3,6 +3,8 @@
 
 // Use a namespace to isolate your plugin code
 // This avoids conflicts with other plugins
+
+// eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     
    
@@ -20,7 +22,8 @@ namespace BoilerPlate {
 
         static defaultSettingsProjectSettings: IPluginBoilerPlateProjectSettings = {
             projectSettingsTitle: "plugin Boiler plate project settings",
-        };
+        }; 
+
 
         static defaultCustomerSettingsProjectSettings: IPluginBoilerPlateCustomerSettings = {
             customerSettingsTitle: "plugin Boiler plate customer settings",
@@ -28,6 +31,7 @@ namespace BoilerPlate {
 
         constructor() {
             console.debug(`Contructing ${Plugin.PLUGIN_NAME}`);
+            
         }
 
         initItem(_item: IItem, _jui: JQuery) {

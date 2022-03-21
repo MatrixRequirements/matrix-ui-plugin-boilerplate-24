@@ -1,9 +1,7 @@
 namespace BoilerPlate {
     /* Customer Setting page closure*/
-    export function PluginBoilerPlateCustomerSettingsPage(
-        settings: IPluginBoilerPlateCustomerSettings
-    ) {
-        let self: any = {
+    export function PluginBoilerPlateCustomerSettingsPage( settings: IPluginBoilerPlateCustomerSettings ) {
+        let self: IAnyMap = {
             settings: settings,
         };
         if (window["ConfigPage"] !== undefined) {
@@ -22,7 +20,9 @@ namespace BoilerPlate {
             );
         };
 
-        self.showAdvanced = () => {};
+        self.showAdvanced = () => {
+            console.debug("Show advanced clicked");
+        };
         self.showSimple = () => {
             app.itemForm.append(self.getCustomerSettingPageDOM(this.settings));
         };

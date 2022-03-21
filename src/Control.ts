@@ -1,25 +1,26 @@
 namespace BoilerPlate{
+
    export class  Control extends BaseControl {
     
         private settings: IPluginBoilerPlateControlOptions;
         private lastValueChanged:number;
         private _editor:JQuery;
-        private doesRequireContent:boolean = false;
-        private defaultValue:any = "no value yet"
+        private doesRequireContent = false;
+       private defaultValue = "no value yet"
+       
+
+       
         constructor( control:JQuery) {
             super(control);
         } 
         
         init(  options:IPluginBoilerPlateControlOptions) {
-            let that = this;
-    
-            var defaultOptions:IPluginBoilerPlateControlOptions = {
+            const defaultOptions:IPluginBoilerPlateControlOptions = {
                 
                 controlState: ControlState.FormView, // read only rendering
                 canEdit: false, // whether data can be edited 
                 dummyData: false, // fill control with a dumy text (for form design...)
-                valueChanged: function () {
-                }, // callback to call if value changes
+                valueChanged: () => console.debug("Value has changed"), // callback to call if value changes
                 parameter: {
                     readonly: false, // can be set to overwrite the default readonly status
                     allowResize: true, // allow to resize control
@@ -37,7 +38,6 @@ namespace BoilerPlate{
             //For print        
             if (this.settings.controlState === ControlState.Print || this.settings.controlState === ControlState.Tooltip) {
                 this._root.append(super.createHelp(this.settings));
-                var css = (this.settings.controlState === ControlState.Print) ? "class='printBox'" : "";
                 this._root.append(`<pre>${this.settings.fieldValue}></pre>`);
                 return;
             }
@@ -45,8 +45,9 @@ namespace BoilerPlate{
             if (options.parameter && options.parameter.requiresContent) {
                 this.doesRequireContent = options.parameter.requiresContent;
             }
-            let helpLine = this._root.append(super.createHelp(this.settings));
-            var ctrlContainer = $("<div>").addClass("baseControl");
+            const helpLine = super.createHelp(this.settings);
+            this._root.append(helpLine);
+            const ctrlContainer = $("<div>").addClass("baseControl");
             
             this._root.append(ctrlContainer);
             this._editor = this.createEditorFromDOM();
@@ -56,18 +57,18 @@ namespace BoilerPlate{
             this._editor.val(this.settings.fieldValue);
     
             // remove mouseout to avoid frequent changes change
-            this._editor.change(function () {
-                clearTimeout(that.lastValueChanged);
+            this._editor.change( ()=> {
+                clearTimeout(this.lastValueChanged);
                 console.log(`${Plugin.fieldType} has changed`)
-                that.lastValueChanged = window.setTimeout((noCallBack?:boolean) => that.valueChanged(noCallBack), 333);
+                this.lastValueChanged = window.setTimeout((noCallBack?:boolean) => this.valueChanged(noCallBack), 333);
             });
-            this._editor.on('blur', function () {
-                if (that.settings.focusLeft) {
-                    that.settings.focusLeft();
+            this._editor.on('blur',  () => {
+                if (this.settings.focusLeft) {
+                    this.settings.focusLeft();
                 }
                 
             });
-            var rt = this._editor.val();
+            const rt = this._editor.val();
             this._root.data("original", rt);
             this._root.data("new", rt);
         }
@@ -87,7 +88,7 @@ namespace BoilerPlate{
             // make sure no changes are pending
             clearTimeout(this.lastValueChanged);
             this.valueChanged(true);
-            let text = this._root.data("new");
+            const text = this._root.data("new");
             return DOMPurify.sanitize(text);
         }
     
@@ -95,7 +96,8 @@ namespace BoilerPlate{
             return this.doesRequireContent;
         }
     
-        refresh() {
+       refresh() {
+           console.log("Refresh has been called");
         }
         setValue(newValue:string, reset?:boolean) {
             if (this._editor) {
@@ -115,7 +117,9 @@ namespace BoilerPlate{
             }
         }
         
-        resizeItem() {}
+       resizeItem() {
+           console.log("resizeItem has been called");
+        }
         
         //  private functions
         private valueChanged(noCallback?:boolean) {
@@ -130,9 +134,8 @@ namespace BoilerPlate{
     
     
         createEditorFromDOM(): JQuery {
-            let that = this ;
             return $(`<div>
-                        <pre>${JSON.stringify(that.settings)}</pre>
+                        <pre>${JSON.stringify(this.settings)}</pre>
                     <div> `);
         }
     

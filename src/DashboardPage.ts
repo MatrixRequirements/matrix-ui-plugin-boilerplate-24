@@ -15,9 +15,8 @@ namespace BoilerPlate {
         }
 
         renderProjectPage() {
-            let that = this;
 
-            let control = this.getDashboardDOM(this.settings);
+            const control = this.getDashboardDOM(this.settings);
             app.itemForm.append(
                 ml.UI.getPageTitle(
                     this.settings.projectSettingsTitle,
@@ -25,7 +24,7 @@ namespace BoilerPlate {
                         return control;
                     },
                     () => {
-                        that.onResize();
+                        this.onResize();
                     }
                 )
             );

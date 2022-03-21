@@ -1,7 +1,7 @@
 namespace BoilerPlate {
     export function ProjectSettingsPage() {
-        let settings: IPluginBoilerPlateProjectSettings;
-        let self: any = {};
+        
+        let self: IAnyMap = {};
         if (window["ConfigPage"] !== undefined) {
             self = new ConfigPage();
         }
@@ -18,7 +18,10 @@ namespace BoilerPlate {
             );
             app.itemForm.append(self.getDashboardSettingsDOM(self.settings));
         };
-        self.showAdvanced = () => {};
+        self.showAdvanced = () => {
+            console.debug("Show advanced clicked");
+
+        };
         self.showSimple = () => {
             app.itemForm.append(self.getDashboardSettingsDOM(this.settings));
         };

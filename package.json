@@ -1,8 +1,11 @@
 {
-  "name": "Boilerplate plugin",
+  "name": "boilerplate-plugin",
   "version": "1.0.0",
   "description": "Boilter plate Plugin",
   "main": "index.js",
+  "repository": {
+    "url": "https://github.com/francoischasseur/matrix-boilerplate"
+  },
   "scripts": {
     "build": "tsc -b",
     "watch": "tsc -b --watch",

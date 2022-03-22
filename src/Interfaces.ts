@@ -1,14 +1,14 @@
 /* Setting interfaces */
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
-    export interface IPluginBoilerPlateProjectSettings {
+    export interface IProjectSettings {
         /** Setting page placeholder */
-        projectSettingsTitle: string;
+        title: string;
     }
 
-    export interface IPluginBoilerPlateCustomerSettings {
+    export interface IServerSettings {
         /** Server Setting placeholder */
-        serverSettingsTitle: string;
+        title: string;
     }
     export interface IPluginBoilerPlateFieldParameter extends IFieldParameter {
         /** field parameter placeholder*/

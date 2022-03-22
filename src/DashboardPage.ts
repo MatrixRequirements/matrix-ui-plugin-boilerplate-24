@@ -1,17 +1,17 @@
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     export class DashboardPage {
-        settings: IPluginBoilerPlateProjectSettings;
+        settings: IProjectSettings;
 
-        constructor(settings: IPluginBoilerPlateProjectSettings) {
+        constructor(settings: IProjectSettings) {
             this.settings = settings;
         }
 
-        getDashboardDOM(settings: IPluginBoilerPlateProjectSettings): JQuery {
+        getDashboardDOM(settings: IProjectSettings): JQuery {
             return $(`
         <div class="panel-body-v-scroll fillHeight">
             <div class="panel-body">
-                This is my content : ${settings.projectSettingsTitle}
+                This is my content : ${settings.title}
             </div>
         </div>
         `);
@@ -22,7 +22,7 @@ namespace BoilerPlate {
             const control = this.getDashboardDOM(this.settings);
             app.itemForm.append(
                 ml.UI.getPageTitle(
-                    this.settings.projectSettingsTitle,
+                    this.settings.title,
                     () => {
                         return control;
                     },

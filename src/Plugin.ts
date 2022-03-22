@@ -18,13 +18,13 @@ namespace BoilerPlate {
     
         static settingName = "plugin_boiler_plater_settings";
 
-        static defaultSettingsProjectSettings: IPluginBoilerPlateProjectSettings = {
-            projectSettingsTitle: "plugin Boiler plate project settings",
+        static defaultSettingsProjectSettings: IProjectSettings = {
+            title: "plugin Boiler plate project settings",
         }; 
 
 
-        static defaultCustomerSettingsProjectSettings: IPluginBoilerPlateCustomerSettings = {
-            serverSettingsTitle: "plugin Boiler plate customer settings",
+        static defaultCustomerSettingsProjectSettings: IServerSettings = {
+            title: "plugin Boiler plate customer settings",
         };
 
         constructor() {
@@ -46,7 +46,7 @@ namespace BoilerPlate {
         }
 
         updateMenu(ul: JQuery, _hook: number) {
-            const li = $(`<li>PluginBoilerPlate </li>`).click(() => {
+            const li = $(`<li>PluginBoilerPlate </li>`).on("click",() => {
                 alert("Plugin boiler plate");
             });
 
@@ -79,7 +79,7 @@ namespace BoilerPlate {
                     title: "Boiler plate plugin project settings page",
                     render: (_ui: JQuery) => {
                         const pbpi = ProjectSettingsPage({
-                            projectSettingsTitle: "BPP project settings page",
+                            title: "BPP project settings page",
                         });
                         pbpi.renderSettingPage();
                     },
@@ -93,7 +93,7 @@ namespace BoilerPlate {
                     title: "Boiler plate plugin customer settings page",
                     render: (_ui: JQuery) => {
                         const pbpi =  ServerSettingsPage({
-                            serverSettingsTitle: "BBP CustomerSettings Page!",
+                            title: "BBP CustomerSettings Page!",
                         });
                         pbpi.renderSettingPage();
                     },

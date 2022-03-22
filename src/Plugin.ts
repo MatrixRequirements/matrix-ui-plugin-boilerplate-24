@@ -1,5 +1,5 @@
 /// <reference path="api/Matrix.Labels.ts" />
-// Version : VERSION_INFO_PLACEHOLDER
+// Version : <PLUGIN_VERSION_PLACEHOLDER>
 
 // Use a namespace to isolate your plugin code
 // This avoids conflicts with other plugins
@@ -7,8 +7,6 @@
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     
-   
-
     export class Plugin implements IPlugin {
         public isDefault = true;
         currentFolder: IItem;
@@ -20,13 +18,13 @@ namespace BoilerPlate {
     
         static settingName = "plugin_boiler_plater_settings";
 
-        static defaultSettingsProjectSettings: IPluginBoilerPlateProjectSettings = {
-            projectSettingsTitle: "plugin Boiler plate project settings",
+        static defaultSettingsProjectSettings: IProjectSettings = {
+            title: "plugin Boiler plate project settings",
         }; 
 
 
-        static defaultCustomerSettingsProjectSettings: IPluginBoilerPlateCustomerSettings = {
-            customerSettingsTitle: "plugin Boiler plate customer settings",
+        static defaultCustomerSettingsProjectSettings: IServerSettings = {
+            title: "plugin Boiler plate customer settings",
         };
 
         constructor() {
@@ -48,7 +46,7 @@ namespace BoilerPlate {
         }
 
         updateMenu(ul: JQuery, _hook: number) {
-            const li = $(`<li>PluginBoilerPlate </li>`).click(() => {
+            const li = $(`<li>PluginBoilerPlate </li>`).on("click",() => {
                 alert("Plugin boiler plate");
             });
 
@@ -80,10 +78,10 @@ namespace BoilerPlate {
                     id: "BPP_customerSettings",
                     title: "Boiler plate plugin project settings page",
                     render: (_ui: JQuery) => {
-                        const pbpi = ProjectSettingsPage();
-                        pbpi.renderProjectSettingPage({
-                            projectSettingsTitle: "BPP project settings page",
+                        const pbpi = ProjectSettingsPage({
+                            title: "BPP project settings page",
                         });
+                        pbpi.renderSettingPage();
                     },
                 },
             ];
@@ -94,8 +92,8 @@ namespace BoilerPlate {
                     id: "BPP_ProjectSettings",
                     title: "Boiler plate plugin customer settings page",
                     render: (_ui: JQuery) => {
-                        const pbpi =  PluginBoilerPlateCustomerSettingsPage({
-                            customerSettingsTitle: "BBP CustomerSettings Page!",
+                        const pbpi =  ServerSettingsPage({
+                            title: "BBP CustomerSettings Page!",
                         });
                         pbpi.renderSettingPage();
                     },

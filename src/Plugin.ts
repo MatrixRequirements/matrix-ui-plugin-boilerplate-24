@@ -1,6 +1,6 @@
 /// <reference path="api/Matrix.Labels.ts" />
-// Version : <PLUGIN_VERSION_PLACEHOLDER>
 
+// Version : <PLUGIN_VERSION_PLACEHOLDER>
 // Use a namespace to isolate your plugin code
 // This avoids conflicts with other plugins
 
@@ -12,19 +12,22 @@ namespace BoilerPlate {
         currentFolder: IItem;
         popupModeOrControl: boolean;
         public static fieldType = "plugin_boiler_plate";
+        public static projectSettingName = "plugin_boiler_plate";
+        public static serverSettingName = "plugin_boiler_plate";
+
         static PLUGIN_NAME = "<PLUGIN_NAME_PLACEHOLDER>";
         static PLUGIN_VERSION = "<PLUGIN_VERSION_PLACEHOLDER>";
     
     
         static settingName = "plugin_boiler_plater_settings";
 
-        static defaultSettingsProjectSettings: IProjectSettings = {
-            title: "plugin Boiler plate project settings",
+        static defaultProjectSettings: IProjectSettings = {
+            content: "boiler plate",
         }; 
 
 
-        static defaultCustomerSettingsProjectSettings: IServerSettings = {
-            title: "plugin Boiler plate customer settings",
+        static defaultServerSettings: IServerSettings = {
+            content: "boiler plate",
         };
 
         constructor() {
@@ -73,37 +76,39 @@ namespace BoilerPlate {
             return Plugin.PLUGIN_VERSION;
         }
         getProjectSettingPages(): ISettingPage[] {
+            const pbpi = ProjectSettingsPage();
             return [
                 {
                     id: "BPP_customerSettings",
                     title: "Boiler plate plugin project settings page",
                     render: (_ui: JQuery) => {
-                        const pbpi = ProjectSettingsPage({
-                            title: "BPP project settings page",
-                        });
                         pbpi.renderSettingPage();
                     },
+                    saveAsync: () => {
+                        return pbpi.saveAsync()
+                    }
                 },
             ];
         }
         getCustomerSettingPages(): ISettingPage[] {
+            const pbpi = ServerSettingsPage();
+
             return [
                 {
                     id: "BPP_ProjectSettings",
                     title: "Boiler plate plugin customer settings page",
                     render: (_ui: JQuery) => {
-                        const pbpi =  ServerSettingsPage({
-                            title: "BBP CustomerSettings Page!",
-                        });
                         pbpi.renderSettingPage();
                     },
+                    saveAsync: () => {
+                        return pbpi.saveAsync()
+                    }
                 },
             ];
         }
 
         getProjectPages(): IProjectPageParam[] {
             const pages: IProjectPageParam[] = [];
-            const mergedSettings = Plugin.defaultSettingsProjectSettings;
             pages.push({
                 id: "BOILERPLATE",
                 title: "Boiler plater plugins",
@@ -112,7 +117,7 @@ namespace BoilerPlate {
                 icon: "fa fa-cog",
                 usesFilters: true,
                 render: (_options: IPluginPanelOptions) => {
-                    const gd = new DashboardPage(mergedSettings);
+                    const gd = new DashboardPage();
                     gd.renderProjectPage();
                 },
             });

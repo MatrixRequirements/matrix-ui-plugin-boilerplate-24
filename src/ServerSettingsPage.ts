@@ -1,16 +1,18 @@
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     /* server Setting page closure*/
-    export function ServerSettingsPage( settings: IServerSettings ): IPluginSettingPage {
-        let self: IPluginSettingPage = {};
+    export function ServerSettingsPage(): IPluginSettingPage<IServerSettings> {
+        
+        let self: IPluginSettingPage<IServerSettings> = {};
         if (window["ConfigPage"] !== undefined) {
             self = { ...Object.getPrototypeOf(new ConfigPage()) };
         }
-        self.settings = settings;
+        self.serverSettings = { ...Plugin.defaultServerSettings, ...configApp.getServerSetting(Plugin.serverSettingName, {}) };
+        
         self.renderSettingPage = () => {
-            this.settings = settings;
+         
             self.initPage(
-                settings.title,
+                `${Plugin.PLUGIN_NAME} - Server setting`,
                 true,
                 undefined,
                 "My help",
@@ -19,17 +21,33 @@ namespace BoilerPlate {
             );
             self.showSimple();
         };
+
         self.showAdvanced = () => {
             console.debug("Show advanced clicked");
+            self.showAdvancedCode(JSON.stringify(self.settingsChanged), function (newCode: string) {
+                self.settingsChanged = JSON.parse(newCode);
+    
+                self.paramChanged();
+                self.renderSettingPage();
+            });
         };
         self.showSimple = () => {
-            app.itemForm.append(self.getSettingsDOM());
+
+            self.settingsOriginal = { ...Plugin.defaultServerSettings, ...self.serverSettings };
+            if (!self.settingsChanged)
+                 self.settingsChanged = { ...Plugin.defaultServerSettings, ...self.serverSettings };
+            app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
         };
-        self.getSettingsDOM = (): JQuery => {
+
+        self.paramChanged = () => {
+            configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
+        }
+      
+        self.getSettingsDOM = (settings:IServerSettings): JQuery => {
             return $(`
                 <div class="panel-body-v-scroll fillHeight">
                     <div>
-                        This is my customer settings page : ${self.settings.serverSettingsTitle}
+                        This is my customer settings page : ${settings.content}
                     </div>
 
                 </div>

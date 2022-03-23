@@ -3,15 +3,15 @@ namespace BoilerPlate {
     export class DashboardPage {
         settings: IProjectSettings;
 
-        constructor(settings: IProjectSettings) {
-            this.settings = settings;
+        constructor() {
+            this.settings = { ...Plugin.defaultProjectSettings, ...IC.getSettingJSON(Plugin.projectSettingName, {}) } ;
         }
 
-        getDashboardDOM(settings: IProjectSettings): JQuery {
+        getDashboardDOM(): JQuery {
             return $(`
         <div class="panel-body-v-scroll fillHeight">
             <div class="panel-body">
-                This is my content : ${settings.title}
+                This is my content : ${this.settings.content}
             </div>
         </div>
         `);
@@ -19,10 +19,10 @@ namespace BoilerPlate {
 
         renderProjectPage() {
 
-            const control = this.getDashboardDOM(this.settings);
+            const control = this.getDashboardDOM();
             app.itemForm.append(
                 ml.UI.getPageTitle(
-                    this.settings.title,
+                    this.settings.content,
                     () => {
                         return control;
                     },

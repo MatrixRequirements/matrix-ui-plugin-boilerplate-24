@@ -3,24 +3,32 @@
 namespace BoilerPlate {
     export interface IProjectSettings {
         /** Setting page placeholder */
-        title: string;
+        content: string;
     }
 
     export interface IServerSettings {
         /** Server Setting placeholder */
-        title: string;
+        content: string;
     }
     export interface IPluginBoilerPlateFieldParameter extends IFieldParameter {
         /** field parameter placeholder*/
         fieldParameter: string;
     }
-    export interface IPluginSettingPage {
+    export interface IPluginSettingPage<T> {
         renderSettingPage?: () => void,
         showAdvanced?: () => void,
         showSimple?: () => void,
-        getSettingsDOM?: () => JQuery,
-        settings?: IAnyMap,
-        initPage?:(_title: string, _showAdvancedBtn: boolean, _showDeleteText: string, _help: string, _externalHelp?: string, _showCopy?: boolean)=>void
+        getSettingsDOM?: (_setting?:T) => JQuery,
+        serverSettings?: IServerSettings,
+        saveAsync?: () => JQueryDeferred<unknown>,
+        paramChanged?:()=>void,
+        settingsOriginal?: T,
+        settingsChanged?:T,
+        getProject?: () => string,
+        pageId?:string,
+        initPage?: (_title: string, _showAdvancedBtn: boolean, _showDeleteText: string, _help: string, _externalHelp?: string, _showCopy?: boolean) => void
+        showAdvancedCode?:(_code:string, _success:(_code:string) => void, _semanticValidate?:IValidationSpec) =>void
+  
      }
     export type IPluginBoilerPlateControlOptions = IBaseControlOptions
 }

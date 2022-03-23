@@ -11517,6 +11517,8 @@ interface ISettingPage {
     render: (ui: JQuery) => void;
     advanced?: () => void;
     del?: () => void;
+    saveAsync?: () => JQueryDeferred<unknown>;
+
 }
 interface IProjectPageParam {
     id: string;

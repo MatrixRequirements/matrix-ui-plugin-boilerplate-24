@@ -3,7 +3,7 @@ namespace BoilerPlate{
 
    export class  Control extends BaseControl {
     
-        private settings: IPluginBoilerPlateControlOptions;
+        private settings: IControlOptions;
         private lastValueChanged:number;
         private _editor:JQuery;
         private doesRequireContent = false;
@@ -15,9 +15,9 @@ namespace BoilerPlate{
             super(control);
         } 
         
-        init(  options:IPluginBoilerPlateControlOptions) {
-            const defaultOptions:IPluginBoilerPlateControlOptions = {
-                
+        init(  options:IControlOptions) {
+            const defaultOptions:IControlOptions = {
+                placeholder: "boilerplate",
                 controlState: ControlState.FormView, // read only rendering
                 canEdit: false, // whether data can be edited 
                 dummyData: false, // fill control with a dumy text (for form design...)
@@ -28,7 +28,7 @@ namespace BoilerPlate{
                     hideFullscreen:false //  hide fullscreen
                 }
             };
-            this.settings = ml.JSON.mergeOptions(defaultOptions, options);
+            this.settings = <IControlOptions> ml.JSON.mergeOptions(defaultOptions, options);
             // have default values
             if (!this.settings.fieldValue && this.settings.parameter.initialContent && !this.settings.item ) {
                 this.settings.fieldValue =  this.settings.parameter.initialContent;

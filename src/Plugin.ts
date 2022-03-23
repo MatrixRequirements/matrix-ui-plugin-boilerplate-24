@@ -62,8 +62,12 @@ namespace BoilerPlate {
             if (settings && settings.fieldType == Plugin.fieldType) {
                 const baseControl = new Control(ctrlObj);
                 ctrlObj.getController = () => { return baseControl; }
-                baseControl.init(settings);
+                baseControl.init(<IControlOptions> settings);
             }
+        }
+
+        getFieldConfigOptions():IFieldDescription[] {
+            return [{id:Plugin.fieldType, capabilities:{canBePublished:false,canBeReadonly:true,canBeXtcPreset:false,canHideInDoc:false,canBeUsedInDocs:false,canRequireContent:true}, class:"",help:"",label:Plugin.PLUGIN_NAME }];
         }
         isEnabled() {
             return true;

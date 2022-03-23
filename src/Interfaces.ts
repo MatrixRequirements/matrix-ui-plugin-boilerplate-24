@@ -30,5 +30,7 @@ namespace BoilerPlate {
         showAdvancedCode?:(_code:string, _success:(_code:string) => void, _semanticValidate?:IValidationSpec) =>void
   
      }
-    export type IPluginBoilerPlateControlOptions = IBaseControlOptions
+    export interface IControlOptions extends IBaseControlOptions{
+        placeholder:string
+    }
 }

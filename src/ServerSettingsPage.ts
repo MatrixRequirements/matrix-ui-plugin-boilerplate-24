@@ -38,6 +38,10 @@ namespace BoilerPlate {
                  self.settingsChanged = { ...Plugin.defaultServerSettings, ...self.serverSettings };
             app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
         };
+        
+        self.saveAsync = () => {
+            return configApp.setServerSettingAsync( Plugin.projectSettingName, JSON.stringify(self.settingsChanged));
+        }
 
         self.paramChanged = () => {
             configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));

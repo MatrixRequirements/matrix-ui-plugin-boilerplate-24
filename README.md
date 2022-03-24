@@ -5,18 +5,23 @@
 Matrix UI Plugins are implementations of the IPlugin interface.
 They can be registered in the plugin manager at startup and will be queried
 in different situations, for example to add new UI Controls or entries to 
-the tree.
+the tree or pages in the adminConfig.
 
-This basic example registers a new Dashboard which fetches so data, 
-transforms it and renders the result. It can be compiled using the standard
+This  example registers a new Dashboard, a control, an action in the action menu, a config page on the project level and a config page at the serverSetting level. You can use this project as template for other plugin. 
+
+It can be compiled using the standard
 Typescript build process into a single JS file and loaded into Matrix.
+
 
 ## Installation
 To simplify installation without requiring disk access to a Matrix instance
 you can use a special developer setup and a GitHub action to build the code.
 
-* Fork this project
+* Use this project as template
 * Modify the code and check it into GitHub
+   * Change namespaces
+   * Edit package.json for plugin name, version and description...
+   * Tweak Plugin.ts and the other source files.
 * Make sure the build succeeds (look under Actions)
 * Login into the [developer instance](https://developer.matrixreq.net)
 * Create a new UI entry in the 
@@ -25,7 +30,7 @@ you can use a special developer setup and a GitHub action to build the code.
 * Reload the browser
 
 This should install the script on the server and load it into the browser. The
-naming reflects the repository name, for example `ttps://developer.matrixreq.net/static/js/GitHub-MatrixRequirements_matrix-example-exampleplugin.js`
+naming reflects the repository name, for example `https://developer.matrixreq.net/static/js/GitHub-MatrixRequirements_boiler-plate.js`
 
 ## APIs
 Matrix has a very large set of APIs which you can explore in the interface definitions

@@ -35,13 +35,16 @@ original_pageid="BPP"
 for filename in $(git ls-files) 
 do
     echo $filename
-    sed -i "s/$original_name/$name/g" "$filename"
-    sed -i "s/$original_author/$author/g" "$filename"
-    sed -i "s/$original_description/$description/g" "$filename"
-    sed -i "s/$original_setting/$settings/g" "$filename"
-    sed -i "s/$original_namespace/$namespace/g" "$filename"
-    sed -i "s/$original_pageid/$pageid/g" "$filename"
-    echo "$filename fixed"
+
+    if [[ $filename != .github*]]
+        sed -i "s/$original_name/$name/g" "$filename"
+        sed -i "s/$original_author/$author/g" "$filename"
+        sed -i "s/$original_description/$description/g" "$filename"
+        sed -i "s/$original_setting/$settings/g" "$filename"
+        sed -i "s/$original_namespace/$namespace/g" "$filename"
+        sed -i "s/$original_pageid/$pageid/g" "$filename"
+        echo "$filename fixed"
+    fi 
 done
 
 

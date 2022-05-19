@@ -1,6 +1,6 @@
-# Matrix Requirements UI Plugin Template
+# matrix-ui-plugin-boilerplate plugin
 
-![Plugin Build](https://github.com/MatrixRequirements/matrix-example/actions/workflows/main.yml/badge.svg)
+![Plugin Build](https://github.com/MatrixRequirements/matrix-ui-plugin-boilerplate/actions/workflows/main.yml/badge.svg)
 
 Matrix UI Plugins are implementations of the IPlugin interface.
 They can be registered in the plugin manager at startup and will be queried
@@ -18,10 +18,8 @@ To simplify installation without requiring disk access to a Matrix instance
 you can use a special developer setup and a GitHub action to build the code.
 
 * Use this project as template
+* Wait until the first CI start
 * Modify the code and check it into GitHub
-   * Change namespaces
-   * Edit package.json for plugin name, version and description...
-   * Tweak Plugin.ts and the other source files.
 * Make sure the build succeeds (look under Actions)
 * Login into the [developer instance](https://developer.matrixreq.net)
 * Create a new UI entry in the 

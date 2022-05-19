@@ -4,12 +4,12 @@ namespace BoilerPlate {
         settings: IProjectSettings;
 
         constructor() {
-            this.settings = { ...Plugin.defaultProjectSettings, ...IC.getSettingJSON(Plugin.projectSettingName, {}) } ;
+            this.settings = { ...Plugin.defaultProjectSettings, ...IC.getSettingJSON(Plugin.settingName, {}) } ;
         }
 
         getDashboardDOM(): JQuery {
             return $(`
-        <div class="panel-body-v-scroll fillHeight">
+        <div class="panel-body-v-scroll fillHeight"> 
             <div class="panel-body">
                 This is my content : ${this.settings.content}
             </div>

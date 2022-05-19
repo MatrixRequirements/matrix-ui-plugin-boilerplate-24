@@ -15,7 +15,7 @@ echo "Project Name: $name";
 echo "Project URL name: $urlname";
 echo "Description: $description";
 
-cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$name")
+cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$urlname")
 namespace="namespace $cameCase"
 settings="IPlugin$cameCase"
 pageid=$(sed 's/[a-z ]//g' <<< "$cameCase")

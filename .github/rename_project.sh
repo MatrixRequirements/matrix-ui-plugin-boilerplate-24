@@ -17,6 +17,7 @@ echo "Description: $description";
 
 cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$urlname")
 namespace="namespace $cameCase"
+plugin="new $cameCase.Plugin()"
 settings="IPlugin$cameCase"
 pageid=$(sed 's/[a-z ]//g' <<< "$cameCase")
 
@@ -30,6 +31,7 @@ original_name="matrix-ui-plugin-boilerplate"
 original_description="Awesome matrix-ui-plugin-boilerplate created by francoischasseur"
 original_setting="IPluginBoilerPlate"
 original_namespace="namespace BoilerPlate"
+original_plugin="new BoilerPlate.Plugin()"
 original_pageid="BPP"
 
 for filename in $(git ls-files) 
@@ -42,6 +44,7 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_setting/$settings/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_namespace/$namespace/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$pageid/g" "$filename"
+   [[ $filename != .github* ]] &&  sed -i "s/$original_plugin/$plugin/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
  
 done

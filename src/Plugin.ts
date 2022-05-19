@@ -20,12 +20,12 @@ namespace BoilerPlate {
         static settingName = "matrix-ui-plugin-boilerplate_settings";
 
         static defaultProjectSettings: IProjectSettings = {
-            content: "boiler plate",
+            content: "content for matrix-ui-plugin-boilerplate",
         }; 
 
 
         static defaultServerSettings: IServerSettings = {
-            content: "boiler plate",
+            content: "content for matrix-ui-plugin-boilerplate",
         };
 
         constructor() {

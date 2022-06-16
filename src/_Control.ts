@@ -7,17 +7,27 @@ namespace BoilerPlate{
         private lastValueChanged:number;
         private _editor:JQuery;
         private doesRequireContent = false;
-       private defaultValue = "no value yet"
+       private defaultValue = Plugin.config.field.defaultValue; 
        
 
+       
+      
+       
+        createEditorFromDOM(): JQuery {
+            return $(`<div>
+                        <pre>${JSON.stringify(this.settings)}</pre>
+                    <div> `);
+        }
        
         constructor( control:JQuery) {
             super(control);
         } 
         
+       
+       
         init(  options:IControlOptions) {
             const defaultOptions:IControlOptions = {
-                placeholder: "matrix-ui-plugin-boilerplate",
+                placeholder: Plugin.config.field.title,
                 controlState: ControlState.FormView, // read only rendering
                 canEdit: false, // whether data can be edited 
                 dummyData: false, // fill control with a dumy text (for form design...)
@@ -60,7 +70,7 @@ namespace BoilerPlate{
             // remove mouseout to avoid frequent changes change
             this._editor.change( ()=> {
                 clearTimeout(this.lastValueChanged);
-                console.log(`${Plugin.fieldType} has changed`)
+                console.log(`${Plugin.config.field.fieldType} has changed`)
                 this.lastValueChanged = window.setTimeout((noCallBack?:boolean) => this.valueChanged(noCallBack), 333);
             });
             this._editor.on('blur',  () => {
@@ -137,11 +147,7 @@ namespace BoilerPlate{
         }
     
     
-        createEditorFromDOM(): JQuery {
-            return $(`<div>
-                        <pre>${JSON.stringify(this.settings)}</pre>
-                    <div> `);
-        }
+        
     
     
     }

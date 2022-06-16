@@ -9,22 +9,33 @@ namespace BoilerPlate {
         }
 
         
-        self.serverSettings = { ...Plugin.defaultServerSettings, ...configApp.getServerSetting(Plugin.settingName, {}) };
+        self.getSettingsDOM = (settings:IProjectSettings): JQuery => {
+            
+            return $(`
+                <div class="panel-body-v-scroll fillHeight">
+                    This is my content : ${settings.content}
+                </div>
+                `);
+        };
+
+
+        self.serverSettings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.projectSettingsPage.settingName, {}) };
         self.renderSettingPage = () => {
             self.initPage(
-                `${ Plugin.PLUGIN_NAME } - Project settings` ,
+                `${ Plugin.config.projectSettingsPage.title}` ,
                 true,
                 undefined,
-                "My help",
-                "https://docs23.matrixreq.com",
+                Plugin.config.projectSettingsPage.help,
+                Plugin.config.projectSettingsPage.helpUrl,
                 undefined
             );
             self.showSimple();
         };
         self.saveAsync = ()=> {
-            return configApp.setProjectSettingAsync(self.getProject(), Plugin.settingName, JSON.stringify(self.settingsChanged), configApp.getCurrentItemId());
+            return configApp.setProjectSettingAsync(self.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(self.settingsChanged), configApp.getCurrentItemId());
         }
         self.getProject = () => {
+            /* get the project id from the setting page */
             return configApp.getCurrentItemId().split("-")[0];
         }
         self.showAdvanced = () => {
@@ -37,10 +48,10 @@ namespace BoilerPlate {
         };
         self.showSimple = () => {
 
-            const settings = IC.getSettingJSON(Plugin.settingName, {});
-            self.settingsOriginal = { ...Plugin.defaultProjectSettings, ...settings };
+            const settings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
+            self.settingsOriginal = { ...self.serverSettings, ...settings };
             if (!self.settingsChanged)
-                self.settingsChanged = { ...Plugin.defaultProjectSettings, ...settings };
+                self.settingsChanged = { ...self.serverSettings, ...settings };
             app.itemForm.append(self.getSettingsDOM(self.settingsChanged));
             
         };
@@ -49,14 +60,7 @@ namespace BoilerPlate {
             configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
         }
 
-        self.getSettingsDOM = (settings:IProjectSettings): JQuery => {
-            
-            return $(`
-                <div class="panel-body-v-scroll fillHeight">
-                    This is my content : ${settings.content}
-                </div>
-                `);
-        };
+      
         return self;
     }
 }

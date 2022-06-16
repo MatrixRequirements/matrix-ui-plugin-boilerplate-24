@@ -4,10 +4,11 @@ namespace BoilerPlate {
         settings: IProjectSettings;
 
         constructor() {
-            this.settings = { ...Plugin.defaultProjectSettings, ...IC.getSettingJSON(Plugin.settingName, {}) } ;
+            this.settings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {}) } ;
         }
 
-        getDashboardDOM(): JQuery {
+        /** Customize static HTML here */
+        private getDashboardDOM(): JQuery {
             return $(`
         <div class="panel-body-v-scroll fillHeight"> 
             <div class="panel-body">
@@ -17,6 +18,7 @@ namespace BoilerPlate {
         `);
         }
 
+        /** Add interactive element in this function */
         renderProjectPage() {
 
             const control = this.getDashboardDOM();
@@ -35,7 +37,7 @@ namespace BoilerPlate {
         }
 
         onResize() {
-            console.log("onresize has been triggered... ");
+           /* Will be triggered when resizing. */
         }
     }
 }

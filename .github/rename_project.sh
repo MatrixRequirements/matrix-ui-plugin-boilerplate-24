@@ -43,8 +43,10 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_namespace/$namespace/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$pageid/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
+   [[ $filename != _*.ts ]] && mv $filename $pageid.$filename
  
 done
+
 
 
 # This command runs only once on GHA!

@@ -7,16 +7,39 @@ namespace BoilerPlate {
         if (window["ConfigPage"] !== undefined) {
             self = { ...Object.getPrototypeOf(new ConfigPage()) };
         }
-        self.serverSettings = { ...Plugin.defaultServerSettings, ...configApp.getServerSetting(Plugin.settingName, {}) };
+        self.serverSettings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) };
         
+
+        /** Customize this method to generate static HTML.  */
+        self.getSettingsDOM = (settings: IServerSettings): JQuery => {
+            return $(`
+                <div class="panel-body-v-scroll fillHeight">
+                    <div>
+                        This is my customer settings page : ${settings.content}
+                    </div>
+
+                </div>
+            `);
+        };
+        /** Customize this method to add dynamic content*/
+        self.showSimple = () => {
+
+            self.settingsOriginal = { ...self.serverSettings };
+            if (!self.settingsChanged)
+                 self.settingsChanged = { ...self.serverSettings };
+            app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
+        };
+
+
+
         self.renderSettingPage = () => {
          
             self.initPage(
                 `${Plugin.PLUGIN_NAME} - Server setting`,
                 true,
                 undefined,
-                "My help",
-                "https://docs23.matrixreq.com",
+                Plugin.config.customerSettingsPage.help,
+                Plugin.config.customerSettingsPage.helpUrl,
                 undefined
             );
             self.showSimple();
@@ -31,32 +54,17 @@ namespace BoilerPlate {
                 self.renderSettingPage();
             });
         };
-        self.showSimple = () => {
-
-            self.settingsOriginal = { ...Plugin.defaultServerSettings, ...self.serverSettings };
-            if (!self.settingsChanged)
-                 self.settingsChanged = { ...Plugin.defaultServerSettings, ...self.serverSettings };
-            app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
-        };
+       
         
         self.saveAsync = () => {
-            return configApp.setServerSettingAsync( Plugin.settingName, JSON.stringify(self.settingsChanged));
+            return configApp.setServerSettingAsync( Plugin.config.customerSettingsPage.settingName, JSON.stringify(self.settingsChanged));
         }
 
         self.paramChanged = () => {
             configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
         }
       
-        self.getSettingsDOM = (settings:IServerSettings): JQuery => {
-            return $(`
-                <div class="panel-body-v-scroll fillHeight">
-                    <div>
-                        This is my customer settings page : ${settings.content}
-                    </div>
-
-                </div>
-            `);
-        };
+     
         return self;
     }
 }

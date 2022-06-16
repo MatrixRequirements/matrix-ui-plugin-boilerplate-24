@@ -18,7 +18,7 @@ To simplify installation without requiring disk access to a Matrix instance
 you can use a special developer setup and a GitHub action to build the code.
 
 * Use this project as template
-* Got to the CI action and start the workflow "rename the project from template" 
+* Go to the CI action and start the workflow "rename the project from template" 
 * Modify the code and check it into GitHub
 * Make sure the build succeeds (look under Actions)
 * Login into the [developer instance](https://developer.matrixreq.net)

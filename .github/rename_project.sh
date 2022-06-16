@@ -46,7 +46,7 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$pageid/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_plugin/$plugin/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
-   [[ $filename != _*.ts ]] && mv $filename $pageid.$filename
+   [[ $filename = _*.ts ]] && git mv $filename $pageid.$filename
  
 done
 

@@ -19,7 +19,7 @@ namespace BoilerPlate {
         };
 
 
-        self.serverSettings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.projectSettingsPage.settingName, {}) };
+        self.settings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.projectSettingsPage.settingName, {}) };
         self.renderSettingPage = () => {
             self.initPage(
                 `${ Plugin.config.projectSettingsPage.title}` ,

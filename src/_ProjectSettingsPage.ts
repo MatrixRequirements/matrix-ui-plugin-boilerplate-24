@@ -49,9 +49,9 @@ namespace BoilerPlate {
         self.showSimple = () => {
 
             const settings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
-            self.settingsOriginal = { ...self.serverSettings, ...settings };
+            self.settingsOriginal = { ...self.settings, ...settings };
             if (!self.settingsChanged)
-                self.settingsChanged = { ...self.serverSettings, ...settings };
+                self.settingsChanged = { ...self.settings, ...settings };
             app.itemForm.append(self.getSettingsDOM(self.settingsChanged));
             
         };

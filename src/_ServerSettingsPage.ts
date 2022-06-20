@@ -24,9 +24,9 @@ namespace BoilerPlate {
         /** Customize this method to add dynamic content*/
         self.showSimple = () => {
 
-            self.settingsOriginal = { ...self.serverSettings };
+            self.settingsOriginal = { ...self.settings };
             if (!self.settingsChanged)
-                 self.settingsChanged = { ...self.serverSettings };
+                 self.settingsChanged = { ...self.settings };
             app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
         };
 
@@ -35,7 +35,7 @@ namespace BoilerPlate {
         self.renderSettingPage = () => {
          
             self.initPage(
-                `${Plugin.PLUGIN_NAME} - Server setting`,
+                `${Plugin.PLUGIN_NAME} - Server settings`,
                 true,
                 undefined,
                 Plugin.config.customerSettingsPage.help,

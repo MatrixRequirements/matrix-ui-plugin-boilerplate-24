@@ -50,12 +50,22 @@ do
 
 cd src
 
-echo renaming source
+echo "renaming source"
 
 for filename in $(git ls-files) 
-    [[ $filename = _*.ts ]] &&  git mv $filename $pageid$filename 
- done
+do    
+    [[ $filename = _* ]] && echo  "$filename -->  $pageid$filename"
+    [[ $filename = _* ]] &&  git mv $filename $pageid$filename 
+done
 
+
+git config --local user.email action@github.com
+git config --local user.name GitHub Action
+cd ..
+git rm .github/rename_project.sh
+git rm .github/workflows/template.yaml
+
+git commit -m "Rename template to project $cameCase" -a
 
 
 

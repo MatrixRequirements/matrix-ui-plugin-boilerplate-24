@@ -170,7 +170,7 @@ namespace BoilerPlate {
 
         getProjectPages(): IProjectPageParam[] {
             const pages: IProjectPageParam[] = [];
-            if (!Plugin.config.dashboard.enabled) {
+            if (Plugin.config.dashboard.enabled) {
                 pages.push({
                     id: Plugin.config.dashboard.id,
                     title: Plugin.config.dashboard.title,

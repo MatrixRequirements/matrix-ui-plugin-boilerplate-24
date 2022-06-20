@@ -87,7 +87,7 @@ namespace BoilerPlate {
         showAdvanced?: () => void,
         showSimple?: () => void,
         getSettingsDOM?: (_setting?:T) => JQuery,
-        serverSettings?: IServerSettings,
+        settings?: T,
         saveAsync?: () => JQueryDeferred<unknown>,
         paramChanged?:()=>void,
         settingsOriginal?: T,

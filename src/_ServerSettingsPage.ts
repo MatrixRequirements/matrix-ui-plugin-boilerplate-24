@@ -7,7 +7,7 @@ namespace BoilerPlate {
         if (window["ConfigPage"] !== undefined) {
             self = { ...Object.getPrototypeOf(new ConfigPage()) };
         }
-        self.serverSettings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) };
+        self.settings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) };
         
 
         /** Customize this method to generate static HTML.  */

@@ -15,7 +15,10 @@ echo "Project Name: $name";
 echo "Project URL name: $urlname";
 echo "Description: $description";
 
-cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$urlname")
+#remove ui-plugin
+
+pageName=$(sed -r 's/(ui-plugin-)(.*)/\2/g' <<< "$urlname")
+cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$pageName")
 namespace="namespace $cameCase"
 plugin="new $cameCase.Plugin()"
 settings="IPlugin$cameCase"

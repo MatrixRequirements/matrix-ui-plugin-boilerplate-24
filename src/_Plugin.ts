@@ -195,3 +195,18 @@ $(function () {
     plugins.register(new BoilerPlate.Plugin());
 });
 
+
+if (window["GenericAdminPage"]) {
+    GenericAdminPage.prototype.getNode = function () {
+        if (this.page.getNode)
+            return this.page.getNode();
+        else
+            return {
+                type: this.page.type,
+                title: this.page.title,
+                id: this.pageId,
+                icon: "admin/setting.png",
+                children: []
+            };
+    }
+}

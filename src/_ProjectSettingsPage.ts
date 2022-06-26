@@ -13,7 +13,7 @@ namespace BoilerPlate {
             
             return $(`
                 <div class="panel-body-v-scroll fillHeight">
-                    This is my content : ${settings.content}
+                    This is my content : ${settings.myProjectSetting}
                 </div>
                 `);
         };

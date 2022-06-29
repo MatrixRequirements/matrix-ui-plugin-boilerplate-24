@@ -6,7 +6,7 @@ namespace BoilerPlate{
         /** callback to show or hide the menu for a selected item or folder
         * 
         * */ 
-        protected showMenu(itemId:string) {
+        showMenu(itemId:string) {
             return true;
         }
 

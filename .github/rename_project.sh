@@ -7,6 +7,8 @@ do
         n) name=${OPTARG};;
         u) urlname=${OPTARG};;
         d) description=${OPTARG};;
+        n) namespaceName=${OPTARG};;
+        i) pageid=${OPTARG};;
     esac
 done
 
@@ -15,11 +17,10 @@ echo "Project Name: $name";
 echo "Project URL name: $urlname";
 echo "Description: $description";
 
-cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$urlname")
+cameCase=$namespaceName
 namespace="namespace $cameCase"
 plugin="new $cameCase.Plugin()"
 settings="IPlugin$cameCase"
-pageid=$(sed 's/[a-z ]//g' <<< "$cameCase")
 
 echo "$cameCase $namespace $settings $pageid"
 
@@ -46,10 +47,8 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$pageid/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_plugin/$plugin/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
-   [[ $filename = _*.ts ]] && git mv $filename $pageid.$filename
+ 
  
 done
 
-
-
-# This command runs only once on GHA!
+mv src/_*.ts src/$pageid_*.ts

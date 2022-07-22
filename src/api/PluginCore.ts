@@ -1,28 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate  {
     
-    /** this is info delivered by the UI when rendering the control */
-    export interface IControlOptions extends IBaseControlOptions{
-        placeholder:string
-        controlState?:ControlState, 
-        canEdit?: boolean, 
-        help?: string,
-        fieldType?:string,
-        fieldId?:number,
-        valueChanged?: () => unknown, 
-        parameter?: IFieldParameter,
-        fieldValue?:unknown, // value as stored in DB
-        fieldValueJSON?:unknown, // same as json (if value is a JSON object)
-        isItem?:boolean,
-        item?:IItem,
-        isForm?:boolean,
-        isPrint?:boolean,
-        isTooltip?:boolean,
-        id?:string,
-        isHistory?:number, // version shown (if known)
-        type?:string,
-        isFolder?:boolean,
-    }
+    /** base interface for field value */
+    export interface IFieldValue { /* empty by design */ }
     
      /** Description of the current plugin. Each feature can be activated/deactivated using the configuration object */
      export interface IPluginConfig {
@@ -73,12 +53,8 @@ namespace BoilerPlate  {
     export interface IPluginFeatureField extends IPluginFeatureBase {
         /**  Field type id that will be use when rendering the data */
         fieldType: string,
-        /**  default field Parameters*/
-        defaultParameters: IPluginBoilerPlateFieldParameter,
         /**  description of  field  capabilities*/
         fieldConfigOptions: IFieldDescription,
-        /**  Default value when none is present */
-        defaultValue:unknown,
     }
 
 
@@ -114,6 +90,7 @@ namespace BoilerPlate  {
 
         constructor() {
             console.debug(`Constructing ${Plugin.PLUGIN_NAME}`);
+            this.initPrinting();
         }
 
         // ------------------------------------------------ initialization calls  ------------------------------------------------    
@@ -182,7 +159,11 @@ namespace BoilerPlate  {
             ];
         }
 
-     
+        initPrinting() {
+            if ( Plugin.config.field.enabled ) {
+                PrintProcessor.addFunction(  PrintProcessor.getFieldFunctionId(Plugin.config.field.fieldType), new Control() );
+            }
+        }
 
         // ------------------------------------------------ project setting page ------------------------------------------------
         protected enableProjectSetting() {

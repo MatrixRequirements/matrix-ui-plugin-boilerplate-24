@@ -1,3 +1,16 @@
+/**
+ * This adds a dashboard to a project
+ * 
+ */
+
+interface IPluginBoilerPlateFieldDashboardParams {
+    dashboardId:string,
+    parameters:IPluginBoilerPlateFieldDashboardParamsParameters,
+}
+interface IPluginBoilerPlateFieldDashboardParamsParameters {
+    category:string
+}
+
 // eslint-disable-next-line no-unused-vars
 namespace BoilerPlate {
     export class DashboardPage {
@@ -18,9 +31,30 @@ namespace BoilerPlate {
         `);
         }
 
+        getJsonConfig():IPluginBoilerPlateFieldDashboardParams {
+            return {
+                dashboardId:Plugin.config.dashboard.id,
+                parameters:this.readParamsFromUI()   
+            }
+        }
         /** Add interactive element in this function */
         renderProjectPage() {
+            let that = this;
 
+            // render UI to fill params
+            
+            let xxx = $("<button>do it</button>").appendTo(app.itemForm);
+            // add 
+            xxx.on("click", () => {
+                that.renderDashboard( that.readParamsFromUI() );
+            });
+        }
+
+        readParamsFromUI():IPluginBoilerPlateFieldDashboardParamsParameters {
+            return { category:"XXX"};
+        }
+        
+        renderDashboard( params:IPluginBoilerPlateFieldDashboardParamsParameters) {
             const control = this.getDashboardDOM();
             app.itemForm.append(
                 ml.UI.getPageTitle(

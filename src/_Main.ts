@@ -10,10 +10,6 @@ namespace BoilerPlate {
       */
     export class Plugin extends PluginCore {
 
-        /** this is the name of the plugin shown to the user */
-        static pluginDisplayName = "Set Labels on Save";
-
-
         /**This part enables which 
          * 
          * See IPluginConfig interface for explanation of parameters
@@ -21,7 +17,7 @@ namespace BoilerPlate {
         
         static config: IPluginConfig = {
             /*  Page in admin client to configure settings across all projects - set enabled to false if not needed. 
-                The page itself is implemented in the _ServerSetingsPage.ts 
+                The page itself is implemented in the _ServerSettingsPage.ts 
             */
             customerSettingsPage: {
                 id: "BPP_projectsettings",
@@ -61,7 +57,6 @@ namespace BoilerPlate {
             field: {
                 enabled: true,
                 fieldType: "matrix-ui-plugin-boilerplate",
-                defaultValue: "Default value",
                 title: "matrix-ui-plugin-boilerplate-field",
                 fieldConfigOptions: {
                     id: "matrix-ui-plugin-boilerplate",
@@ -76,9 +71,6 @@ namespace BoilerPlate {
                     class: "",
                     help: "",
                     label: "matrix-ui-plugin-boilerplate-field",
-                },
-                defaultParameters: {
-                    myParameter:  "default value for setting defined in Interfaces.ts",
                 }
             },
             /*  Add a dashboard inside a project - set enabled to false if not needed.

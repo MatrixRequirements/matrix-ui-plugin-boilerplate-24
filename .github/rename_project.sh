@@ -17,7 +17,10 @@ echo "Project Name: $name";
 echo "Project URL name: $urlname";
 echo "Description: $description";
 
-cameCase=$namespaceName
+#remove ui-plugin
+
+pageName=$(sed -r 's/(ui-plugin-)(.*)/\2/g' <<< "$urlname")
+cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$pageName")
 namespace="namespace $cameCase"
 plugin="new $cameCase.Plugin()"
 settings="IPlugin$cameCase"
@@ -47,8 +50,36 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$pageid/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_plugin/$plugin/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
+<<<<<<< HEAD
  
  
 done
 
 mv src/_*.ts src/$pageid_*.ts
+=======
+ done
+
+cd src
+
+echo "renaming source"
+
+for filename in $(git ls-files) 
+do    
+    [[ $filename = _* ]] && echo  "$filename -->  $pageid$filename"
+    [[ $filename = _* ]] &&  git mv $filename $pageid$filename 
+done
+
+
+git config --local user.email action@github.com
+git config --local user.name GitHub Action
+cd ..
+git rm .github/rename_project.sh
+git rm .github/workflows/template.yaml
+
+git commit -m "Rename template to project $cameCase" -a
+
+
+
+
+# This command runs only once on GHA!
+>>>>>>> 7176498e31f7f410dfa08173b8a32f1655701e86

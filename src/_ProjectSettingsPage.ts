@@ -13,13 +13,13 @@ namespace BoilerPlate {
             
             return $(`
                 <div class="panel-body-v-scroll fillHeight">
-                    This is my content : ${settings.content}
+                    This is my content : ${settings.myProjectSetting}
                 </div>
                 `);
         };
 
 
-        self.serverSettings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.projectSettingsPage.settingName, {}) };
+        self.settings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.projectSettingsPage.settingName, {}) };
         self.renderSettingPage = () => {
             self.initPage(
                 `${ Plugin.config.projectSettingsPage.title}` ,
@@ -49,9 +49,9 @@ namespace BoilerPlate {
         self.showSimple = () => {
 
             const settings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
-            self.settingsOriginal = { ...self.serverSettings, ...settings };
+            self.settingsOriginal = { ...self.settings, ...settings };
             if (!self.settingsChanged)
-                self.settingsChanged = { ...self.serverSettings, ...settings };
+                self.settingsChanged = { ...self.settings, ...settings };
             app.itemForm.append(self.getSettingsDOM(self.settingsChanged));
             
         };

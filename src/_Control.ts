@@ -7,11 +7,8 @@ namespace BoilerPlate{
         private lastValueChanged:number;
         private _editor:JQuery;
         private doesRequireContent = false;
-       private defaultValue = Plugin.config.field.defaultValue; 
-       
+        private defaultValue = Plugin.config.field.defaultValue; 
 
-       
-      
        
         createEditorFromDOM(): JQuery {
             return $(`<div>
@@ -24,13 +21,12 @@ namespace BoilerPlate{
         } 
         
        
-       
         init(  options:IControlOptions) {
             const defaultOptions:IControlOptions = {
                 placeholder: Plugin.config.field.title,
                 controlState: ControlState.FormView, // read only rendering
                 canEdit: false, // whether data can be edited 
-                dummyData: false, // fill control with a dumy text (for form design...)
+                dummyData: false, // fill control with a dummy text (for form design...)
                 valueChanged: () => console.debug("Value has changed"), // callback to call if value changes
                 parameter: {
                     readonly: false, // can be set to overwrite the default readonly status
@@ -65,7 +61,7 @@ namespace BoilerPlate{
           
             ctrlContainer.append(this._editor);
             
-            this._editor.val(this.settings.fieldValue);
+            this._editor.val(<string>this.settings.fieldValue);
     
             // remove mouseout to avoid frequent changes change
             this._editor.change( ()=> {
@@ -88,7 +84,7 @@ namespace BoilerPlate{
         hasChanged():boolean {
             // make sure no changes are pending
             clearTimeout(this.lastValueChanged);
-            // this will take and text from the editor and put it int he variable  _root.data("new")
+            // this will take and text from the editor and put it in the variable  _root.data("new")
             // but it will not recursively trigger a change
             this.valueChanged(true);
             // now compare

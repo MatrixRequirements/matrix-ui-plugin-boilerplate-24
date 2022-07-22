@@ -3,7 +3,17 @@ namespace BoilerPlate{
     
     export class Tool{
         
-        menuClicked() {
+        /** callback to show or hide the menu for a selected item or folder
+        * 
+        * */ 
+        showMenu(itemId:string) {
+            return true;
+        }
+
+        /** callback when user executes the custom the menu entry added to items or folders 
+         * 
+         * */ 
+        menuClicked(itemId:string) {
             /* Insert code here */
             alert(Plugin.config.menuToolItem.title)
         }

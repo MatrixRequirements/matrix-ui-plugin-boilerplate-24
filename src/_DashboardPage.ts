@@ -12,7 +12,7 @@ namespace BoilerPlate {
             return $(`
         <div class="panel-body-v-scroll fillHeight"> 
             <div class="panel-body">
-                This is my content : ${this.settings.content}
+                This is my content : ${this.settings.myProjectSetting}
             </div>
         </div>
         `);
@@ -24,7 +24,7 @@ namespace BoilerPlate {
             const control = this.getDashboardDOM();
             app.itemForm.append(
                 ml.UI.getPageTitle(
-                    this.settings.content,
+                    this.settings.myProjectSetting,
                     () => {
                         return control;
                     },

@@ -11,8 +11,8 @@
     "check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext .ts",
-    "parcel": "parcel watch src/BPP/Main.ts --public-url /static/js/ --dist-dir /home/clouds/clouds/custom/js --no-hmr",
-    "parcel-dist": "parcel build src/BPP/Main.ts --public-url /static/js/ --dist-dir ./dist"
+    "parcel": "parcel watch src/BPP/Main.ts --public-url /static/js/ --out-dir /home/clouds/clouds/custom/js --no-hmr",
+    "parcel-dist": "parcel build src/BPP/Main.ts --public-url /static/js/ --out-dir ./dist"
   },
   "author": "",
   "license": "ISC",
@@ -24,7 +24,7 @@
     "eslint": "^8.11.0",
     "prettier": "^2.2.1",
     "typescript": "^4.1.5",
-    "parcel": "^2.0.0"
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {}
 }

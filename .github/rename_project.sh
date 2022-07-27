@@ -45,18 +45,9 @@ do
    [[ $filename != .github* ]] &&  sed -i "s/$original_description/$description/g" "$filename"
    [[ $filename != .github* ]] &&  sed -i "s/$original_pageid/$prefix/g" "$filename"
    [[ $filename != .github* ]] &&  echo "$filename fixed"
-<<<<<<< HEAD
- 
- 
-done
-
-mv src/_*.ts src/$pageid_*.ts
-=======
  done
 
 cd src
-
-
 
 git config --local user.email action@github.com
 git config --local user.name GitHub Action
@@ -64,12 +55,10 @@ cd ..
 
 git mv ./src/BPP ./src/$prefix-$guid
 
-#git rm .github/rename_project.sh
-#git rm .github/workflows/template.yaml
+git rm .github/rename_project.sh
+git rm .github/workflows/template.yaml
 
 git commit -m "Rename template to project $cameCase" -a
 
 
-
 # This command runs only once on GHA!
->>>>>>> 7176498e31f7f410dfa08173b8a32f1655701e86

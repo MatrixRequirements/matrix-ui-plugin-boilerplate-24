@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 /// <reference types="jquery" />
 interface IPojectDataMap {
     [key: string]: XRGetProject_ProjectInfo_ProjectInfo;

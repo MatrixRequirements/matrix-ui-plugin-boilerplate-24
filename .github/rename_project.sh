@@ -7,12 +7,7 @@ do
         n) name=${OPTARG};;
         u) urlname=${OPTARG};;
         d) description=${OPTARG};;
-<<<<<<< HEAD
-        n) namespaceName=${OPTARG};;
-        i) pageid=${OPTARG};;
-=======
         p) prefix=${OPTARG};;
->>>>>>> 7313db509b758553200e27e42911aab61f250c8b
     esac
 done
 

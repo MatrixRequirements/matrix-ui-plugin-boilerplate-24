@@ -227,13 +227,13 @@ export abstract class PluginCore implements IPlugin {
 
         // ------------------------------------------------ project dashboard / or folder dashboard  ------------------------------------------------
     
-        protected enableDashboard() {
+    protected enableDashboard() {
         return this.enabledInContext;
     }
 
     getProjectPages(): IProjectPageParam[] {
         const pages: IProjectPageParam[] = [];
-        if (Plugin.config.dashboard.enabled) {
+        if (this.enableDashboard() && Plugin.config.dashboard.enabled) {
             pages.push({
                 id: Plugin.config.dashboard.id,
                 title: Plugin.config.dashboard.title,

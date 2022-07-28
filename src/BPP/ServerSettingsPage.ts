@@ -10,7 +10,7 @@ import { Plugin } from "./Main";
         if (window["ConfigPage"] !== undefined) {
             self = { ...Object.getPrototypeOf(new ConfigPage()) };
         }
-        self.settings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...configApp.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) };
+        self.settings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...  <INotificationConfig>matrixSession.getCustomerSettingJSON(  Plugin.config.customerSettingsPage.settingName, {} ) };
         
 
         /** Customize this method to generate static HTML.  */

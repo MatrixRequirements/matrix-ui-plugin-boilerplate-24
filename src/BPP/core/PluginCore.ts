@@ -37,7 +37,9 @@ export interface IPluginFeatureBase{
 }
 
 export interface IPluginFeature<T> extends IPluginFeatureBase {
-    /** Setting name that's used by REST api to persist settings */
+     /** Type is used to determine node type in the setting tree */
+    type: string,
+     /** Setting name that's used by REST api to persist settings */
     settingName: string,
     /** Default settings when nothing has been save yet*/
     defaultSettings?: T,
@@ -65,13 +67,12 @@ export interface IPluginFeatureField extends IPluginFeatureBase {
     fieldConfigOptions: IFieldDescription,
 }
 
-
 export interface IPluginSettingPage<T> {
     renderSettingPage?: () => void,
     showAdvanced?: () => void,
     showSimple?: () => void,
     getSettingsDOM?: (_setting?:T) => JQuery,
-    settings?: T,
+    settings?:()=> T,
     saveAsync?: () => JQueryDeferred<unknown>,
     paramChanged?:()=>void,
     settingsOriginal?: T,
@@ -80,13 +81,20 @@ export interface IPluginSettingPage<T> {
     pageId?:string,
     initPage?: (_title: string, _showAdvancedBtn: boolean, _showDeleteText: string, _help: string, _externalHelp?: string, _showCopy?: boolean) => void
     showAdvancedCode?:(_code:string, _success:(_code:string) => void, _semanticValidate?:IValidationSpec) =>void
-
-    }
+}
 
 
 export abstract class PluginCore implements IPlugin {
+    static  getServerSetting(  settingId:string, defaultValue: any ):IServerSettings {
 
-    
+        let val = "";
+        for(let idx=0;idx<matrixSession.serverConfig.customerSettings.length;idx++) {
+            if (matrixSession.serverConfig.customerSettings[idx].key==settingId) {
+                val = matrixSession.serverConfig.customerSettings[idx].value;
+            }
+        }
+        return val?JSON.parse(val):defaultValue;
+    }
     /* DON'T CHANGE ANYTHING BELOW UNLESS YOU KNOW WHAT YOU ARE DOING */
 
     /** if false the plugin will not be loaded (for debugging) */
@@ -168,7 +176,7 @@ export abstract class PluginCore implements IPlugin {
     }
 
     initPrinting() {
-        if ( Plugin.config.field.enabled ) {
+        if ( Plugin.config.field.enabled && window["PrintProcessor"]  ) {
             PrintProcessor.addFunction(  PrintProcessor.getFieldFunctionId(Plugin.config.field.fieldType), new Control() );
         }
     }
@@ -186,7 +194,7 @@ export abstract class PluginCore implements IPlugin {
                 {
                     id: Plugin.config.projectSettingsPage.id,
                     title: Plugin.config.projectSettingsPage.title,
-                    type:Plugin.config.projectSettingsPage.id,
+                    type:Plugin.config.projectSettingsPage.type,
                     render: (_ui: JQuery) => {
                         pbpi.renderSettingPage();
                     },
@@ -213,7 +221,7 @@ export abstract class PluginCore implements IPlugin {
             return [<ISettingPage> {
                     id: Plugin.config.customerSettingsPage.id,
                     title: Plugin.config.customerSettingsPage.title,
-                        type:Plugin.config.projectSettingsPage.id,
+                    type:Plugin.config.customerSettingsPage.type,
                     render: (_ui: JQuery) => {
                         pbpi.renderSettingPage();
                     },

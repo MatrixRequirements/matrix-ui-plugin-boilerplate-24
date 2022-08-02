@@ -17,8 +17,9 @@ export class Plugin extends PluginCore {
             The page itself is implemented in the _ServerSettingsPage.ts 
         */
         customerSettingsPage: {
-            id: "BPP_projectsettings",
-            title: "BPP projectsettings page",
+            id: "BPPCustomerSettings",
+            title: "BPP customer settings page",
+            type: "BPPcs",
             enabled: true,
             defaultSettings: {
                 myServerSetting: "default value for setting defined in Interfaces.ts",
@@ -31,8 +32,9 @@ export class Plugin extends PluginCore {
             The page itself is implemented in the _ProjectSetingsPage.ts 
         */
         projectSettingsPage: {
-            id: "BPP_projectsettings",
-            title:"BPP projectsettings page",
+            id: "BPPprojectsettings",
+            title: "BPP projectsettings page",
+            type:"BPPps",
             enabled: true,
             defaultSettings: {
                 myProjectSetting:  "default value for setting defined in Interfaces.ts",

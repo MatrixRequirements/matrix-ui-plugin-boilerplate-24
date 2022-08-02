@@ -7,7 +7,7 @@ import { Plugin } from "./Main";
         let self: IPluginSettingPage<IProjectSettings> = {};
 
         if (window["ConfigPage"] !== undefined) {
-            self = { ... Object.getPrototypeOf( new ConfigPage()) }
+            self = { ...Object.getPrototypeOf(new ConfigPage()) }
         }
 
         
@@ -15,13 +15,26 @@ import { Plugin } from "./Main";
             
             return $(`
                 <div class="panel-body-v-scroll fillHeight">
-                    This is my content : ${settings.myProjectSetting}
+                    <div>This is my content : ${settings.myProjectSetting}</div>
+                    <div id="controls"></div>
                 </div>
                 `);
         };
 
 
-        self.settings = { ...Plugin.config.projectSettingsPage.defaultSettings, ...IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {}) };
+        self.settings = () => {
+            let currentSettings = {};
+            if (window["configApp"] !=undefined) {
+                let filterSettings = configApp.getJSONProjectSettings(self.getProject(), Plugin.config.projectSettingsPage.settingName);
+                if (filterSettings.length == 1)
+                    currentSettings = filterSettings[0].value;
+            }
+            else {
+                currentSettings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
+            }
+            console.log("Returning project settings");
+            return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings }
+        };
         self.renderSettingPage = () => {
             self.initPage(
                 `${ Plugin.config.projectSettingsPage.title}` ,
@@ -34,7 +47,12 @@ import { Plugin } from "./Main";
             self.showSimple();
         };
         self.saveAsync = ()=> {
-            return configApp.setProjectSettingAsync(self.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(self.settingsChanged), configApp.getCurrentItemId());
+            let def =  configApp.setProjectSettingAsync(self.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(self.settingsChanged), configApp.getCurrentItemId());
+            def.done(() => {
+                self.settingsOriginal = { ...self.settingsChanged };
+                self.renderSettingPage();
+            })
+            return def;
         }
         self.getProject = () => {
             /* get the project id from the setting page */
@@ -45,23 +63,20 @@ import { Plugin } from "./Main";
             self.showAdvancedCode(JSON.stringify(self.settingsChanged), function (newCode: string) {
                 self.settingsChanged = JSON.parse(newCode);
                 self.paramChanged();
-                self.renderSettingPage();
+               
             });
         };
         self.showSimple = () => {
 
-            const settings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
-            self.settingsOriginal = { ...self.settings, ...settings };
-            if (!self.settingsChanged)
-                self.settingsChanged = { ...self.settings, ...settings };
-            app.itemForm.append(self.getSettingsDOM(self.settingsChanged));
-            
+            self.settingsOriginal = self.settings();
+            self.settingsChanged = { ...self.settingsOriginal };
+            let dom = self.getSettingsDOM(self.settingsChanged);
+            ml.UI.addTextInput($("#controls",dom), "My Project setting", self.settingsChanged, "myProjectSetting",self.paramChanged);
+            app.itemForm.append(dom);
         };
 
         self.paramChanged = () => {
             configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
         }
-
-      
         return self;
     }

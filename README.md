@@ -24,7 +24,7 @@ you can use a special developer setup and a GitHub action to build the code.
 * Login into the [developer instance](https://developer.matrixreq.net)
 * Create a new UI entry in the 
   [PLUGINS project](https://developer.matrixreq.net/PLUGINS/F-UI-2)
-* Press the Deploy button
+* Press the Install"  button
 * Reload the browser
 
 This should install the script on the server and load it into the browser. The

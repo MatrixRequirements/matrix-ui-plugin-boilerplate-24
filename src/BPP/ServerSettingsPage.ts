@@ -1,4 +1,4 @@
-import { IPluginSettingPage } from "./core/PluginCore";
+import { IPluginSettingPage, PluginCore } from "./core/PluginCore";
 import { IServerSettings } from "./Interfaces";
 import { Plugin } from "./Main";
 
@@ -10,8 +10,10 @@ import { Plugin } from "./Main";
         if (window["ConfigPage"] !== undefined) {
             self = { ...Object.getPrototypeOf(new ConfigPage()) };
         }
-        self.settings = { ...Plugin.config.customerSettingsPage.defaultSettings, ...  <INotificationConfig>matrixSession.getCustomerSettingJSON(  Plugin.config.customerSettingsPage.settingName, {} ) };
-        
+        self.settings = () => {
+            
+            return { ...Plugin.config.customerSettingsPage.defaultSettings, ...PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) }
+        };
 
         /** Customize this method to generate static HTML.  */
         self.getSettingsDOM = (settings: IServerSettings): JQuery => {
@@ -19,18 +21,20 @@ import { Plugin } from "./Main";
                 <div class="panel-body-v-scroll fillHeight">
                     <div>
                         This is my customer settings page : ${settings.myServerSetting}
-                    </div>
 
+                    </div>
+                    <div id="controls"></div>
                 </div>
             `);
         };
         /** Customize this method to add dynamic content*/
         self.showSimple = () => {
 
-            self.settingsOriginal = { ...self.settings };
-            if (!self.settingsChanged)
-                 self.settingsChanged = { ...self.settings };
-            app.itemForm.append(self.getSettingsDOM( self.settingsChanged));
+            self.settingsOriginal = { ...self.settings() };
+            self.settingsChanged = { ...self.settingsOriginal };
+            let dom = self.getSettingsDOM(self.settingsChanged);
+            ml.UI.addTextInput($("#controls",dom), "My server setting", self.settingsChanged, "myServerSetting",self.paramChanged);
+            app.itemForm.append(dom);
         };
 
 
@@ -52,15 +56,18 @@ import { Plugin } from "./Main";
             console.debug("Show advanced clicked");
             self.showAdvancedCode(JSON.stringify(self.settingsChanged), function (newCode: string) {
                 self.settingsChanged = JSON.parse(newCode);
-    
                 self.paramChanged();
-                self.renderSettingPage();
             });
         };
        
         
         self.saveAsync = () => {
-            return configApp.setServerSettingAsync( Plugin.config.customerSettingsPage.settingName, JSON.stringify(self.settingsChanged));
+            let def = configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(self.settingsChanged));
+            def.done(() => {
+                self.settingsOriginal = { ...self.settingsChanged };
+                self.renderSettingPage();
+            })
+            return def
         }
 
         self.paramChanged = () => {

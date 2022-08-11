@@ -35,3 +35,12 @@ Matrix has a very large set of APIs which you can explore in the interface defin
 in the lib directory. To simplify the start there are some wrappers around common 
 calls in the src/api directory. The intention is to make these a smaller but better
 documented set of often used APIs. Let us know if you're missing something!
+
+## Local build 
+
+* Run this command to install required packages : `npm install`
+* Edit the file `package.json` : the `scripts/parcel` have an `--out-dir` that can be customized (to match your local custom directory. `--public-url` might need to be modified if you run matrixReq in a sub directory.
+* Run this command to build the package `npm run parcel`. This will compile and package the ts code to a `Main.js` and `Main.js.map` in the `out-dir` 
+
+
+

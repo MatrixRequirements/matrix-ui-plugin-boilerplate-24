@@ -18,7 +18,7 @@
     "check": "tsc --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext .ts",
-    "parcel": "parcel watch src/BPP/Main.ts --dist-dir /home/clouds/clouds/custom/js --no-hmr",
+    "parcel": "parcel src/BPP/Main.ts --dist-dir /home/clouds/clouds/custom/js --no-hmr",
     "parcel-dist": "parcel build src/BPP/Main.ts"
   },
   "author": "",

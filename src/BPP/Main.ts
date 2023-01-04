@@ -106,8 +106,8 @@ export class Plugin implements matrixApi.IExternalPlugin {
         this.core = new matrixApi.PluginCore(this);
     }
 
-    PLUGIN_VERSION: any;
-    PLUGIN_NAME: any;
+    PLUGIN_VERSION: string;
+    PLUGIN_NAME: string;
     getDashboard(): matrixApi.IDashboardPage {
         return new DashboardPage();
     }

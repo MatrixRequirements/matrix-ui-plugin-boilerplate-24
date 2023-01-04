@@ -15,7 +15,7 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
                 <div id="controls"></div>
             </div>
             `);
-    };
+    }
 
 
     settings(): IProjectSettings {
@@ -30,7 +30,7 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
         }
         console.log("Returning project settings");
         return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings }
-    };
+    }
     renderSettingPage() {
         this.initPage(
             `${Plugin.config.projectSettingsPage.title}`,
@@ -41,7 +41,7 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
             undefined
         );
         this.showSimple();
-    };
+    }
     saveAsync() {
         let def = this.configApp.setProjectSettingAsync(this.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(this.settingsChanged), this.configApp.getCurrentItemId());
         def.done(() => {
@@ -61,7 +61,7 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
             this.paramChanged();
 
         });
-    };
+    }
     showSimple() {
 
         this.settingsOriginal = this.settings();
@@ -69,7 +69,7 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
         let dom = this.getSettingsDOM(this.settingsChanged);
         matrixApi.ml.UI.addTextInput($("#controls", dom), "My Project setting", this.settingsChanged, "myProjectSetting", this.paramChanged);
         matrixApi.app.itemForm.append(dom);
-    };
+    }
 
     paramChanged() {
         this.configApp.itemChanged(JSON.stringify(this.settingsOriginal) != JSON.stringify(this.settingsChanged));

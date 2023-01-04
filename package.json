@@ -1,9 +1,9 @@
 {
-  "name": "matrix-ui-plugin-boilerplate",
+  "name": "matrix-ui-plugin-boilerplate-24",
   "version": "1.0.1",
-  "description": "Awesome matrix-ui-plugin-boilerplate created by francoischasseur",
+  "description": "Awesome matrix-ui-plugin-boilerplate for the 2.4 tree created by mike",
   "repository": {
-    "url": "https://github.com/MatrixRequirements/matrix-ui-plugin-boilerplate"
+    "url": "https://github.com/MatrixRequirements/matrix-ui-plugin-boilerplate-24"
   },
   "targets": {
     "default": {

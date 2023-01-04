@@ -1,82 +1,77 @@
-import { IPluginSettingPage } from "./core/PluginCore";
 import { IProjectSettings } from "./Interfaces";
 import { Plugin } from "./Main";
 
     /* project Setting page closure*/
-    export function ProjectSettingsPage():IPluginSettingPage <IProjectSettings>{
-        let self: IPluginSettingPage<IProjectSettings> = {};
+export class ProjectSettingsPage extends matrixApi.ConfigPage
+    implements matrixApi.IPluginSettingPage<IProjectSettings> {
 
-        if (window["ConfigPage"] !== undefined) {
-            self = { ...Object.getPrototypeOf(new ConfigPage()) }
+    settingsOriginal: IProjectSettings;
+    settingsChanged: IProjectSettings;
+    getSettingsDOM(settings: IProjectSettings): JQuery {
+
+        return $(`
+            <div class="panel-body-v-scroll fillHeight">
+                <div>This is my content : ${settings.myProjectSetting}</div>
+                <div id="controls"></div>
+            </div>
+            `);
+    };
+
+
+    settings(): IProjectSettings {
+        let currentSettings = {};
+        if (this.configApp != undefined && this.configApp.getJSONProjectSettings != undefined) {
+            let filterSettings = this.configApp.getJSONProjectSettings(this.getProject(), Plugin.config.projectSettingsPage.settingName);
+            if (filterSettings.length == 1)
+                currentSettings = filterSettings[0].value;
         }
-
-        
-        self.getSettingsDOM = (settings:IProjectSettings): JQuery => {
-            
-            return $(`
-                <div class="panel-body-v-scroll fillHeight">
-                    <div>This is my content : ${settings.myProjectSetting}</div>
-                    <div id="controls"></div>
-                </div>
-                `);
-        };
-
-
-        self.settings = () => {
-            let currentSettings = {};
-            if (window["configApp"] !=undefined) {
-                let filterSettings = configApp.getJSONProjectSettings(self.getProject(), Plugin.config.projectSettingsPage.settingName);
-                if (filterSettings.length == 1)
-                    currentSettings = filterSettings[0].value;
-            }
-            else {
-                currentSettings = IC.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
-            }
-            console.log("Returning project settings");
-            return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings }
-        };
-        self.renderSettingPage = () => {
-            self.initPage(
-                `${ Plugin.config.projectSettingsPage.title}` ,
-                true,
-                undefined,
-                Plugin.config.projectSettingsPage.help,
-                Plugin.config.projectSettingsPage.helpUrl,
-                undefined
-            );
-            self.showSimple();
-        };
-        self.saveAsync = ()=> {
-            let def =  configApp.setProjectSettingAsync(self.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(self.settingsChanged), configApp.getCurrentItemId());
-            def.done(() => {
-                self.settingsOriginal = { ...self.settingsChanged };
-                self.renderSettingPage();
-            })
-            return def;
+        else {
+            currentSettings = matrixApi.globalMatrix.ItemConfig.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
         }
-        self.getProject = () => {
-            /* get the project id from the setting page */
-            return configApp.getCurrentItemId().split("-")[0];
-        }
-        self.showAdvanced = () => {
-            console.debug("Show advanced clicked");
-            self.showAdvancedCode(JSON.stringify(self.settingsChanged), function (newCode: string) {
-                self.settingsChanged = JSON.parse(newCode);
-                self.paramChanged();
-               
-            });
-        };
-        self.showSimple = () => {
-
-            self.settingsOriginal = self.settings();
-            self.settingsChanged = { ...self.settingsOriginal };
-            let dom = self.getSettingsDOM(self.settingsChanged);
-            ml.UI.addTextInput($("#controls",dom), "My Project setting", self.settingsChanged, "myProjectSetting",self.paramChanged);
-            app.itemForm.append(dom);
-        };
-
-        self.paramChanged = () => {
-            configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
-        }
-        return self;
+        console.log("Returning project settings");
+        return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings }
+    };
+    renderSettingPage() {
+        this.initPage(
+            `${Plugin.config.projectSettingsPage.title}`,
+            true,
+            undefined,
+            Plugin.config.projectSettingsPage.help,
+            Plugin.config.projectSettingsPage.helpUrl,
+            undefined
+        );
+        this.showSimple();
+    };
+    saveAsync() {
+        let def = this.configApp.setProjectSettingAsync(this.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(this.settingsChanged), this.configApp.getCurrentItemId());
+        def.done(() => {
+            this.settingsOriginal = { ...this.settingsChanged };
+            this.renderSettingPage();
+        })
+        return def;
     }
+    getProject() {
+        /* get the project id from the setting page */
+        return this.configApp.getCurrentItemId().split("-")[0];
+    }
+    showAdvanced() {
+        console.debug("Show advanced clicked");
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
+            this.settingsChanged = JSON.parse(newCode);
+            this.paramChanged();
+
+        });
+    };
+    showSimple() {
+
+        this.settingsOriginal = this.settings();
+        this.settingsChanged = { ...this.settingsOriginal };
+        let dom = this.getSettingsDOM(this.settingsChanged);
+        matrixApi.ml.UI.addTextInput($("#controls", dom), "My Project setting", this.settingsChanged, "myProjectSetting", this.paramChanged);
+        matrixApi.app.itemForm.append(dom);
+    };
+
+    paramChanged() {
+        this.configApp.itemChanged(JSON.stringify(this.settingsOriginal) != JSON.stringify(this.settingsChanged));
+    }
+}

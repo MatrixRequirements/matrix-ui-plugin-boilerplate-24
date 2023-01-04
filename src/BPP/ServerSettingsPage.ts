@@ -1,79 +1,74 @@
-import { IPluginSettingPage, PluginCore } from "./core/PluginCore";
 import { IServerSettings } from "./Interfaces";
 import { Plugin } from "./Main";
 
 // eslint-disable-next-line no-unused-vars
-    /* server Setting page closure*/
-    export function ServerSettingsPage(): IPluginSettingPage<IServerSettings> {
-        
-        let self: IPluginSettingPage<IServerSettings> = {};
-        if (window["ConfigPage"] !== undefined) {
-            self = { ...Object.getPrototypeOf(new ConfigPage()) };
-        }
-        self.settings = () => {
-            
-            return { ...Plugin.config.customerSettingsPage.defaultSettings, ...PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}) }
+/* server Setting page closure*/
+export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixApi.IPluginSettingPage<IServerSettings> {
+    settingsOriginal?: IServerSettings;
+    settingsChanged?: IServerSettings;
+
+    settings(): IServerSettings {
+        return {
+            ...Plugin.config.customerSettingsPage.defaultSettings,
+            ...matrixApi.PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}),
+            myServerSetting: 'example setting' 
         };
+    }
 
-        /** Customize this method to generate static HTML.  */
-        self.getSettingsDOM = (settings: IServerSettings): JQuery => {
-            return $(`
-                <div class="panel-body-v-scroll fillHeight">
-                    <div>
-                        This is my customer settings page : ${settings.myServerSetting}
+    /** Customize this method to generate static HTML.  */
+    getSettingsDOM(settings: IServerSettings): JQuery {
+        return $(`
+            <div class="panel-body-v-scroll fillHeight">
+                <div>
+                    This is my customer settings page 
 
-                    </div>
-                    <div id="controls"></div>
                 </div>
-            `);
-        };
-        /** Customize this method to add dynamic content*/
-        self.showSimple = () => {
+                <div id="controls"></div>
+            </div>
+        `);
+    }
 
-            self.settingsOriginal = { ...self.settings() };
-            self.settingsChanged = { ...self.settingsOriginal };
-            let dom = self.getSettingsDOM(self.settingsChanged);
-            ml.UI.addTextInput($("#controls",dom), "My server setting", self.settingsChanged, "myServerSetting",self.paramChanged);
-            app.itemForm.append(dom);
-        };
+    /** Customize this method to add dynamic content*/
+    showSimple() {
+        this.settingsOriginal = { ...this.settings() };
+        this.settingsChanged = { ...this.settingsOriginal };
+        let dom = this.getSettingsDOM(this.settingsChanged);
+        matrixApi.ml.UI.addTextInput($("#controls", dom), "My server setting", this.settingsChanged, "myServerSetting", this.paramChanged);
+        matrixApi.app.itemForm.append(dom);
+    }
 
+    renderSettingPage() {
 
+        this.initPage(
+            `${Plugin.config.customerSettingsPage.title} - Server settings`,
+            true,
+            undefined,
+            Plugin.config.customerSettingsPage.help,
+            Plugin.config.customerSettingsPage.helpUrl,
+            undefined
+        );
+        this.showSimple();
+    }
 
-        self.renderSettingPage = () => {
-         
-            self.initPage(
-                `${Plugin.PLUGIN_NAME} - Server settings`,
-                true,
-                undefined,
-                Plugin.config.customerSettingsPage.help,
-                Plugin.config.customerSettingsPage.helpUrl,
-                undefined
-            );
-            self.showSimple();
-        };
-
-        self.showAdvanced = () => {
-            console.debug("Show advanced clicked");
-            self.showAdvancedCode(JSON.stringify(self.settingsChanged), function (newCode: string) {
-                self.settingsChanged = JSON.parse(newCode);
-                self.paramChanged();
-            });
-        };
+    showAdvanced() {
+        console.debug("Show advanced clicked");
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
+            this.settingsChanged = JSON.parse(newCode);
+            this.paramChanged();
+        });
+    }
        
         
-        self.saveAsync = () => {
-            let def = configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(self.settingsChanged));
-            def.done(() => {
-                self.settingsOriginal = { ...self.settingsChanged };
-                self.renderSettingPage();
-            })
-            return def
-        }
-
-        self.paramChanged = () => {
-            configApp.itemChanged(JSON.stringify(self.settingsOriginal) != JSON.stringify(self.settingsChanged));
-        }
-      
-     
-        return self;
+    saveAsync() {
+        let def = this.configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(this.settingsChanged));
+        def.done(() => {
+            this.settingsOriginal = { ...this.settingsChanged };
+            this.renderSettingPage();
+        })
+        return def;
     }
+
+    paramChanged() {
+        this.configApp.itemChanged(JSON.stringify(this.settingsOriginal) != JSON.stringify(this.settingsChanged));
+    }
+}

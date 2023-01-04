@@ -7,7 +7,7 @@ module.exports = {
     resolve: "preferRelative",
     // entry files
     entry: {
-        UIPluginBoilerplate: {
+        Main: {
             import: "./src/BPP/Main.ts",
         },
     },

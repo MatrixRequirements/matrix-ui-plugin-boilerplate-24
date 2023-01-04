@@ -1,4 +1,4 @@
-name: Rename from matrix-ui-plugin-boilerplate to new project name
+name: Rename from matrix-ui-plugin-boilerplate-24 to new project name
 
 on: 
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
         type: string
 jobs:
   rename-project:
-    if: ${{ github.repository	!= 'MatrixRequirements/matrix-ui-plugin-boilerplate' }}
+    if: ${{ github.repository	!= 'MatrixRequirements/matrix-ui-plugin-boilerplate-24' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

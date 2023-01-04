@@ -27,8 +27,8 @@ echo "$cameCase $namespace $prefix"
 echo "Renaming project..."
 
 original_author="MatrixRequirements"
-original_name="matrix-ui-plugin-boilerplate"
-original_description=" matrix-ui-plugin-boilerplate created by someone"
+original_name="matrix-ui-plugin-boilerplate-24"
+original_description=" matrix-ui-plugin-boilerplate-24 created by someone"
 original_pageid="BPP"
 
 

@@ -2,7 +2,7 @@ import { IProjectSettings } from "./Interfaces";
 import { Plugin } from "./Main";
 
 // eslint-disable-next-line no-unused-vars
-export class DashboardPage {
+export class DashboardPage implements matrixApi.IDashboardPage {
     settings: IProjectSettings;
 
     constructor() {

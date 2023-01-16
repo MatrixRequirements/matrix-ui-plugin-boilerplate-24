@@ -74,7 +74,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{steps.name.outputs.value}}-${{steps.version.outputs.value}}_${{github.run_number}}
+          name: ${{steps.id.outputs.value}}-${{steps.version.outputs.value}}_${{github.run_number}}
           path: |
             dist
             !dist/plugin.tsbuildinfo

@@ -67,8 +67,8 @@ jobs:
         run: |
           TARGETDIR="dist/js/${{steps.id.outputs.value}}"
           mkdir -p $TARGETDIR
-          cp dist/Main.js "$TARGETDIR/"
-          cp dist/Main.js.map "$TARGETDIR/"
+          mv dist/*.js "$TARGETDIR/"
+          mv dist/*.js.map "$TARGETDIR/"
           cp resources/matrix.json "$TARGETDIR/"
 
       - uses: actions/upload-artifact@v2

@@ -16,6 +16,7 @@
     "pretty": "prettier --write src/",
     "clean": "rm -rf dist",
     "check": "tsc --noEmit",
+    "check:metadata":"ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src --ext .ts",
     "build": "npx webpack"
@@ -30,6 +31,8 @@
     "@types/jqueryui": "1.11.31",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
+    "ajv": "^6.12.6",
+    "ajv-cli": "^5.0.0",
     "eslint": "^8.11.0",
     "matrix-requirements-api": "^1.0.1",
     "matrixrequirements-type-declarations": "^1.0.0",

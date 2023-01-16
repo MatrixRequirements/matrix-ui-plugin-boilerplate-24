@@ -7,10 +7,35 @@ They can be registered in the plugin manager at startup and will be queried
 in different situations, for example to add new UI Controls or entries to 
 the tree or pages in the adminConfig.
 
-This  example registers a new Dashboard, a control, an action in the action menu, a config page on the project level and a config page at the serverSetting level. You can use this project as template for other plugin. 
+This  example registers a new Dashboard, a control, an action in the action menu, a config page on the project level 
+and a config page at the serverSetting level. You can use this project as template for other plugin. 
 
 It can be compiled using the standard
 Typescript build process into a single JS file and loaded into Matrix.
+
+## Plugin metadata
+Matrix Client plugins require a metadata file with information about the plugin. The general structure of the plugin is 
+expected to look like this:
+
+(Directory) org.yourcompany.pluginname
+          |- matrix.json
+          |- scriptfile.js
+          |- (optionally) another scriptfile ...
+
+This repository contains Github actions that will create the correct folder structure and put everything in a zip
+file. You can then download the resulting zip file from Github.
+
+The matrix.json file needs the following basic information: 
+* id
+* name
+* version
+* matrixVersion
+* type
+
+On build the matrix.json file will be checked for correct content. You can also do the test yourself using the schema file
+`resource/plugin-metadata.json` or from the command line with:
+
+    npm run check:metadata
 
 
 ## Installation
@@ -39,7 +64,8 @@ examine the api in the `./node_modules/matrix-requirements-api` folder.
 
 * Run this command to install required packages : `npm install`
 * Edit the file `webpack.config.js` to give a unique name to your plugin (the current name is `UIPluginBoilerplate`.
-* Run this command to build the package `npm run build`. This will compile and package the ts code to a `UIPluginBoilerplate.js` and `UIPluginBoilerplate.js.map` in the `./dist` directory.
+* Run this command to build the package `npm run build`. This will compile and package the ts code to a `UIPluginBoilerplate.js` 
+and `UIPluginBoilerplate.js.map` in the `./dist` directory.
 
 
 

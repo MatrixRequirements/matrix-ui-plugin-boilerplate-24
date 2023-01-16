@@ -1,0 +1,7 @@
+{
+  "id": "com.matrixreq.plugin.example",
+  "version": "1.0",
+  "matrixVersion": "^2.4",
+  "name": "Example plugin",
+  "type": "Javascript"
+}

@@ -67,9 +67,8 @@ jobs:
         run: |
           TARGETDIR="dist/js/${{steps.id.outputs.value}}"
           mkdir -p $TARGETDIR
-          sed -i 's|Main.js.map|${{steps.id.outputs.value}}/${{steps.id.outputs.value}}.js.map|g' dist/Main.js
-          mv dist/Main.js "$TARGETDIR/${{steps.id.outputs.value}}.js"
-          mv dist/Main.js.map "$TARGETDIR/${{steps.id.outputs.value}}.js.map"
+          cp dist/Main.js "$TARGETDIR/"
+          cp dist/Main.js.map "$TARGETDIR/"
           cp resources/matrix.json "$TARGETDIR/"
 
       - uses: actions/upload-artifact@v2

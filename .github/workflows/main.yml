@@ -67,7 +67,7 @@ jobs:
         run: |
           TARGETDIR="dist/js/${{steps.id.outputs.value}}"
           mkdir -p $TARGETDIR
-          sed -i 's/Main.js.map/${{steps.id.outputs.value}}.js.map/' dist/Main.js
+          sed -i 's/Main.js.map/${{steps.id.outputs.value}}/${{steps.id.outputs.value}}.js.map/' dist/Main.js
           mv dist/Main.js "$TARGETDIR/${{steps.id.outputs.value}}.js"
           mv dist/Main.js.map "$TARGETDIR/${{steps.id.outputs.value}}.js.map"
           cp resources/matrix.json "$TARGETDIR/"

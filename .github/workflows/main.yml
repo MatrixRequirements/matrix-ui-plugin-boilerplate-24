@@ -25,33 +25,38 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Extract version from package.json
+      - name: Install dependencies and check for correct matrix.json file
+        run: |
+          npm install
+          npx ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false
+
+      - name: Extract id from matrix.json
+        uses: sergeysova/jq-action@v2
+        id: id
+        with:
+          cmd: 'jq ".id" resources/matrix.json -r'
+
+      - name: Extract version from matrix.json
         uses: sergeysova/jq-action@v2
         id: version
         with:
-          cmd: 'jq ".version" package.json -r'
+          cmd: 'jq ".version" resources/matrix.json -r'
 
       - name: Extract name from package.json
         uses: sergeysova/jq-action@v2
         id: name
         with:
-          cmd: 'jq ".name" package.json -r'
-
-      - name: Extract description from package.json
-        uses: sergeysova/jq-action@v2
-        id: description
-        with:
-          cmd: 'jq ".description" package.json -r'
+          cmd: 'jq ".name" resources/matrix.json -r'
 
       - name: Patch build info into files
         run: |
-          find src -type f -exec sed -i "s/<PLUGIN_NAME_PLACEHOLDER>/${{steps.description.outputs.value}} (${{steps.name.outputs.value}})/g" {} +
+          echo "Plugin info: ${{steps.id.outputs.value}} ${{steps.name.outputs.value}} ${{steps.version.outputs.value}}"
+          find src -type f -exec sed -i "s/<PLUGIN_NAME_PLACEHOLDER>/${{steps.name.outputs.value}}/g" {} +
           find src -type f -exec sed -i "s/<PLUGIN_VERSION_PLACEHOLDER>/${{steps.version.outputs.value}}_${{github.run_number}}/g" {} +
           find src -type f -exec sed -i "s|<VERSION_INFO_PLACEHOLDER>|${{steps.name.outputs.value}} ${{steps.version.outputs.value}}_${{github.run_number}} from $GITHUB_REPOSITORY|g" {} +
 
-      - name: Install dependencies and compile
+      - name: Build
         run: |
-          npm install
           npm run build
 
       - name: Lint the code
@@ -60,14 +65,15 @@ jobs:
 
       - name: Copy the build result
         run: |
-          mkdir -p dist/js
-          sed -i 's/Main.js.map/${{steps.name.outputs.value}}.js.map/' dist/Main.js
-          mv dist/Main.js dist/js/${{steps.name.outputs.value}}.js
-          mv dist/Main.js.map dist/js/${{steps.name.outputs.value}}.js.map
+          TARGETDIR="dist/js/${{steps.id.outputs.value}}"
+          mkdir -p $TARGETDIR
+          mv dist/*.js "$TARGETDIR/"
+          mv dist/*.js.map "$TARGETDIR/"
+          cp resources/matrix.json "$TARGETDIR/"
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{steps.name.outputs.value}}-${{steps.version.outputs.value}}_${{github.run_number}}
+          name: ${{steps.id.outputs.value}}-${{steps.version.outputs.value}}_${{github.run_number}}
           path: |
             dist
             !dist/plugin.tsbuildinfo

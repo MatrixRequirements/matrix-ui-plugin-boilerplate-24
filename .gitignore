@@ -4,3 +4,4 @@ matrix-example.iml
 build
 .cache
 .parcel-cache
+.idea

@@ -1,5 +1,5 @@
-import { IServerSettings } from "./Interfaces";
-import { Plugin } from "./Main";
+import {IServerSettings} from "./Interfaces";
+import {Plugin} from "./Main";
 
 // eslint-disable-next-line no-unused-vars
 /* server Setting page closure*/
@@ -11,7 +11,7 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
         return {
             ...Plugin.config.customerSettingsPage.defaultSettings,
             ...matrixApi.PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}),
-            myServerSetting: 'example setting' 
+            myServerSetting: 'example setting'
         };
     }
 
@@ -30,8 +30,8 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
 
     /** Customize this method to add dynamic content*/
     showSimple() {
-        this.settingsOriginal = { ...this.settings() };
-        this.settingsChanged = { ...this.settingsOriginal };
+        this.settingsOriginal = {...this.settings()};
+        this.settingsChanged = {...this.settingsOriginal};
         let dom = this.getSettingsDOM(this.settingsChanged);
         matrixApi.ml.UI.addTextInput($("#controls", dom), "My server setting", this.settingsChanged, "myServerSetting", this.paramChanged);
         matrixApi.app.itemForm.append(dom);
@@ -57,12 +57,12 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
             this.paramChanged();
         });
     }
-       
-        
+
+
     saveAsync() {
         let def = this.configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(this.settingsChanged));
         def.done(() => {
-            this.settingsOriginal = { ...this.settingsChanged };
+            this.settingsOriginal = {...this.settingsChanged};
             this.renderSettingPage();
         })
         return def;

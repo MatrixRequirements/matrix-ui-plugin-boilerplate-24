@@ -1,12 +1,13 @@
-import { IProjectSettings } from "./Interfaces";
-import { Plugin } from "./Main";
+import {IProjectSettings} from "./Interfaces";
+import {Plugin} from "./Main";
 
-    /* project Setting page closure*/
+/* project Setting page closure*/
 export class ProjectSettingsPage extends matrixApi.ConfigPage
     implements matrixApi.IPluginSettingPage<IProjectSettings> {
 
     settingsOriginal: IProjectSettings;
     settingsChanged: IProjectSettings;
+
     getSettingsDOM(settings: IProjectSettings): JQuery {
 
         return $(`
@@ -24,13 +25,13 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
             let filterSettings = this.configApp.getJSONProjectSettings(this.getProject(), Plugin.config.projectSettingsPage.settingName);
             if (filterSettings.length == 1)
                 currentSettings = filterSettings[0].value;
-        }
-        else {
+        } else {
             currentSettings = matrixApi.globalMatrix.ItemConfig.getSettingJSON(Plugin.config.projectSettingsPage.settingName, {});
         }
         console.log("Returning project settings");
-        return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings }
+        return {...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings}
     }
+
     renderSettingPage() {
         this.initPage(
             `${Plugin.config.projectSettingsPage.title}`,
@@ -42,18 +43,21 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
         );
         this.showSimple();
     }
+
     saveAsync() {
         let def = this.configApp.setProjectSettingAsync(this.getProject(), Plugin.config.projectSettingsPage.settingName, JSON.stringify(this.settingsChanged), this.configApp.getCurrentItemId());
         def.done(() => {
-            this.settingsOriginal = { ...this.settingsChanged };
+            this.settingsOriginal = {...this.settingsChanged};
             this.renderSettingPage();
         })
         return def;
     }
+
     getProject() {
         /* get the project id from the setting page */
         return this.configApp.getCurrentItemId().split("-")[0];
     }
+
     showAdvanced() {
         console.debug("Show advanced clicked");
         this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
@@ -62,10 +66,11 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
 
         });
     }
+
     showSimple() {
 
         this.settingsOriginal = this.settings();
-        this.settingsChanged = { ...this.settingsOriginal };
+        this.settingsChanged = {...this.settingsOriginal};
         let dom = this.getSettingsDOM(this.settingsChanged);
         matrixApi.ml.UI.addTextInput($("#controls", dom), "My Project setting", this.settingsChanged, "myProjectSetting", this.paramChanged);
         matrixApi.app.itemForm.append(dom);

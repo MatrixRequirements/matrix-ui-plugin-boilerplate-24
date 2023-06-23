@@ -7,7 +7,7 @@ module.exports = {
     resolve: "preferRelative",
     // entry files
     entry: {
-        Main: {
+        BPP: {
             import: "./src/BPP/Main.ts",
         },
     },

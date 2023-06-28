@@ -67,5 +67,22 @@ examine the api in the `./node_modules/matrix-requirements-api` folder.
 * Run this command to build the package `npm run build`. This will compile and package the ts code to a `UIPluginBoilerplate.js` 
 and `UIPluginBoilerplate.js.map` in the `./dist` directory.
 
+## Test the local build
+This project contains a test proxy that can load your plugin in a running instance. To do
+this it will modify the main page of the Matrix instance to include your script file
+and then server the script file from your local disk. Everything else will be fetched from
+your remote Matrix instance.
 
+Setup:
+
+* Copy Proxy.env.template to Proxy.env and set your instance name
+* cd into dev-proxy and `npm install` to get all dependencies
+* Make sure the plugin has been built
+* Close Chrome (if running)
+* In this directory, run `npm run proxy` to launch the proxy. 
+
+This should open a new Chrome and if you inspect the main page you should see
+`<script src="/mypluginscript.js"></script>` at the end of the page. This URL
+will load the local `dist/Main.js` script and will always be up to date with your
+local build.
 

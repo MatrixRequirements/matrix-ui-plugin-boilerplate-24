@@ -12,8 +12,6 @@ import * as mockttp from "mockttp"
     const instance = process.argv[2]
     const scriptFile = process.argv[3]
     
-    const scriptname = "mypluginscript.js"
-    
     // Create a proxy server with a self-signed HTTPS CA certificate:
     const https = await mockttp.generateCACertificate();
     const server = mockttp.getLocal({ https, debug: false });
@@ -21,7 +19,7 @@ import * as mockttp from "mockttp"
     const target = `${instance}.matrixreq.com`
     const url = `https://${target}`
 
-    const addedUrl = `<script src="/${scriptname}"></script>`
+    const addedUrl = `<script src="/${scriptFile}"></script>`
     const replaced = `${addedUrl}\n</body>\n</html>`
     const page = await fetch(url).then(data => data.text())
     const patchedPage = page.replace(/<\/body>\s*<\/html>/, replaced)
@@ -30,8 +28,10 @@ import * as mockttp from "mockttp"
         .thenPassThrough();
     await server.forGet(url).always()
         .thenReply(200, patchedPage)
-    await server.forGet(`${url}/${scriptname}`).always()
-        .thenFromFile(200, `../${scriptFile}`)
+    await server.forGet(`${url}/${scriptFile}`).always()
+        .thenFromFile(200, `../dist/${scriptFile}`)
+    await server.forGet(`${url}/${scriptFile}.map`).always()
+        .thenFromFile(200, `../dist/${scriptFile}.map`)
     await server.forAnyRequest().forHostname(target).always()
         .thenPassThrough()
     await server.start();

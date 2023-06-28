@@ -43,6 +43,7 @@ export interface IPluginFieldOptions {
 
 /** interface for the value to be stored by custom field */
 export interface IPluginFieldValue {
+    value: string;
     // to be defined
 }
 
@@ -77,6 +78,6 @@ export type DashboardState = {
 
 export interface IControlProp{
     print:boolean;
-    valueChanged:(data:string)=>void;
-    value:string;
+    valueChanged:(data:IPluginFieldValue)=>void;
+    value:IPluginFieldValue;
 }

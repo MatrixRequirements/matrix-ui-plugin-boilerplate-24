@@ -28,8 +28,11 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions,FieldHand
     /** interactive radio control */
     protected renderEditor(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions) {
 
+        this.fieldHandler.setValue(value);
+
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={false} valueChanged={(data)=> {this.fieldHandler.setData(data)} } value={value?.toString()}/>, container)
+        ReactDOM.render(<ControlComponent print={false} valueChanged={  (data)=>  {this.handleValueChange(data)} }
+            value={value}/>, container)
         return $(container);
     }
 
@@ -37,15 +40,22 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions,FieldHand
     protected renderPrint(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions, params: IPluginPrintParams) {
 
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={true} value={value?.toString()} valueChanged={(data)=>{}} />, container)
+        ReactDOM.render(<ControlComponent print={true} value={value} valueChanged={(data)=>{}} />, container)
         return $(container);
     }
 
     /** this method compares the to value of the control to another previous value */
     protected isSame(a: IPluginFieldValue, b: IPluginFieldValue) {
-        // TODO compare the values as stored in the DB with the one from UI
-        return true;
+        return JSON.stringify(a) === JSON.stringify(b);
     }
 
 
+    private handleValueChange(data: IPluginFieldValue) {
+        this.fieldHandler.setValue(data)
+        this.hasChanged();
+        if( this && this.settings && this.settings.valueChanged){
+            // Call hook to notify the form that the value has changed.
+            this.settings.valueChanged();
+        }
+    }
 }

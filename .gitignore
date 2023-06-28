@@ -6,3 +6,4 @@ build
 .parcel-cache
 .idea
 Proxy.env
+dev-proxy/chrome-profile

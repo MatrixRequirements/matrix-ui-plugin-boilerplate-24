@@ -1,4 +1,4 @@
-import open from "open"
+import open, {apps} from "open"
 import tmp from "tmp-promise"
 import {Mockttp} from "mockttp";
 
@@ -11,7 +11,7 @@ export async function launchChrome(url: string, server: Mockttp, caFingerprint: 
     // Launch the browser, using this proxy & trusting our CA certificate:
     await open(url, {
         app: {
-            name: open.apps.chrome,
+            name: apps.chrome,
             arguments: [
                 `--proxy-server=localhost:${server.port}`,
                 `--ignore-certificate-errors-spki-list=${caFingerprint}`,

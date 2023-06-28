@@ -20,13 +20,14 @@
     "lib": [
       "es2016",
       "dom"
-  ]
+  ],
+    "jsx": "react"
   },
   "paths": {
   },
 
   "include": [
     "src/*.ts", "src/**/*.ts",
-    
+    "src/*.tsx", "src/**/*.tsx"
   ]
 }

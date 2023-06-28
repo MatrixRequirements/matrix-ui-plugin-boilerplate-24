@@ -2,6 +2,10 @@ const path = require("path");
 const webpack = require("webpack"); //to access built-in plugins
 
 module.exports = {
+    externals: {
+        'react': 'React',
+        'react-dom': 'ReactDOM'
+    },
     // bundling mode
     mode: "none",
     resolve: "preferRelative",
@@ -18,16 +22,17 @@ module.exports = {
         path: __dirname + "/dist/",
     },
 
+
     // file resolutions
     resolve: {
-        extensions: [".ts", ".js"],
+        extensions: [".ts", ".js",".tsx",".jsx"]
     },
 
     // loaders
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /(node_modules)|(ts\/types)/,
             },

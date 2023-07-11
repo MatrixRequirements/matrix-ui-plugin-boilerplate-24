@@ -1,5 +1,8 @@
-import {IProjectSettings} from "./Interfaces";
-import {Plugin} from "./Main";
+import {IProjectSettings, IServerSettings} from "../Interfaces";
+import {Plugin} from "../Main";
+import * as ReactDOM from "react-dom";
+import React from "react";
+import {ProjectSettingsPageComponent} from "./ProjectSettingsPageComponent";
 
 /* project Setting page closure*/
 export class ProjectSettingsPage extends matrixApi.ConfigPage
@@ -10,15 +13,21 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
 
     getSettingsDOM(settings: IProjectSettings): JQuery {
 
-        return $(`
-            <div class="panel-body-v-scroll fillHeight">
-                <div>This is my content : ${settings.myProjectSetting}</div>
-                <div id="controls"></div>
-            </div>
-            `);
+        let container = document.createElement("div");
+        container.classList.add("panel-body-v-scroll");
+        container.classList.add("fillHeight");
+        ReactDOM.render(<ProjectSettingsPageComponent
+            projectSettings={ settings}
+            settingsChanged={(settings)=>{ this.settingsChangedHandler(settings)  } }
+        />, container);
+        return $(container);
     }
 
 
+    settingsChangedHandler(settings: IProjectSettings) {
+        this.settingsChanged = settings;
+        this.paramChanged();
+    }
     settings(): IProjectSettings {
         let currentSettings = {};
         if (this.configApp != undefined && this.configApp.getJSONProjectSettings != undefined) {

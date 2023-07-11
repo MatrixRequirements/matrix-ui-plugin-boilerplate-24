@@ -3,8 +3,8 @@
 
 import {Control} from "./Control/Control";
 import {DashboardPage} from "./Dashboard/DashboardPage";
-import {ProjectSettingsPage} from "./ProjectSettingsPage";
-import {ServerSettingsPage} from "./ServerSettingsPage";
+import {ProjectSettingsPage} from "./ProjectSettingsPage/ProjectSettingsPage";
+import {ServerSettingsPage} from "./ServerSettingsPage/ServerSettingsPage";
 import {Tool} from "./Tools";
 import {IProjectSettings, IServerSettings} from "./Interfaces";
 import {FieldHandler} from "./Control/FieldHandler";
@@ -14,7 +14,7 @@ import {FieldHandler} from "./Control/FieldHandler";
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
  *
  */
-export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProjectSettings,FieldHandler> {
+export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProjectSettings, FieldHandler> {
 
     /**This part enables which
      *
@@ -32,6 +32,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
             enabled: true,
             defaultSettings: {
                 myServerSetting: "default value for setting defined in Interfaces.ts",
+                mySecondValue: "second value for setting defined in Interfaces.ts",
             },
             settingName: "BPP_settings",
             help: "This is my help text",
@@ -138,7 +139,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
     async getControl(ctrlObj: JQuery): Promise<Control> {
         await this.setupProject();
         let config = this.getConfig();
-        return new Control(config, new FieldHandler(Plugin.config.field.fieldType,config)  , ctrlObj);
+        return new Control(config, new FieldHandler(Plugin.config.field.fieldType, config), ctrlObj);
     }
 
     async getTool(): Promise<Tool> {

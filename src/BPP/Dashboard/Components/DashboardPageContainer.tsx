@@ -10,7 +10,8 @@ export class DashboardPageContainer extends React.Component<DashboardProps> {
         return (
             <div>
                 <div id="itemDetails" className="layoutContainer">
-                    <PageTitle title={this.props.dashboard.header.title} showFullScreen={this.props.dashboard.header.showFullScreen}/>
+                    <PageTitle title={this.props.dashboard.header.title}
+                               showFullScreen={this.props.dashboard.header.showFullScreen}/>
                     <Dashboard settings={this.props.dashboard.dashboardContent.settings}></Dashboard>
                 </div>
             </div>

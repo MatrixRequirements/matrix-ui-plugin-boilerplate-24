@@ -1,5 +1,8 @@
-import {IServerSettings} from "./Interfaces";
-import {Plugin} from "./Main";
+import {IServerSettings} from "../Interfaces";
+import {Plugin} from "../Main";
+import * as ReactDOM from "react-dom";
+import React from "react";
+import { ServerSettingsPageComponent } from "./ServerSettingPageComponent";
 
 // eslint-disable-next-line no-unused-vars
 /* server Setting page closure*/
@@ -11,38 +14,31 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
         return {
             ...Plugin.config.customerSettingsPage.defaultSettings,
             ...matrixApi.PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}),
-            myServerSetting: 'example setting'
         };
     }
-
     /** Customize this method to generate static HTML.  */
     getSettingsDOM(settings: IServerSettings): JQuery {
-        let container = $(`<div class="panel-body-v-scroll fillHeight"></div>`);
-        
-
-
-        return $(`
-            <div class="panel-body-v-scroll fillHeight">
-                <div>
-                    This is my customer settings page 
-
-                </div>
-                <div id="controls"></div>
-            </div>
-        `);
+        let container = document.createElement("div");
+        container.classList.add("panel-body-v-scroll");
+        container.classList.add("fillHeight");
+        ReactDOM.render(<ServerSettingsPageComponent
+            serverSettings={ settings}
+            settingsChanged={(settings)=>{ this.settingsChangedHandler(settings)  } }
+        />, container);
+        return $(container);
     }
-
     /** Customize this method to add dynamic content*/
     showSimple() {
         this.settingsOriginal = {...this.settings()};
         this.settingsChanged = {...this.settingsOriginal};
         let dom = this.getSettingsDOM(this.settingsChanged);
-        matrixApi.ml.UI.addTextInput($("#controls", dom), "My server setting", this.settingsChanged, "myServerSetting", this.paramChanged);
         matrixApi.app.itemForm.append(dom);
     }
-
+    settingsChangedHandler(settings: IServerSettings) {
+        this.settingsChanged = settings;
+        this.paramChanged();
+    }
     renderSettingPage() {
-
         this.initPage(
             `${Plugin.config.customerSettingsPage.title} - Server settings`,
             true,
@@ -53,7 +49,6 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
         );
         this.showSimple();
     }
-
     showAdvanced() {
         console.debug("Show advanced clicked");
         this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
@@ -61,8 +56,6 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
             this.paramChanged();
         });
     }
-
-
     saveAsync() {
         let def = this.configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(this.settingsChanged));
         def.done(() => {

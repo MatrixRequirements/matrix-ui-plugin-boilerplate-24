@@ -9,14 +9,18 @@ import {IControlProp} from "../Interfaces";
 
 
 export const ControlComponent = (props: IControlProp) => {
-    const [value,setValue] = React.useState(props.value);
-     const handleChange  = (val:string) => {
-         setValue({value:val});
-         props.valueChanged({value:val});
+    const [value, setValue] = React.useState(props.value);
+    const handleChange = (val: string) => {
+        setValue({value: val});
+        props.valueChanged({value: val});
+    }
+    if (props.print) {
+        return <div>{value?.value}</div>
     }
     return <>
-            <div>
-                <span> <input  autoComplete="off" className="lineInput form-control"  value={value?.value} onChange={(event)=>handleChange(event.target.value)}/> </span>
-            </div>
-         </>
+        <div>
+            <span> <input autoComplete="off" className="lineInput form-control" value={value?.value}
+                          onChange={(event) => handleChange(event.target.value)}/> </span>
+        </div>
+    </>
 }

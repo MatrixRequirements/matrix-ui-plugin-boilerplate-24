@@ -7,7 +7,7 @@ import * as ReactDOM from "react-dom";
 import {ControlComponent} from "./ControlComponent";
 
 
-export class Control extends matrixApi.ControlCore<IPluginFieldOptions,FieldHandler> {
+export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHandler> {
 
 
     /** default configuration of control */
@@ -22,25 +22,26 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions,FieldHand
 
     /** this method is called by the UI to retrieve the string to be saved in the database */
     getValue(): string {
-        return  this.fieldHandler.getData();
+        return this.fieldHandler.getData();
     }
 
     /** interactive radio control */
     protected renderEditor(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions) {
-
         this.fieldHandler.setValue(value);
-
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={false} valueChanged={  (data)=>  {this.handleValueChange(data)} }
-            value={value}/>, container)
+        ReactDOM.render(<ControlComponent print={false} valueChanged={(data) => {
+            this.handleValueChange(data)
+        }}
+                                          value={value}/>, container)
         return $(container);
     }
 
     /**  readonly printing for custom section, tooltip, zen or user without right to edit */
     protected renderPrint(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions, params: IPluginPrintParams) {
-
+        this.fieldHandler.setValue(value);
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={true} value={value} valueChanged={(data)=>{}} />, container)
+        ReactDOM.render(<ControlComponent print={true} value={value} valueChanged={(data) => {
+        }}/>, container)
         return $(container);
     }
 
@@ -49,11 +50,10 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions,FieldHand
         return JSON.stringify(a) === JSON.stringify(b);
     }
 
-
     private handleValueChange(data: IPluginFieldValue) {
         this.fieldHandler.setValue(data)
         this.hasChanged();
-        if( this && this.settings && this.settings.valueChanged){
+        if (this && this.settings && this.settings.valueChanged) {
             // Call hook to notify the form that the value has changed.
             this.settings.valueChanged();
         }

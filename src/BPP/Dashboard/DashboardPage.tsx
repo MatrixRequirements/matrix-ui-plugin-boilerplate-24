@@ -8,7 +8,7 @@ import {DashboardPageContainer} from "./Components/DashboardPageContainer";
 import {DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings} from "../Interfaces";
 
 
-export class Dashboard extends React.Component<IDashboardContent, DashboardState>  {
+export class Dashboard extends React.Component<IDashboardContent, DashboardState> {
     render() {
         return (
             <div className="itemDetails">
@@ -28,11 +28,15 @@ export class DashboardPage implements matrixApi.IDashboardPage {
             ...project.getItemConfig().getSettingJSON(Plugin.config.projectSettingsPage.settingName, {})
         };
     }
+
     /** Add interactive element in this function */
     renderProjectPage() {
-       const element = document.createElement("div");
-        let dashboard: IDashboard = { header:{title: "Dashboard", showFullScreen: false} , dashboardContent:{  settings: this.settings}};
-        ReactDOM.render(<DashboardPageContainer dashboard={dashboard} />, element)
+        const element = document.createElement("div");
+        let dashboard: IDashboard = {
+            header: {title: "Dashboard", showFullScreen: false},
+            dashboardContent: {settings: this.settings}
+        };
+        ReactDOM.render(<DashboardPageContainer dashboard={dashboard}/>, element)
         matrixApi.app.itemForm.append(element);
     }
 

@@ -17,6 +17,10 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
 
     /** Customize this method to generate static HTML.  */
     getSettingsDOM(settings: IServerSettings): JQuery {
+        let container = $(`<div class="panel-body-v-scroll fillHeight"></div>`);
+        
+
+
         return $(`
             <div class="panel-body-v-scroll fillHeight">
                 <div>

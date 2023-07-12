@@ -29,10 +29,9 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
     }
     /** Customize this method to add dynamic content*/
     showSimple() {
-        this.settingsOriginal = {...this.settings()};
-        this.settingsChanged = {...this.settingsOriginal};
+        $("#container",matrixApi.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        matrixApi.app.itemForm.append(dom);
+        $("#container",matrixApi.app.itemForm).append(dom);
     }
     settingsChangedHandler(settings: IServerSettings) {
         this.settingsChanged = settings;
@@ -47,13 +46,17 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
             Plugin.config.customerSettingsPage.helpUrl,
             undefined
         );
+        this.settingsOriginal = {...this.settings()};
+        this.settingsChanged = {...this.settingsOriginal};
+        matrixApi.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
     showAdvanced() {
         console.debug("Show advanced clicked");
-        this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged),  (newCode: string) => {
             this.settingsChanged = JSON.parse(newCode);
             this.paramChanged();
+            this.showSimple();
         });
     }
     saveAsync() {

@@ -50,6 +50,10 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
             Plugin.config.projectSettingsPage.helpUrl,
             undefined
         );
+
+        this.settingsOriginal = this.settings();
+        this.settingsChanged = {...this.settingsOriginal};
+        matrixApi.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
 
@@ -69,20 +73,17 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
 
     showAdvanced() {
         console.debug("Show advanced clicked");
-        this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged),  (newCode: string)=> {
             this.settingsChanged = JSON.parse(newCode);
             this.paramChanged();
-
+            this.showSimple();
         });
     }
 
     showSimple() {
-
-        this.settingsOriginal = this.settings();
-        this.settingsChanged = {...this.settingsOriginal};
+        $("#container",matrixApi.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        matrixApi.ml.UI.addTextInput($("#controls", dom), "My Project setting", this.settingsChanged, "myProjectSetting", this.paramChanged);
-        matrixApi.app.itemForm.append(dom);
+        $("#container",matrixApi.app.itemForm).append(dom);
     }
 
     paramChanged() {

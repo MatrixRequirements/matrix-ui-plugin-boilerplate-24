@@ -87,9 +87,3 @@ export type DashboardProps = {
 export type DashboardState = {
     /* Nothing for the moment */
 };
-
-export interface IControlProp {
-    print: boolean;
-    valueChanged: (data: IPluginFieldValue) => void;
-    value: IPluginFieldValue;
-}

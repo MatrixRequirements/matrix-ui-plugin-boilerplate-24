@@ -5,8 +5,15 @@
  *
  */
 import * as React from "react";
-import {IControlProp} from "../Interfaces";
+import {IPluginFieldValue} from "../Interfaces";
 
+
+
+export interface IControlProp {
+    print: boolean;
+    valueChanged: (data: IPluginFieldValue) => void;
+    value: IPluginFieldValue;
+}
 
 export const ControlComponent = (props: IControlProp) => {
     const [value, setValue] = React.useState(props.value);

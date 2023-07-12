@@ -29,10 +29,15 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHan
     protected renderEditor(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions) {
         this.fieldHandler.setValue(value);
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={false} valueChanged={(data) => {
-            this.handleValueChange(data)
-        }}
-                                          value={value}/>, container)
+        ReactDOM.render(
+            <ControlComponent
+                print={false}
+                valueChanged={(data) => {
+                         this.handleValueChange(data)
+                             }}
+                value={value}
+            />
+            , container)
         return $(container);
     }
 
@@ -40,8 +45,9 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHan
     protected renderPrint(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions, params: IPluginPrintParams) {
         this.fieldHandler.setValue(value);
         let container = document.createElement("div");
-        ReactDOM.render(<ControlComponent print={true} value={value} valueChanged={(data) => {
-        }}/>, container)
+        ReactDOM.render(
+            <ControlComponent print={true} value={value}  valueChanged={(data) => { }}/>
+        , container)
         return $(container);
     }
 

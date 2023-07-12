@@ -1,5 +1,8 @@
-import {IProjectSettings} from "./Interfaces";
-import {Plugin} from "./Main";
+import {IProjectSettings, IServerSettings} from "../Interfaces";
+import {Plugin} from "../Main";
+import * as ReactDOM from "react-dom";
+import React from "react";
+import {ProjectSettingsPageComponent} from "./ProjectSettingsPageComponent";
 
 /* project Setting page closure*/
 export class ProjectSettingsPage extends matrixApi.ConfigPage
@@ -10,15 +13,21 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
 
     getSettingsDOM(settings: IProjectSettings): JQuery {
 
-        return $(`
-            <div class="panel-body-v-scroll fillHeight">
-                <div>This is my content : ${settings.myProjectSetting}</div>
-                <div id="controls"></div>
-            </div>
-            `);
+        let container = document.createElement("div");
+        container.classList.add("panel-body-v-scroll");
+        container.classList.add("fillHeight");
+        ReactDOM.render(<ProjectSettingsPageComponent
+            projectSettings={ settings}
+            settingsChanged={(settings)=>{ this.settingsChangedHandler(settings)  } }
+        />, container);
+        return $(container);
     }
 
 
+    settingsChangedHandler(settings: IProjectSettings) {
+        this.settingsChanged = settings;
+        this.paramChanged();
+    }
     settings(): IProjectSettings {
         let currentSettings = {};
         if (this.configApp != undefined && this.configApp.getJSONProjectSettings != undefined) {
@@ -41,6 +50,10 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
             Plugin.config.projectSettingsPage.helpUrl,
             undefined
         );
+
+        this.settingsOriginal = this.settings();
+        this.settingsChanged = {...this.settingsOriginal};
+        matrixApi.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
 
@@ -60,20 +73,17 @@ export class ProjectSettingsPage extends matrixApi.ConfigPage
 
     showAdvanced() {
         console.debug("Show advanced clicked");
-        this.showAdvancedCode(JSON.stringify(this.settingsChanged), function (newCode: string) {
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged),  (newCode: string)=> {
             this.settingsChanged = JSON.parse(newCode);
             this.paramChanged();
-
+            this.showSimple();
         });
     }
 
     showSimple() {
-
-        this.settingsOriginal = this.settings();
-        this.settingsChanged = {...this.settingsOriginal};
+        $("#container",matrixApi.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        matrixApi.ml.UI.addTextInput($("#controls", dom), "My Project setting", this.settingsChanged, "myProjectSetting", this.paramChanged);
-        matrixApi.app.itemForm.append(dom);
+        $("#container",matrixApi.app.itemForm).append(dom);
     }
 
     paramChanged() {

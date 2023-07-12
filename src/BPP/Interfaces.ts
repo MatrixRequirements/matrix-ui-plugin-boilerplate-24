@@ -14,6 +14,17 @@
 export interface IServerSettings extends matrixApi.IServerSettingsBase {
     /** Server Setting example */
     myServerSetting: string;
+    mySecondValue:string;
+}
+
+export interface IServerSettingsProp {
+    serverSettings: IServerSettings,
+    settingsChanged: (serverSettings: IServerSettings)=> void;
+}
+
+export interface IProjectSettingsProp {
+    projectSettings: IProjectSettings,
+    settingsChanged: (projectSettings: IProjectSettings)=> void;
 }
 
 /** Project setting for plugin
@@ -43,6 +54,7 @@ export interface IPluginFieldOptions {
 
 /** interface for the value to be stored by custom field */
 export interface IPluginFieldValue {
+    value: string;
     // to be defined
 }
 
@@ -53,3 +65,25 @@ export interface IPluginFieldValue {
 export interface IPluginPrintParams extends matrixApi.IPluginPrintParamsBase {
     class: string // default:"". additional class for outermost container
 }
+
+export interface IHeader {
+    title: string,
+    showFullScreen: boolean,
+}
+
+export interface IDashboardContent {
+    settings: IProjectSettings
+}
+
+export interface IDashboard {
+    header: IHeader,
+    dashboardContent: IDashboardContent;
+}
+
+export type DashboardProps = {
+    dashboard: IDashboard,
+
+};
+export type DashboardState = {
+    /* Nothing for the moment */
+};

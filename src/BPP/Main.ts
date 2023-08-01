@@ -2,19 +2,20 @@
 /// <reference types="matrix-requirements-api" />
 
 import {Control} from "./Control/Control";
-import {DashboardPage} from "./Dashboard/DashboardPage";
+import {DashboardPage, IDashboardParameters} from "./Dashboard/DashboardPage";
 import {ProjectSettingsPage} from "./ProjectSettingsPage/ProjectSettingsPage";
 import {ServerSettingsPage} from "./ServerSettingsPage/ServerSettingsPage";
 import {Tool} from "./Tools";
-import {IProjectSettings, IServerSettings} from "./Interfaces";
+import {IPluginFieldValue, IProjectSettings, IServerSettings} from "./Interfaces";
 import {FieldHandler} from "./Control/FieldHandler";
+import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
 
 /** This class is allows you to configure the features of your plugin.
  *
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
  *
  */
-export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProjectSettings, FieldHandler> {
+export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProjectSettings, IPluginFieldHandler<IPluginFieldValue>, IPluginFieldValue,IDashboardParameters> {
 
     /**This part enables which
      *
@@ -112,7 +113,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
         this.currentProject = null;
     }
 
-    async getDashboard(): Promise<DashboardPage> {
+    async getDashboardAsync(): Promise<DashboardPage> {
         // Whoa, now is my chance to load from the web
         // I can do "slow" things here if necessary.
         await this.setupProject();
@@ -120,7 +121,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
         return new DashboardPage(this.currentProject, matrixApi.globalMatrix.projectStorage);
     }
 
-    async getProjectSettingsPage(): Promise<matrixApi.IPluginSettingPage<IProjectSettings>> {
+    async getProjectSettingsPageAsync(): Promise<matrixApi.IPluginSettingPage<IProjectSettings>> {
         await this.setupProject();
 
         if (matrixApi.app.isConfigApp()) {
@@ -129,20 +130,20 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
         return null;
     }
 
-    async getServerSettingsPage(): Promise<matrixApi.IPluginSettingPage<IServerSettings>> {
+    async getServerSettingsPageAsync(): Promise<matrixApi.IPluginSettingPage<IServerSettings>> {
         if (matrixApi.app.isConfigApp()) {
             return new ServerSettingsPage(<matrixApi.IConfigApp><unknown>matrixApi.app);
         }
         return null;
     }
 
-    async getControl(ctrlObj: JQuery): Promise<Control> {
+    async getControlAsync(ctrlObj: JQuery): Promise<Control> {
         await this.setupProject();
         let config = this.getConfig();
         return new Control(config, new FieldHandler(Plugin.config.field.fieldType, config), ctrlObj);
     }
 
-    async getTool(): Promise<Tool> {
+    async getToolAsync(): Promise<Tool> {
         await this.setupProject();
         return Promise.resolve(new Tool());
     }

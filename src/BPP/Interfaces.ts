@@ -55,6 +55,7 @@ export interface IPluginFieldOptions {
 /** interface for the value to be stored by custom field */
 export interface IPluginFieldValue {
     value: string;
+    html: string;
     // to be defined
 }
 

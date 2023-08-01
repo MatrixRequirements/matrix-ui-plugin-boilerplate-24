@@ -18,8 +18,8 @@ export interface IControlProp {
 export const ControlComponent = (props: IControlProp) => {
     const [value, setValue] = React.useState(props.value);
     const handleChange = (val: string) => {
-        setValue({value: val});
-        props.valueChanged({value: val});
+        setValue({value: val,html:""});
+        props.valueChanged({value: val,html:""});
     }
     if (props.print) {
         return <div>{value?.value}</div>

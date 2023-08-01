@@ -43,7 +43,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "matrix-requirements-api": "^1.0.20",
+    "matrix-requirements-api": "^1.0.21",
     "matrixrequirements-type-declarations": "^1.0.4"
   }
 }

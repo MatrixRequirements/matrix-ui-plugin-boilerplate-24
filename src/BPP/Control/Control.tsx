@@ -5,9 +5,11 @@ import * as React from "react";
 import {FieldHandler} from "./FieldHandler";
 import * as ReactDOM from "react-dom";
 import {ControlComponent} from "./ControlComponent";
+import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
+import IPluginFieldValueBase = matrixApi.IPluginFieldValueBase;
 
 
-export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHandler> {
+export class Control extends matrixApi.ControlCore<IPluginFieldOptions, IPluginFieldHandler<IPluginFieldValue>,IPluginFieldValue> {
 
 
     /** default configuration of control */
@@ -21,8 +23,8 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHan
     }
 
     /** this method is called by the UI to retrieve the string to be saved in the database */
-    getValue(): string {
-        return this.fieldHandler.getData();
+    getValue() {
+        return this.fieldHandler.getDataAsync();
     }
 
     /** interactive radio control */
@@ -58,7 +60,7 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, FieldHan
 
     private handleValueChange(data: IPluginFieldValue) {
         this.fieldHandler.setValue(data)
-        this.hasChanged();
+        this.hasChangedAsync();
         if (this && this.settings && this.settings.valueChanged) {
             // Call hook to notify the form that the value has changed.
             this.settings.valueChanged();

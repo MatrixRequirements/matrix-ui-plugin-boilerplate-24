@@ -1,13 +1,13 @@
 /// <reference types="matrixrequirements-type-declarations" />
 /// <reference types="matrix-requirements-api" />
 
-import {Control} from "./Control/Control";
-import {DashboardPage, IDashboardParameters} from "./Dashboard/DashboardPage";
-import {ProjectSettingsPage} from "./ProjectSettingsPage/ProjectSettingsPage";
-import {ServerSettingsPage} from "./ServerSettingsPage/ServerSettingsPage";
-import {Tool} from "./Tools";
-import {IPluginFieldValue, IProjectSettings, IServerSettings} from "./Interfaces";
-import {FieldHandler} from "./Control/FieldHandler";
+import { Control } from "./Control/Control";
+import { DashboardPage, IDashboardParameters } from "./Dashboard/DashboardPage";
+import { ProjectSettingsPage } from "./ProjectSettingsPage/ProjectSettingsPage";
+import { ServerSettingsPage } from "./ServerSettingsPage/ServerSettingsPage";
+import { Tool } from "./Tools/Tools";
+import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
+import { FieldHandler } from "./Control/FieldHandler";
 import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
 
 /** This class is allows you to configure the features of your plugin.
@@ -15,8 +15,16 @@ import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
  *
  */
-export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProjectSettings, IPluginFieldHandler<IPluginFieldValue>, IPluginFieldValue,IDashboardParameters> {
-
+export class Plugin
+    implements
+        matrixApi.IExternalPlugin<
+            IServerSettings,
+            IProjectSettings,
+            IPluginFieldHandler<IPluginFieldValue>,
+            IPluginFieldValue,
+            IDashboardParameters
+        >
+{
     /**This part enables which
      *
      * See IPluginConfig interface for explanation of parameters
@@ -37,7 +45,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
             },
             settingName: "BPP_settings",
             help: "This is my help text",
-            helpUrl: "https://docs23.matrixreq.com"
+            helpUrl: "https://docs23.matrixreq.com",
         },
         /*  Page in admin client to configure settings for one specific project - set enabled to false if not needed.
             The page itself is implemented in the _ProjectSetingsPage.ts
@@ -52,7 +60,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
             },
             settingName: "BPP_settings",
             help: "This is my help text",
-            helpUrl: "https://docs23.matrixreq.com"
+            helpUrl: "https://docs23.matrixreq.com",
         },
         /*  Add an entry in the tool menu of an item or folder - set enabled to false if not needed.
             The tool itself is implemented in the _Tool.ts
@@ -81,13 +89,12 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
                 class: "",
                 help: "",
                 label: "matrix-ui-plugin-boilerplate-field",
-            }
+            },
         },
         /*  Add a dashboard inside a project - set enabled to false if not needed.
             The field itself is implemented in the _Control.ts
         */
         dashboard: {
-
             id: "BPP",
             title: "BPP dashboard page",
             enabled: true,
@@ -95,7 +102,7 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
             parent: "DASHBOARDS",
             usefilter: true,
             order: 9999,
-        }
+        },
     };
     core: matrixApi.PluginCore;
     PLUGIN_VERSION: string;
@@ -125,14 +132,14 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
         await this.setupProject();
 
         if (matrixApi.app.isConfigApp()) {
-            return new ProjectSettingsPage(<matrixApi.IConfigApp><unknown>matrixApi.app);
+            return new ProjectSettingsPage(<matrixApi.IConfigApp>(<unknown>matrixApi.app));
         }
         return null;
     }
 
     async getServerSettingsPageAsync(): Promise<matrixApi.IPluginSettingPage<IServerSettings>> {
         if (matrixApi.app.isConfigApp()) {
-            return new ServerSettingsPage(<matrixApi.IConfigApp><unknown>matrixApi.app);
+            return new ServerSettingsPage(<matrixApi.IConfigApp>(<unknown>matrixApi.app));
         }
         return null;
     }
@@ -163,7 +170,6 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
      * @param project // id of the loaded project
      */
     onInitProject(project: string) {
-
         // here is a good place to decide based on the project (maybe some project setting), whether the plugin should be enabled
 
         // if not:
@@ -195,11 +201,9 @@ export class Plugin implements matrixApi.IExternalPlugin<IServerSettings, IProje
                 : await matrixApi.matrixapi.openCurrentProjectFromSession();
         }
     }
-
 }
 
 declare global {
-
     // eslint-disable-next-line no-unused-vars
     interface Window {
         plugins: unknown;

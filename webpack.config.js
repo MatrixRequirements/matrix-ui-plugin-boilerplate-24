@@ -12,7 +12,7 @@ module.exports = {
     // entry files
     entry: {
         BPP: {
-            import: "./src/BPP/Main.ts",
+            import: "./src/BPP/Plugin.ts",
         },
     },
 

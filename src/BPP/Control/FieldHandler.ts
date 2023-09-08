@@ -1,21 +1,22 @@
 import GenericFieldHandler = matrixApi.GenericFieldHandler;
 import IFieldHandler = matrixApi.IFieldHandler;
-import {Plugin} from "../Main";
-import {IPluginFieldValue, IProjectSettings, IServerSettings} from "../Interfaces";
+import { Plugin } from "../Plugin";
+import { IPluginFieldValue, IProjectSettings, IServerSettings } from "../Interfaces";
 import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
 
 export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
     private data: IPluginFieldValue;
 
-    constructor( private fieldType: string, private config: matrixApi.IPluginConfig<IServerSettings, IProjectSettings>){
-
-    }
+    constructor(
+        private fieldType: string,
+        private config: matrixApi.IPluginConfig<IServerSettings, IProjectSettings>,
+    ) {}
 
     async getDataAsync() {
         return this.getRawData();
     }
     async getValueAsync() {
-            return this.data;
+        return this.data;
     }
     getRawData(): string {
         return JSON.stringify(this.data);
@@ -32,7 +33,7 @@ export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
             console.warn(`Failed to parse data for field  ${this.getFieldType()} with data ${serializedFieldData}`);
         }
         if (!this.data) {
-            this.data = {value: "", html: ""};
+            this.data = { value: "", html: "" };
         }
     }
 

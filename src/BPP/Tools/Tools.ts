@@ -1,8 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-import {Plugin} from "./Main";
+import { Plugin } from "../Plugin";
 
 export class Tool implements matrixApi.ITool {
-
     /** callback to show or hide the menu for a selected item or folder
      *
      * */
@@ -15,6 +14,6 @@ export class Tool implements matrixApi.ITool {
      * */
     menuClicked(itemId: string) {
         /* Insert code here */
-        alert(Plugin.config.menuToolItem.title)
+        alert(Plugin.config.menuToolItem.title);
     }
 }

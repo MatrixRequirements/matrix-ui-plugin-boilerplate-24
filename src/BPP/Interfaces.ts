@@ -14,17 +14,17 @@
 export interface IServerSettings extends matrixApi.IServerSettingsBase {
     /** Server Setting example */
     myServerSetting: string;
-    mySecondValue:string;
+    mySecondValue: string;
 }
 
 export interface IServerSettingsProp {
-    serverSettings: IServerSettings,
-    settingsChanged: (serverSettings: IServerSettings)=> void;
+    serverSettings: IServerSettings;
+    settingsChanged: (serverSettings: IServerSettings) => void;
 }
 
 export interface IProjectSettingsProp {
-    projectSettings: IProjectSettings,
-    settingsChanged: (projectSettings: IProjectSettings)=> void;
+    projectSettings: IProjectSettings;
+    settingsChanged: (projectSettings: IProjectSettings) => void;
 }
 
 /** Project setting for plugin
@@ -53,7 +53,7 @@ export interface IPluginFieldOptions {
 }
 
 /** interface for the value to be stored by custom field */
-export interface IPluginFieldValue {
+export interface IPluginFieldValue extends matrixApi.IPluginFieldValueBase {
     value: string;
     html: string;
     // to be defined
@@ -64,26 +64,25 @@ export interface IPluginFieldValue {
  * This parameters can be overwritten in the layout and are used by the custom section printing
  */
 export interface IPluginPrintParams extends matrixApi.IPluginPrintParamsBase {
-    class: string // default:"". additional class for outermost container
+    class: string; // default:"". additional class for outermost container
 }
 
 export interface IHeader {
-    title: string,
-    showFullScreen: boolean,
+    title: string;
+    showFullScreen: boolean;
 }
 
 export interface IDashboardContent {
-    settings: IProjectSettings
+    settings: IProjectSettings;
 }
 
 export interface IDashboard {
-    header: IHeader,
+    header: IHeader;
     dashboardContent: IDashboardContent;
 }
 
 export type DashboardProps = {
-    dashboard: IDashboard,
-
+    dashboard: IDashboard;
 };
 export type DashboardState = {
     /* Nothing for the moment */

@@ -1,20 +1,21 @@
 /// <reference types="matrixrequirements-type-declarations" />
 /// <reference types="matrix-requirements-api" />
-import {IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams} from "../Interfaces";
+import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
 import * as React from "react";
-import {FieldHandler} from "./FieldHandler";
+import { FieldHandler } from "./FieldHandler";
 import * as ReactDOM from "react-dom";
-import {ControlComponent} from "./ControlComponent";
+import { ControlComponent } from "./ControlComponent";
 import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
 import IPluginFieldValueBase = matrixApi.IPluginFieldValueBase;
 
-
-export class Control extends matrixApi.ControlCore<IPluginFieldOptions, IPluginFieldHandler<IPluginFieldValue>,IPluginFieldValue> {
-
-
+export class Control extends matrixApi.ControlCore<
+    IPluginFieldOptions,
+    IPluginFieldHandler<IPluginFieldValue>,
+    IPluginFieldValue
+> {
     /** default configuration of control */
     protected controlConfig: IPluginFieldParameter = {
-        options: {}
+        options: {},
     };
 
     /** method to call to initialize the editor, e.g. to attach handlers to checkboxes etc */
@@ -35,21 +36,25 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, IPluginF
             <ControlComponent
                 print={false}
                 valueChanged={(data) => {
-                         this.handleValueChange(data)
-                             }}
+                    this.handleValueChange(data);
+                }}
                 value={value}
-            />
-            , container)
+            />,
+            container,
+        );
         return $(container);
     }
 
     /**  readonly printing for custom section, tooltip, zen or user without right to edit */
-    protected renderPrint(fieldId: string, value: IPluginFieldValue, options: IPluginFieldOptions, params: IPluginPrintParams) {
+    protected renderPrint(
+        fieldId: string,
+        value: IPluginFieldValue,
+        options: IPluginFieldOptions,
+        params: IPluginPrintParams,
+    ) {
         this.fieldHandler.setValue(value);
         let container = document.createElement("div");
-        ReactDOM.render(
-            <ControlComponent print={true} value={value}  valueChanged={(data) => { }}/>
-        , container)
+        ReactDOM.render(<ControlComponent print={true} value={value} valueChanged={(data) => {}} />, container);
         return $(container);
     }
 
@@ -59,7 +64,7 @@ export class Control extends matrixApi.ControlCore<IPluginFieldOptions, IPluginF
     }
 
     private handleValueChange(data: IPluginFieldValue) {
-        this.fieldHandler.setValue(data)
+        this.fieldHandler.setValue(data);
         this.hasChangedAsync();
         if (this && this.settings && this.settings.valueChanged) {
             // Call hook to notify the form that the value has changed.

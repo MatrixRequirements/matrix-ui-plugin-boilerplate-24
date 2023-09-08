@@ -1,23 +1,18 @@
 // @flow
 // import {IProjectSettings} from "./Interfaces";
-import {Plugin} from "../Main";
+import { Plugin } from "../Plugin";
 
-import * as React from "react"
-import * as ReactDOM from "react-dom"
-import {DashboardPageContainer} from "./Components/DashboardPageContainer";
-import {DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings} from "../Interfaces";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { DashboardPageContainer } from "./Components/DashboardPageContainer";
+import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
 import IDashboardParametersBase = matrixApi.IDashboardParametersBase;
 
-export interface IDashboardParameters extends  IDashboardParametersBase{
-
-}
+export interface IDashboardParameters extends IDashboardParametersBase {}
 
 export class Dashboard extends React.Component<IDashboardContent, DashboardState> {
     render() {
-        return (
-            <div className="itemDetails">
-            </div>
-        );
+        return <div className="itemDetails"></div>;
     }
 }
 
@@ -26,10 +21,15 @@ export class Dashboard extends React.Component<IDashboardContent, DashboardState
 export class DashboardPage implements matrixApi.IDashboardPage<IDashboardParameters> {
     settings: IProjectSettings;
 
-    constructor(private project: matrixApi.Project, private projectStorage: matrixApi.IDataStorage, private popupModeOrControl = false, private currentFolder: matrixApi.IItem = undefined) {
+    constructor(
+        private project: matrixApi.Project,
+        private projectStorage: matrixApi.IDataStorage,
+        private popupModeOrControl = false,
+        private currentFolder: matrixApi.IItem = undefined,
+    ) {
         this.settings = {
             ...Plugin.config.projectSettingsPage.defaultSettings,
-            ...project.getItemConfig().getSettingJSON(Plugin.config.projectSettingsPage.settingName, {})
+            ...project.getItemConfig().getSettingJSON(Plugin.config.projectSettingsPage.settingName, {}),
         };
     }
 
@@ -37,15 +37,14 @@ export class DashboardPage implements matrixApi.IDashboardPage<IDashboardParamet
     renderProjectPage() {
         const element = document.createElement("div");
         let dashboard: IDashboard = {
-            header: {title: "Dashboard", showFullScreen: false},
-            dashboardContent: {settings: this.settings}
+            header: { title: "Dashboard", showFullScreen: false },
+            dashboardContent: { settings: this.settings },
         };
-        ReactDOM.render(<DashboardPageContainer dashboard={dashboard}/>, element)
+        ReactDOM.render(<DashboardPageContainer dashboard={dashboard} />, element);
         matrixApi.app.itemForm.append(element);
     }
 
     onResize() {
         /* Will be triggered when resizing. */
     }
-
 }

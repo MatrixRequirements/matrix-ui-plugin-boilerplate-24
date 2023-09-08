@@ -1,5 +1,5 @@
-import {IServerSettings} from "../Interfaces";
-import {Plugin} from "../Main";
+import { IServerSettings } from "../Interfaces";
+import { Plugin } from "../Plugin";
 import * as ReactDOM from "react-dom";
 import React from "react";
 import { ServerSettingsPageComponent } from "./ServerSettingPageComponent";
@@ -21,17 +21,22 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
         let container = document.createElement("div");
         container.classList.add("panel-body-v-scroll");
         container.classList.add("fillHeight");
-        ReactDOM.render(<ServerSettingsPageComponent
-            serverSettings={ settings}
-            settingsChanged={(settings)=>{ this.settingsChangedHandler(settings)  } }
-        />, container);
+        ReactDOM.render(
+            <ServerSettingsPageComponent
+                serverSettings={settings}
+                settingsChanged={(settings) => {
+                    this.settingsChangedHandler(settings);
+                }}
+            />,
+            container,
+        );
         return $(container);
     }
     /** Customize this method to add dynamic content*/
     showSimple() {
-        $("#container",matrixApi.app.itemForm).empty();
+        $("#container", matrixApi.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        $("#container",matrixApi.app.itemForm).append(dom);
+        $("#container", matrixApi.app.itemForm).append(dom);
     }
     settingsChangedHandler(settings: IServerSettings) {
         this.settingsChanged = settings;
@@ -44,27 +49,30 @@ export class ServerSettingsPage extends matrixApi.ConfigPage implements matrixAp
             undefined,
             Plugin.config.customerSettingsPage.help,
             Plugin.config.customerSettingsPage.helpUrl,
-            undefined
+            undefined,
         );
-        this.settingsOriginal = {...this.settings()};
-        this.settingsChanged = {...this.settingsOriginal};
+        this.settingsOriginal = { ...this.settings() };
+        this.settingsChanged = { ...this.settingsOriginal };
         matrixApi.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
     showAdvanced() {
         console.debug("Show advanced clicked");
-        this.showAdvancedCode(JSON.stringify(this.settingsChanged),  (newCode: string) => {
+        this.showAdvancedCode(JSON.stringify(this.settingsChanged), (newCode: string) => {
             this.settingsChanged = JSON.parse(newCode);
             this.paramChanged();
             this.showSimple();
         });
     }
     saveAsync() {
-        let def = this.configApp.setServerSettingAsync(Plugin.config.customerSettingsPage.settingName, JSON.stringify(this.settingsChanged));
+        let def = this.configApp.setServerSettingAsync(
+            Plugin.config.customerSettingsPage.settingName,
+            JSON.stringify(this.settingsChanged),
+        );
         def.done(() => {
-            this.settingsOriginal = {...this.settingsChanged};
+            this.settingsOriginal = { ...this.settingsChanged };
             this.renderSettingPage();
-        })
+        });
         return def;
     }
 

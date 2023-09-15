@@ -21,7 +21,6 @@ echo "Prefix: $prefix";
 
 pageName=$(sed -r 's/(ui-plugin-)(.*)/\2/g' <<< "$urlname")
 cameCase=$(sed -r 's/(^|-)(\w)/\U\2/g' <<<"$pageName")
-guid=$(cat /proc/sys/kernel/random/uuid)
 
 echo "$cameCase $namespace $prefix"
 echo "Renaming project..."
@@ -33,7 +32,8 @@ original_pageid="BPP"
 
 
 
- sed -i "s/$original_pageid/$prefix-$guid/g" "package.json"
+ sed -i "s/$original_pageid/$prefix/g" "package.json"
+ sed -i "s/$original_pageid/$prefix/g" "webpack.config.js"
 
 
 for filename in $(git ls-files) 
@@ -53,7 +53,7 @@ git config --local user.email action@github.com
 git config --local user.name GitHub Action
 cd ..
 
-git mv ./src/BPP ./src/$prefix-$guid
+git mv ./src/BPP ./src/$prefix
 
 git rm .github/rename_project.sh
 git rm .github/workflows/template.yaml

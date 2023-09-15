@@ -87,9 +87,6 @@ local build.
 
 
 
-
-
-
 ## Plugin Features
 
 ### Configuration
@@ -151,7 +148,7 @@ The boilerplate code contains "advanced button" implementation to edit the setti
 
 ### Project Settings Page
 
-    ```typescript
+ ``` typescript
 ProjectSettingsPage: {
 id: "BPPProjectSettings", // This is the id of the page in the admin client per project. It should be unique
 title: "BPP projectsettings settings page", // This is the title of the page in the admin client
@@ -166,6 +163,8 @@ helpUrl: "https://docs23.matrixreq.com",
 },
 
 This is very similar to the ServerSetting page. The main difference is that the page is displayed per project and that the settings are stored per project. The page is implemented using the ProjectSettingsPage class. The ProjectSettingsPage class takes in a IProjectSettingsPageParameters object that holds parameters saved in the project settings. The IProjectSettings object extends IProjectSettingsBase and can be customized to hold any parameters needed for the page functionality. (See interfaces.ts for more details)
+
+```   
    
 ### Adding Menu Items
 

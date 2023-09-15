@@ -18,9 +18,8 @@
     "check": "tsc --noEmit",
     "check:metadata": "ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src --ext .ts",
     "build": "npx webpack",
-    "proxy": "export $(grep -v '^#' Proxy.env | xargs) && ./proxy.sh"
+    "proxy": "export $(grep -v '^#' Proxy.env | xargs) && ./proxy.sh",
     "eslint": "eslint src",
     "eslint:fix": "eslint src --fix"
   },

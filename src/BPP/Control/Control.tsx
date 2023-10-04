@@ -1,5 +1,5 @@
 /// <reference types="matrixrequirements-type-declarations" />
-/// <reference types="matrix-requirements-api" />
+/// <reference types="matrix-requirements-sdk" />
 import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
 import * as React from "react";
 import { FieldHandler } from "./FieldHandler";

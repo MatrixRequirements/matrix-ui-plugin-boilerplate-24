@@ -1,5 +1,5 @@
 /// <reference types="matrixrequirements-type-declarations" />
-/// <reference types="matrix-requirements-api" />
+/// <reference types="matrix-requirements-sdk" />
 
 import { Control } from "./Control/Control";
 import { DashboardPage, IDashboardParameters } from "./Dashboard/DashboardPage";

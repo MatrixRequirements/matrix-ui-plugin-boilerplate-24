@@ -51,7 +51,7 @@
   },
   "dependencies": {
 
-    "matrix-requirements-api": "^2.4.0-alpha.0",
+    "matrix-requirements-sdk": "^2.4.0-alpha.0",
     "matrixrequirements-type-declarations": "^2.4.0-alpha.0",
     "prettier": "^3.0.1"
   }

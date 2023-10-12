@@ -5,10 +5,10 @@ import * as React from "react";
 import { FieldHandler } from "./FieldHandler";
 import * as ReactDOM from "react-dom";
 import { ControlComponent } from "./ControlComponent";
-import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
-import IPluginFieldValueBase = matrixApi.IPluginFieldValueBase;
+import IPluginFieldHandler = matrixSdk.IPluginFieldHandler;
+import IPluginFieldValueBase = matrixSdk.IPluginFieldValueBase;
 
-export class Control extends matrixApi.ControlCore<
+export class Control extends matrixSdk.ControlCore<
     IPluginFieldOptions,
     IPluginFieldHandler<IPluginFieldValue>,
     IPluginFieldValue

@@ -6,7 +6,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { DashboardPageContainer } from "./Components/DashboardPageContainer";
 import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
-import IDashboardParametersBase = matrixApi.IDashboardParametersBase;
+import IDashboardParametersBase = matrixSdk.IDashboardParametersBase;
 
 export interface IDashboardParameters extends IDashboardParametersBase {}
 
@@ -18,14 +18,14 @@ export class Dashboard extends React.Component<IDashboardContent, DashboardState
 
 // Glue code to support the IDashboardPage interface
 // eslint-disable-next-line no-unused-vars
-export class DashboardPage implements matrixApi.IDashboardPage<IDashboardParameters> {
+export class DashboardPage implements matrixSdk.IDashboardPage<IDashboardParameters> {
     settings: IProjectSettings;
 
     constructor(
-        private project: matrixApi.Project,
-        private projectStorage: matrixApi.IDataStorage,
+        private project: matrixSdk.Project,
+        private projectStorage: matrixSdk.IDataStorage,
         private popupModeOrControl = false,
-        private currentFolder: matrixApi.IItem = undefined,
+        private currentFolder: matrixSdk.IItem = undefined,
     ) {
         this.settings = {
             ...Plugin.config.projectSettingsPage.defaultSettings,
@@ -41,7 +41,7 @@ export class DashboardPage implements matrixApi.IDashboardPage<IDashboardParamet
             dashboardContent: { settings: this.settings },
         };
         ReactDOM.render(<DashboardPageContainer dashboard={dashboard} />, element);
-        matrixApi.app.itemForm.append(element);
+        matrixSdk.app.itemForm.append(element);
     }
 
     onResize() {

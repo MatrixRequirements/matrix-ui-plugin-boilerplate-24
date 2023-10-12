@@ -8,7 +8,7 @@ import { ServerSettingsPage } from "./ServerSettingsPage/ServerSettingsPage";
 import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
-import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
+import IPluginFieldHandler = matrixSdk.IPluginFieldHandler;
 
 /** This class is allows you to configure the features of your plugin.
  *
@@ -17,7 +17,7 @@ import IPluginFieldHandler = matrixApi.IPluginFieldHandler;
  */
 export class Plugin
     implements
-        matrixApi.IExternalPlugin<
+    matrixSdk.IExternalPlugin<
             IServerSettings,
             IProjectSettings,
             IPluginFieldHandler<IPluginFieldValue>,
@@ -30,7 +30,7 @@ export class Plugin
      * See IPluginConfig interface for explanation of parameters
      */
 
-    static config: matrixApi.IPluginConfig<IServerSettings, IProjectSettings> = {
+    static config: matrixSdk.IPluginConfig<IServerSettings, IProjectSettings> = {
         /*  Page in admin client to configure settings across all projects - set enabled to false if not needed.
             The page itself is implemented in the _ServerSettingsPage.ts
         */
@@ -104,10 +104,10 @@ export class Plugin
             order: 9999,
         },
     };
-    core: matrixApi.PluginCore;
+    core: matrixSdk.PluginCore;
     PLUGIN_VERSION: string;
     PLUGIN_NAME: string;
-    private currentProject: matrixApi.Project;
+    private currentProject: matrixSdk.Project;
 
     /**
      * The constructor is loaded once after all the source code is loaded by the browser.
@@ -116,7 +116,7 @@ export class Plugin
      */
     constructor() {
         // here is a good place to register callbacks for UI events (like displaying or saving items)
-        this.core = new matrixApi.PluginCore(this);
+        this.core = new matrixSdk.PluginCore(this);
         this.currentProject = null;
     }
 
@@ -125,21 +125,22 @@ export class Plugin
         // I can do "slow" things here if necessary.
         await this.setupProject();
         // TODO: projectStorage should be available on Project.
-        return new DashboardPage(this.currentProject, matrixApi.globalMatrix.projectStorage);
+        return new DashboardPage(this.currentProject, matrixSdk.globalMatrix.projectStorage);
     }
 
-    async getProjectSettingsPageAsync(): Promise<matrixApi.IPluginSettingPage<IProjectSettings>> {
+    async getProjectSettingsPageAsync(): Promise<matrixSdk.IPluginSettingPage<IProjectSettings>> {
         await this.setupProject();
 
-        if (matrixApi.app.isConfigApp()) {
-            return new ProjectSettingsPage(<matrixApi.IConfigApp>(<unknown>matrixApi.app));
+        if (matrixSdk.app.isConfigApp()) {
+            return new ProjectSettingsPage(<matrixSdk.IConfigApp><unknown>matrixSdk.app);
         }
         return null;
     }
 
-    async getServerSettingsPageAsync(): Promise<matrixApi.IPluginSettingPage<IServerSettings>> {
-        if (matrixApi.app.isConfigApp()) {
-            return new ServerSettingsPage(<matrixApi.IConfigApp>(<unknown>matrixApi.app));
+    async getServerSettingsPageAsync(): Promise<matrixSdk.IPluginSettingPage<IServerSettings>> {
+        if (matrixSdk.app.isConfigApp()) {
+            return new ServerSettingsPage(<matrixSdk.IConfigApp><unknown>matrixSdk.app);
+            ;
         }
         return null;
     }
@@ -182,7 +183,7 @@ export class Plugin
      *
      * @param _item: the item which is being loaded in the UI
      */
-    onInitItem(item: matrixApi.IItem) {
+    onInitItem(item: matrixSdk.IItem) {
         // here is a good place to decide based on the selection in the tree, whether the plugin should be enabled
         // if not:
         // this.enabledInContext = false;
@@ -197,8 +198,8 @@ export class Plugin
         }
         if (this.currentProject == null) {
             this.currentProject = newProjectName
-                ? await matrixApi.matrixapi.openProject(newProjectName)
-                : await matrixApi.matrixapi.openCurrentProjectFromSession();
+                ? await matrixSdk.matrixsdk.openProject(newProjectName)
+                : await matrixSdk.matrixsdk.openCurrentProjectFromSession();
         }
     }
 }
@@ -213,8 +214,8 @@ declare global {
 $(() => {
     // Register the plugin
     $(function () {
-        if (matrixApi.plugins["register"] != undefined) {
-            matrixApi.plugins.register(new Plugin().core);
+        if (matrixSdk.plugins["register"] != undefined) {
+            matrixSdk.plugins.register(new Plugin().core);
         }
     });
 });

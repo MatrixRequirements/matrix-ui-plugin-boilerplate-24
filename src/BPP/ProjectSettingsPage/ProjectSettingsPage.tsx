@@ -6,8 +6,8 @@ import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
 
 /* project Setting page closure*/
 export class ProjectSettingsPage
-    extends matrixApi.ConfigPage
-    implements matrixApi.IPluginSettingPage<IProjectSettings>
+    extends matrixSdk.ConfigPage
+    implements matrixSdk.IPluginSettingPage<IProjectSettings>
 {
     settingsOriginal: IProjectSettings;
     settingsChanged: IProjectSettings;
@@ -41,7 +41,7 @@ export class ProjectSettingsPage
             );
             if (filterSettings.length == 1) currentSettings = filterSettings[0].value;
         } else {
-            currentSettings = matrixApi.globalMatrix.ItemConfig.getSettingJSON(
+            currentSettings = matrixSdk.globalMatrix.ItemConfig.getSettingJSON(
                 Plugin.config.projectSettingsPage.settingName,
                 {},
             );
@@ -62,7 +62,7 @@ export class ProjectSettingsPage
 
         this.settingsOriginal = this.settings();
         this.settingsChanged = { ...this.settingsOriginal };
-        matrixApi.app.itemForm.append($("<div id='container'></div>"));
+        matrixSdk.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
 
@@ -95,9 +95,9 @@ export class ProjectSettingsPage
     }
 
     showSimple() {
-        $("#container", matrixApi.app.itemForm).empty();
+        $("#container", matrixSdk.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        $("#container", matrixApi.app.itemForm).append(dom);
+        $("#container", matrixSdk.app.itemForm).append(dom);
     }
 
     paramChanged() {

@@ -1,6 +1,21 @@
 /// <reference types="matrixrequirements-type-declarations" />
-/// <reference types="matrix-requirements-sdk" />
-
+import {
+    ControlCoreBase,
+    IConfigApp,
+    IDashboardPage,
+    IDashboardParametersBase,
+    IExternalPlugin,
+    IItem,
+    IPluginConfig,
+    IPluginFieldHandler,
+    IPluginSettingPage,
+    IProjectSettingsBase,
+    ITool,
+    PluginCore,
+    Project,
+    registerPlugin,
+} from 'matrix-requirements-sdk/client';
+import { sdkInstance } from './Instance';
 import { Control } from "./Control/Control";
 import { DashboardPage, IDashboardParameters } from "./Dashboard/DashboardPage";
 import { ProjectSettingsPage } from "./ProjectSettingsPage/ProjectSettingsPage";
@@ -8,16 +23,13 @@ import { ServerSettingsPage } from "./ServerSettingsPage/ServerSettingsPage";
 import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
-import IPluginFieldHandler = matrixSdk.IPluginFieldHandler;
 
 /** This class is allows you to configure the features of your plugin.
  *
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
  *
  */
-export class Plugin
-    implements
-    matrixSdk.IExternalPlugin<
+export class Plugin implements IExternalPlugin<
             IServerSettings,
             IProjectSettings,
             IPluginFieldHandler<IPluginFieldValue>,
@@ -30,7 +42,7 @@ export class Plugin
      * See IPluginConfig interface for explanation of parameters
      */
 
-    static config: matrixSdk.IPluginConfig<IServerSettings, IProjectSettings> = {
+    static config: IPluginConfig<IServerSettings, IProjectSettings> = {
         /*  Page in admin client to configure settings across all projects - set enabled to false if not needed.
             The page itself is implemented in the _ServerSettingsPage.ts
         */
@@ -104,10 +116,10 @@ export class Plugin
             order: 9999,
         },
     };
-    core: matrixSdk.PluginCore;
+    core: PluginCore;
     PLUGIN_VERSION: string;
     PLUGIN_NAME: string;
-    private currentProject: matrixSdk.Project;
+    private currentProject: Project;
 
     /**
      * The constructor is loaded once after all the source code is loaded by the browser.
@@ -116,7 +128,7 @@ export class Plugin
      */
     constructor() {
         // here is a good place to register callbacks for UI events (like displaying or saving items)
-        this.core = new matrixSdk.PluginCore(this);
+        this.core = new sdkInstance.PluginCore(this);
         this.currentProject = null;
     }
 
@@ -125,22 +137,21 @@ export class Plugin
         // I can do "slow" things here if necessary.
         await this.setupProject();
         // TODO: projectStorage should be available on Project.
-        return new DashboardPage(this.currentProject, matrixSdk.globalMatrix.projectStorage);
+        return new DashboardPage(this.currentProject, sdkInstance.globalMatrix.projectStorage);
     }
 
-    async getProjectSettingsPageAsync(): Promise<matrixSdk.IPluginSettingPage<IProjectSettings>> {
+    async getProjectSettingsPageAsync(): Promise<IPluginSettingPage<IProjectSettings>> {
         await this.setupProject();
 
-        if (matrixSdk.app.isConfigApp()) {
-            return new ProjectSettingsPage(<matrixSdk.IConfigApp><unknown>matrixSdk.app);
+        if (sdkInstance.app.isConfigApp()) {
+            return new ProjectSettingsPage(<IConfigApp><unknown>sdkInstance.app);
         }
         return null;
     }
 
-    async getServerSettingsPageAsync(): Promise<matrixSdk.IPluginSettingPage<IServerSettings>> {
-        if (matrixSdk.app.isConfigApp()) {
-            return new ServerSettingsPage(<matrixSdk.IConfigApp><unknown>matrixSdk.app);
-            ;
+    async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings>> {
+        if (sdkInstance.app.isConfigApp()) {
+            return new ServerSettingsPage(<IConfigApp><unknown>sdkInstance.app);
         }
         return null;
     }
@@ -183,7 +194,7 @@ export class Plugin
      *
      * @param _item: the item which is being loaded in the UI
      */
-    onInitItem(item: matrixSdk.IItem) {
+    onInitItem(item: IItem) {
         // here is a good place to decide based on the selection in the tree, whether the plugin should be enabled
         // if not:
         // this.enabledInContext = false;
@@ -198,8 +209,8 @@ export class Plugin
         }
         if (this.currentProject == null) {
             this.currentProject = newProjectName
-                ? await matrixSdk.matrixsdk.openProject(newProjectName)
-                : await matrixSdk.matrixsdk.openCurrentProjectFromSession();
+                ? await sdkInstance.matrixsdk.openProject(newProjectName)
+                : await sdkInstance.matrixsdk.openCurrentProjectFromSession();
         }
     }
 }
@@ -214,8 +225,8 @@ declare global {
 $(() => {
     // Register the plugin
     $(function () {
-        if (matrixSdk.plugins["register"] != undefined) {
-            matrixSdk.plugins.register(new Plugin().core);
+        if (sdkInstance.plugins["register"] != undefined) {
+            sdkInstance.plugins.register(new Plugin().core);
         }
     });
 });

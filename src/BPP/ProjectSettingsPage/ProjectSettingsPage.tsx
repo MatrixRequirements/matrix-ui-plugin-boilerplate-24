@@ -3,11 +3,14 @@ import { Plugin } from "../Plugin";
 import * as ReactDOM from "react-dom";
 import React from "react";
 import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
+import { IPluginSettingPage } from "matrix-requirements-sdk/client";
+import { sdkInstance } from "./../Instance";
+
 
 /* project Setting page closure*/
 export class ProjectSettingsPage
-    extends matrixSdk.ConfigPage
-    implements matrixSdk.IPluginSettingPage<IProjectSettings>
+    extends sdkInstance.ConfigPage
+    implements IPluginSettingPage<IProjectSettings>
 {
     settingsOriginal: IProjectSettings;
     settingsChanged: IProjectSettings;
@@ -41,7 +44,7 @@ export class ProjectSettingsPage
             );
             if (filterSettings.length == 1) currentSettings = filterSettings[0].value;
         } else {
-            currentSettings = matrixSdk.globalMatrix.ItemConfig.getSettingJSON(
+            currentSettings = sdkInstance.globalMatrix.ItemConfig.getSettingJSON(
                 Plugin.config.projectSettingsPage.settingName,
                 {},
             );
@@ -62,7 +65,7 @@ export class ProjectSettingsPage
 
         this.settingsOriginal = this.settings();
         this.settingsChanged = { ...this.settingsOriginal };
-        matrixSdk.app.itemForm.append($("<div id='container'></div>"));
+        sdkInstance.app.itemForm.append($("<div id='container'></div>"));
         this.showSimple();
     }
 
@@ -95,9 +98,9 @@ export class ProjectSettingsPage
     }
 
     showSimple() {
-        $("#container", matrixSdk.app.itemForm).empty();
+        $("#container", sdkInstance.app.itemForm).empty();
         let dom = this.getSettingsDOM(this.settingsChanged);
-        $("#container", matrixSdk.app.itemForm).append(dom);
+        $("#container", sdkInstance.app.itemForm).append(dom);
     }
 
     paramChanged() {

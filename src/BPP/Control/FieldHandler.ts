@@ -1,25 +1,20 @@
-import GenericFieldHandler = matrixSdk.GenericFieldHandler;
-import IFieldHandler = matrixSdk.IFieldHandler;
 import { Plugin } from "../Plugin";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "../Interfaces";
-import IPluginFieldHandler = matrixSdk.IPluginFieldHandler;
+import { IPluginConfig, IPluginFieldHandler } from "matrix-requirements-sdk/client";
 
 export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
     private data: IPluginFieldValue;
 
     constructor(
         private fieldType: string,
-        private config: matrixSdk.IPluginConfig<IServerSettings, IProjectSettings>,
+        private config: IPluginConfig<IServerSettings, IProjectSettings>,
     ) {}
 
-    async getDataAsync() {
-        return this.getRawData();
+    getData() {
+        return JSON.stringify(this.data);
     }
     async getValueAsync() {
         return this.data;
-    }
-    getRawData(): string {
-        return JSON.stringify(this.data);
     }
 
     getFieldType(): string {

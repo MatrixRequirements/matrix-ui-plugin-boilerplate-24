@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
+import { ITool } from "matrix-requirements-sdk/client";
 import { Plugin } from "../Plugin";
 
-export class Tool implements matrixSdk.ITool {
+export class Tool implements ITool {
     /** callback to show or hide the menu for a selected item or folder
      *
      * */

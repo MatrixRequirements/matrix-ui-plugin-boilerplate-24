@@ -1,14 +1,12 @@
 /// <reference types="matrixrequirements-type-declarations" />
-/// <reference types="matrix-requirements-sdk" />
 import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
 import * as React from "react";
-import { FieldHandler } from "./FieldHandler";
 import * as ReactDOM from "react-dom";
 import { ControlComponent } from "./ControlComponent";
-import IPluginFieldHandler = matrixSdk.IPluginFieldHandler;
-import IPluginFieldValueBase = matrixSdk.IPluginFieldValueBase;
+import { sdkInstance } from "./../Instance";
+import { IPluginFieldHandler } from "matrix-requirements-sdk/client";
 
-export class Control extends matrixSdk.ControlCore<
+export class Control extends sdkInstance.ControlCore<
     IPluginFieldOptions,
     IPluginFieldHandler<IPluginFieldValue>,
     IPluginFieldValue
@@ -25,7 +23,7 @@ export class Control extends matrixSdk.ControlCore<
 
     /** this method is called by the UI to retrieve the string to be saved in the database */
     getValue() {
-        return this.fieldHandler.getDataAsync();
+        return this.fieldHandler.getData();
     }
 
     /** interactive radio control */

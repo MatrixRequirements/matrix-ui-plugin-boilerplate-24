@@ -1,6 +1,12 @@
-/* Setting interfaces */
-/// <reference types="matrix-requirements-sdk" />
+import {
+    IServerSettingsBase,
+    IPluginFieldParameterBase,
+    IProjectSettingsBase,
+    IPluginPrintParamsBase,
+    IPluginFieldValueBase
+} from 'matrix-requirements-sdk/client';
 
+/* Setting interfaces */
 /**
  * This file defines all the data structures which might be shared between UI components and printing
  *
@@ -11,7 +17,7 @@
  * This you can use to save setting on an instance level (for all projects)
  * The user can edit these in the admin through the Server Setting Page
  */
-export interface IServerSettings extends matrixSdk.IServerSettingsBase {
+export interface IServerSettings extends IServerSettingsBase {
     /** Server Setting example */
     myServerSetting: string;
     mySecondValue: string;
@@ -32,7 +38,7 @@ export interface IProjectSettingsProp {
  * This you can use to save setting for one specific project.
  * The user can edit these in the admin through the Project Setting Page
  */
-export interface IProjectSettings extends matrixSdk.IProjectSettingsBase {
+export interface IProjectSettings extends IProjectSettingsBase {
     /** example of a project setting */
     myProjectSetting: string;
 }
@@ -42,7 +48,7 @@ export interface IProjectSettings extends matrixSdk.IProjectSettingsBase {
  * These allow a user to add parameters to custom field defined by the plugin
  * each time it is added to a category
  */
-export interface IPluginFieldParameter extends matrixSdk.IPluginFieldParameterBase<IPluginFieldOptions> {
+export interface IPluginFieldParameter extends IPluginFieldParameterBase<IPluginFieldOptions> {
     /** see below */
     options: IPluginFieldOptions;
 }
@@ -53,7 +59,7 @@ export interface IPluginFieldOptions {
 }
 
 /** interface for the value to be stored by custom field */
-export interface IPluginFieldValue extends matrixSdk.IPluginFieldValueBase {
+export interface IPluginFieldValue extends IPluginFieldValueBase {
     value: string;
     html: string;
     // to be defined
@@ -63,7 +69,7 @@ export interface IPluginFieldValue extends matrixSdk.IPluginFieldValueBase {
  *
  * This parameters can be overwritten in the layout and are used by the custom section printing
  */
-export interface IPluginPrintParams extends matrixSdk.IPluginPrintParamsBase {
+export interface IPluginPrintParams extends IPluginPrintParamsBase {
     class: string; // default:"". additional class for outermost container
 }
 

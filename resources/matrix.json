@@ -1,7 +1,7 @@
 {
   "id": "com.matrixreq.plugin.bpp",
-  "version": "<PLUGIN_VERSION_PLACEHOLDER>",
+  "version": "1.0",
   "matrixVersion": "^2.4",
-  "name": "<PLUGIN_NAME_PLACEHOLDER>",
+  "name": "PLUGIN_NAME_PLACEHOLDER",
   "type": "Javascript"
 }

@@ -215,18 +215,4 @@ export class Plugin implements IExternalPlugin<
     }
 }
 
-declare global {
-    // eslint-disable-next-line no-unused-vars
-    interface Window {
-        plugins: unknown;
-    }
-}
-
-$(() => {
-    // Register the plugin
-    $(function () {
-        if (sdkInstance.plugins["register"] != undefined) {
-            sdkInstance.plugins.register(new Plugin().core);
-        }
-    });
-});
+registerPlugin(new Plugin().core);

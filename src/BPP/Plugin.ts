@@ -119,8 +119,8 @@ export class Plugin
         },
     };
     core: PluginCore;
-    PLUGIN_VERSION: string;
-    PLUGIN_NAME: string;
+    PLUGIN_VERSION = "<PLUGIN_VERSION_PLACEHOLDER>";
+    PLUGIN_NAME = "<PLUGIN_NAME_PLACEHOLDER>";
     private currentProject: Project;
 
     /**

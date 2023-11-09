@@ -14,8 +14,8 @@ import {
     PluginCore,
     Project,
     registerPlugin,
-} from 'matrix-requirements-sdk/client';
-import { sdkInstance } from './Instance';
+} from "matrix-requirements-sdk/client";
+import { sdkInstance } from "./Instance";
 import { Control } from "./Control/Control";
 import { DashboardPage, IDashboardParameters } from "./Dashboard/DashboardPage";
 import { ProjectSettingsPage } from "./ProjectSettingsPage/ProjectSettingsPage";
@@ -29,7 +29,9 @@ import { FieldHandler } from "./Control/FieldHandler";
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
  *
  */
-export class Plugin implements IExternalPlugin<
+export class Plugin
+    implements
+        IExternalPlugin<
             IServerSettings,
             IProjectSettings,
             IPluginFieldHandler<IPluginFieldValue>,
@@ -144,14 +146,14 @@ export class Plugin implements IExternalPlugin<
         await this.setupProject();
 
         if (sdkInstance.app.isConfigApp()) {
-            return new ProjectSettingsPage(<IConfigApp><unknown>sdkInstance.app);
+            return new ProjectSettingsPage(<IConfigApp>(<unknown>sdkInstance.app));
         }
         return null;
     }
 
     async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings>> {
         if (sdkInstance.app.isConfigApp()) {
-            return new ServerSettingsPage(<IConfigApp><unknown>sdkInstance.app);
+            return new ServerSettingsPage(<IConfigApp>(<unknown>sdkInstance.app));
         }
         return null;
     }

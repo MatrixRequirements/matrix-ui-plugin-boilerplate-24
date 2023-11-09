@@ -3,8 +3,8 @@ import {
     IPluginFieldParameterBase,
     IProjectSettingsBase,
     IPluginPrintParamsBase,
-    IPluginFieldValueBase
-} from 'matrix-requirements-sdk/client';
+    IPluginFieldValueBase,
+} from "matrix-requirements-sdk/client";
 
 /* Setting interfaces */
 /**

@@ -6,12 +6,8 @@ import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
 import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 import { sdkInstance } from "./../Instance";
 
-
 /* project Setting page closure*/
-export class ProjectSettingsPage
-    extends sdkInstance.ConfigPage
-    implements IPluginSettingPage<IProjectSettings>
-{
+export class ProjectSettingsPage extends sdkInstance.ConfigPage implements IPluginSettingPage<IProjectSettings> {
     settingsOriginal: IProjectSettings;
     settingsChanged: IProjectSettings;
 

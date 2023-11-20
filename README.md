@@ -21,7 +21,13 @@ Welcome to the Matrix Requirements plugin development guide! Here, we'll outline
    * [Custom Field Control with FieldHandler](#custom-field-control-with-fieldhandler)
    * [Adding Menu Items](#adding-menu-items)
    * [Dashboard](#dashboard)
-7. [Conclusion](#conclusion)
+7. [Keeping It Simple](#keeping-it-simple)
+   * [No Field Handler and Control](#no-field-handler-and-control)
+   * [No Dashboard](#no-dashboard)
+   * [No Tool is required](#no-tool-is-required)
+   * [No ServerSettingsPage is required](#no-serversettingspage-is-required)
+   * [No ProjectSettingsPage is required](#no-projectsettingspage-is-required)
+9. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -219,6 +225,8 @@ This class have 2 methods : ``` showMenu(itemId: string) ``` to decide whether s
         },
   ```
 
+A Control allows you to create UI for a new kind of control associated with a particular kind of field.
+
 #### Field class
 This settings specify  in which categories it can be used. The field class can be one of the following values:
 
@@ -244,11 +252,17 @@ It uses those 3  interfaces  :
 
 #### FieldHandler
 
-The field should offer a FieldHandler which knows how to validate the data of the field. For example, a “test steps” field is a table with two columns (“action” and “expected”). There is a dedicated FieldHandler class for manipulating this kind of field. It offers “table-like” functions to edit individual row and column data. It prevents the SDK user from adding data for non-existent columns, or from adding data that is not consistent with the configuration of an individual column, since a column might be expected to contain only a date, or a user, or a “pass”/”fail” string. The FieldHandler class is also responsible for converting the data to and from the JSON format used by the SDK. 
+Every field has a FieldHandler which knows how to validate the data of the field. For example, a “test steps” field is a table with two columns (“action” and “expected”). There is a dedicated FieldHandler class for manipulating this kind of field. It offers “table-like” functions to edit individual row and column data. It prevents the SDK user from adding data for non-existent columns, or from adding data that is not consistent with the configuration of an individual column, since a column might be expected to contain only a date, or a user, or a “pass”/”fail” string. The FieldHandler class is also responsible for converting the data to and from the JSON format used by the SDK. 
+
+You can create your own FieldHandlers, to validate and control the data you wish to store with a particular field. How is your FieldHandler found and instantiated?
+Well, for each field in the database there is a `fieldType` property which has a name. That name is associated with a FieldHandler. You might want to create a FieldHandler
+if your data field is complex. If it is a string, or table, or rich text or a dropdown, for example, we have FieldHandlers for all of those already.
+
 The value of the field is stored in the JSON format. The JSON format is defined in the ```Interface.ts``` file by the interface IPluginFieldValue that extends IPluginFieldValueBase. Basically, it contains 2 properties : value (can be anything) and html that is used for rendering the field in the document. The html property is not optional but can be empty if the field is not displayed in the document. 
 
 
-### Dashboards
+### Dashboard
+
 ``` typescript
      dashboard: {
             id: "BPP", // This is the id of the dashboard in the client. It should be unique per dashboard
@@ -264,6 +278,149 @@ The value of the field is stored in the JSON format. The JSON format is defined 
 
 The Matrix Requirements application allows users to create custom dashboards to display information from their projects. The dashboard is a React component that can be created and added to the application using the `DashboardPage` class.
 The `DashboardPage` class is a wrapper for the React component that allows the application to render the component as a dashboard. The `DashboardPage` class takes in a `IDashboardParameters` object that hold parmeters saved in the project settings. The IDashboardParameters object extends IDashboardParametersBase and can be customized to hold any parameters needed for the dashboard.
+
+## Keeping It Simple
+Often, you just want to create a Dashboard, or a FieldHandler and don't need every kind of customization Matrix offers. Here are recipes to eliminate unnecessary boilerplate.
+
+### No Field Handler and Control
+
+In the plugin definition, for the third template value (FIELDHANDLER), use `IPluginFieldHandler<IPluginFieldValueBase>`, and for the fourth template
+value (FIELDVALUETYPE) use `IPluginFieldValueBase` like so:
+
+```
+export class Plugin
+    implements
+        IExternalPlugin<
+            IServerSettings,
+            IProjectSettings,
+            IPluginFieldHandler<IPluginFieldValueBase>,  // These refer to base, default types
+            IPluginFieldValueBase,
+            IDashboardParametersBase
+        >
+{
+```
+
+For the field section of the config object, just keep the defaults. You'll need to adjust the signature of the `getControl()` method, and it should return `null`,
+like so:
+
+```
+    async getControlAsync(ctrlObj: JQuery): Promise<ControlCoreBase<IPluginFieldHandler<IPluginFieldValueBase>, IPluginFieldValueBase>> {
+        return null;
+    }
+```
+
+You can also remove the source code in the `./Control` folder, as it is unnecessary.
+
+### No Dashboard
+
+In the plugin definition, use `IDashboardParametersBase` for the fifth template value (DASHBOARDPARAMS), like so:
+
+```
+export class Plugin
+    implements
+        IExternalPlugin<
+            IServerSettings,
+            IProjectSettings,
+            IPluginFieldHandler<IPluginFieldValueBase>,
+            IPluginFieldValueBase,
+            IDashboardParametersBase  // Use this built-in default type if you don't need a dashboard
+        >
+{
+```
+
+Make sure that `config.dashboard.enabled` is `false`, and adjust the `getDashboardAsync()` method to look like this:
+
+```
+    async getDashboardAsync(): Promise<IDashboardPage<IDashboardParametersBase>> {
+        return null;
+    }
+```
+
+You can remove the source code in the './Dashboard' folder.
+
+## No Tool is required
+
+If you aren't adding a menu item, then you can eliminate the source code in `./Tool`. Make the `getToolAsync()` method return `null` like so:
+
+```
+    async getToolAsync(): Promise<ITool> {
+        return null;
+    }
+```
+
+And be sure that `config.menuToolItem.enabled` is `false`.
+
+## No ServerSettingsPage is required
+
+For the first parameter in the plugin template (SERVERSETTINGS) you can pass `IServerSettingsBase` like so:
+
+```
+export class Plugin
+    implements
+        IExternalPlugin<
+            IServerSettingsBase,  // Base, default parameter if you don't need a server setting page
+            IProjectSettings,
+            IPluginFieldHandler<IPluginFieldValueBase>,
+            IPluginFieldValueBase,
+            IDashboardParametersBase
+        >
+{
+```
+
+You should also alter the definition of the `static config` variable to reference `IServerSettingsBase` like so:
+
+```
+    static config: IPluginConfig<IServerSettingsBase, IProjectSettings> = {
+        ...
+```
+
+Be sure to set `config.customerSettingsPage.enabled` to `false`. Customer Setting is a synonym for Server Setting.
+
+Alter the definition of `getServerSettingsPageAsync()` to look like this:
+
+```
+    async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettingsBase>> {
+        return null;
+    }
+```
+
+Finally, the code in the directory `./ServerSettingsPage` can be removed from the project.
+
+## No ProjectSettingsPage is required
+
+For the second parameter in the plugin template (PROJECTSETTINGS) you can pass `IProjectSettingsBase` like so:
+
+```
+export class Plugin
+    implements
+        IExternalPlugin<
+            IServerSettingsBase,
+            IProjectSettingsBase,  // Base, default parameter if you don't need a project setting page
+            IPluginFieldHandler<IPluginFieldValueBase>,
+            IPluginFieldValueBase,
+            IDashboardParametersBase
+        >
+{
+```
+
+You should also alter the definition of the `static config` variable to reference `IProjectSettingsBase` like so:
+
+```
+    static config: IPluginConfig<IServerSettingsBase, IProjectSettingsBase> = {
+        ...
+```
+
+Be sure to set `config.projectSettingsPage.enabled` to `false`. Customer Setting is a synonym for Server Setting.
+
+Alter the definition of `getProjectSettingsPageAsync()` to look like this:
+
+```
+    async getProjectSettingsPageAsync(): Promise<IPluginSettingPage<IProjectSettingsBase>> {
+        return null;
+    }
+```
+
+Finally, the code in the directory `./ProjectSettingsPage` can be removed from the project.
 
 ## Conclusion
 ith the steps in this guide, you're set to create, test, and deploy plugins to enhance the Matrix Requirements platform. Ensure to abide by the ESLint standards provided to maintain code quality. If you run into difficulties, consult the detailed documentation or engage with the Matrix Requirements community or support channels.

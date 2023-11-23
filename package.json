@@ -19,6 +19,7 @@
     "check:metadata": "ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack",
+    "package": "zip -j ./dist/${npm_package_name}.zip ./dist/*.js* && zip -j -u ./dist/${npm_package_name}.zip ./resources/matrix.json",
     "proxy": "export $(grep -v '^#' Proxy.env | xargs) && ./proxy.sh",
     "eslint": "eslint src",
     "eslint:fix": "eslint src --fix"
@@ -50,7 +51,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "matrix-requirements-sdk": "^2.4.0-alpha.10",
+    "matrix-requirements-sdk": "^2.4.0-alpha.15",
     "matrixrequirements-type-declarations": "^2.4.0-alpha.0",
     "prettier": "^3.0.1"
   }

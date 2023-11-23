@@ -13,6 +13,11 @@ export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
     getData() {
         return JSON.stringify(this.data);
     }
+
+    setData(data: string) {
+        this.data = JSON.parse(data);
+    }
+
     async getValueAsync() {
         return this.data;
     }

@@ -67,8 +67,16 @@ To build the plugin, run the following command:
 ```bash
 npm run build
 ```
-This will produce a js file in the dist folder.
+This will produce a js file in the `./dist` folder.
 
+To package the plugin for a Matrix Marketplace, after you've run the build command, run this:
+
+```bash
+npm run package
+```
+
+This will add a zip file to the `./dist` folder with the js file, the map file, and the `matrix.json` file
+containing metadata.
 
 ## Testing the Plugin
 

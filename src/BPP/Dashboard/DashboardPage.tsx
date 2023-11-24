@@ -2,7 +2,7 @@
 // import {IProjectSettings} from "./Interfaces";
 import { Plugin } from "../Plugin";
 
-import * as React from "react";
+import { Component } from 'react';
 import * as ReactDOM from "react-dom";
 import { DashboardPageContainer } from "./Components/DashboardPageContainer";
 import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
@@ -11,7 +11,7 @@ import { sdkInstance } from "./../Instance";
 
 export interface IDashboardParameters extends IDashboardParametersBase {}
 
-export class Dashboard extends React.Component<IDashboardContent, DashboardState> {
+export class Dashboard extends Component<IDashboardContent, DashboardState> {
     render() {
         return <div className="itemDetails"></div>;
     }

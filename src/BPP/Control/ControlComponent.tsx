@@ -4,7 +4,7 @@
  * These fields can be printed in using the custom print sections.
  *
  */
-import * as React from "react";
+import { useState } from "react";
 import { IPluginFieldValue } from "../Interfaces";
 
 export interface IControlProp {
@@ -14,7 +14,7 @@ export interface IControlProp {
 }
 
 export const ControlComponent = (props: IControlProp) => {
-    const [value, setValue] = React.useState(props.value);
+    const [value, setValue] = useState(props.value);
     const handleChange = (val: string) => {
         setValue({ value: val, html: "" });
         props.valueChanged({ value: val, html: "" });

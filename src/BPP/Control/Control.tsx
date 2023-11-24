@@ -1,6 +1,5 @@
 /// <reference types="matrixrequirements-type-declarations" />
 import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
-import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { ControlComponent } from "./ControlComponent";
 import { sdkInstance } from "./../Instance";

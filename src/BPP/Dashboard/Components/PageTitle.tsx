@@ -1,8 +1,8 @@
 // Should be moved to the SDK probably
-import * as React from "react";
+import { Component } from 'react';
 import { IDashboard, IHeader, IProjectSettings } from "../../Interfaces";
 
-export class PageTitle extends React.Component<IHeader> {
+export class PageTitle extends Component<IHeader> {
     settings: IProjectSettings;
 
     render() {

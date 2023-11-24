@@ -1,9 +1,9 @@
-import * as React from "react";
+import { Component } from "react";
 import { DashboardProps, IProjectSettings } from "../../Interfaces";
 import { PageTitle } from "./PageTitle";
 import { Dashboard } from "../DashboardPage";
 
-export class DashboardPageContainer extends React.Component<DashboardProps> {
+export class DashboardPageContainer extends Component<DashboardProps> {
     settings: IProjectSettings;
 
     render() {

@@ -2,7 +2,7 @@
 // import {IProjectSettings} from "./Interfaces";
 import { Plugin } from "../Plugin";
 
-import { Component } from 'react';
+import { Component } from "react";
 import * as ReactDOM from "react-dom";
 import { DashboardPageContainer } from "./Components/DashboardPageContainer";
 import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";

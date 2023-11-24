@@ -1,5 +1,5 @@
 // Should be moved to the SDK probably
-import { Component } from 'react';
+import { Component } from "react";
 import { IDashboard, IHeader, IProjectSettings } from "../../Interfaces";
 
 export class PageTitle extends Component<IHeader> {

@@ -1,8 +1,8 @@
+import { useState } from "react";
 import { IServerSettingsProp } from "../Interfaces";
-import * as React from "react";
 
 export const ServerSettingsPageComponent = (props: IServerSettingsProp) => {
-    const [state, setState] = React.useState(props.serverSettings);
+    const [state, setState] = useState(props.serverSettings);
     function handleChange(evt) {
         let settings = {
             ...state,

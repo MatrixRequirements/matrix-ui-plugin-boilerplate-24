@@ -1,7 +1,6 @@
 import { IProjectSettings, IServerSettings } from "../Interfaces";
 import { Plugin } from "../Plugin";
 import * as ReactDOM from "react-dom";
-import React from "react";
 import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
 import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 import { sdkInstance } from "./../Instance";

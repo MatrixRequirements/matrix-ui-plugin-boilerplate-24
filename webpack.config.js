@@ -41,6 +41,7 @@ module.exports = {
     },
     optimization: {
         minimize: false,
+        nodeEnv: "production"
     },
     //We can ignore these warnings. 
     ignoreWarnings: [

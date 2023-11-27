@@ -16,7 +16,7 @@
     "pretty": "prettier --write src/",
     "clean": "rm -rf dist",
     "check": "tsc --noEmit",
-    "check:metadata": "ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
+    "check:metadata": "ajv --spec=draft2020 validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack",
     "package": "zip -j ./dist/${npm_package_name}.zip ./dist/*.js* && zip -j -u ./dist/${npm_package_name}.zip ./resources/matrix.json",

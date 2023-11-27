@@ -1,7 +1,5 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://matrixreq.com/plugin-metadadata.json",
-  "javaType": "com.matrixreq.plugins.manager.PluginMetadata",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Plugin Metadata",
   "description": "Describes a client plugin in Matrix",
   "type": "object",
@@ -12,46 +10,22 @@
       "pattern": "(^\\S+\\.)+(\\S+)$"
     },
     "version": {
-      "description": "The versions of the plugin",
+      "description": "A version identifier that must have 3-4 segments",
       "type": "string",
-      "pattern": "^(\\d+\\.)*(\\d+)$"
+      "pattern": "^((\\d+)\\.?){2,3}([a-z\\-\\d]+)$"
     },
     "matrixVersion": {
-      "description": "The versions of Matrix this plugin is compatible with. Uses semver format (https://devhints.io/semver)",
-      "type": "string",
-      "pattern": "^[~^]?(\\d+\\.)*([*X]|\\d+)$"
-    },
-    "name": {
-      "description": "The display name of the plugin",
-      "type": "string"
-    },
-    "type": {
-      "description": "The type of plugin",
-      "type": "string",
-      "enum": ["Javascript","Project"]
-    },
-    "src": {
-      "description": "The source of the plugin (Github repo, SVN repo etc)",
-      "type": "string"
-    },
-    "oops": {
-      "description": "The location of the plugin in OOPS",
-      "type": "string"
-    },
-    "license": {
-      "description": "License required for the plugin",
-      "type": "string"
-    },
-    "test": {
-      "description": "Link to a document describing how the plugin was tested",
-      "type": "string"
+      "type": "array",
+      "items": {
+        "description": "A version identifier",
+        "type": "string",
+        "pattern": "^((\\d+)\\.?){1,3}([a-z\\-\\d]+)??$"
+      }
     }
   },
   "required": [
     "id",
     "version",
-    "matrixVersion",
-    "name",
-    "type"
+    "matrixVersion"
   ]
 }

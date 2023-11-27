@@ -28,7 +28,7 @@ jobs:
       - name: Install dependencies and check for correct matrix.json file
         run: |
           npm install
-          npx ajv validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false
+          npm run check:metadata
 
       - name: Extract id from matrix.json
         uses: sergeysova/jq-action@v2

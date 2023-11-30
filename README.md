@@ -87,15 +87,15 @@ your remote Matrix instance.
 
 Setup:
 
-* Copy Proxy.env.template to Proxy.env and set your instance name
+* Copy `Proxy.env.template` to `Proxy.env` and set your instance name and the script name in the `./dist` directory.
 * cd into dev-proxy and `npm install` to get all dependencies
 * Make sure the plugin has been built
 * Close Chrome (if running)
-* In this directory, run `npm run proxy` to launch the proxy. 
+* In this directory, run `npm run proxy` to launch the proxy. You can also run `./proxy.sh` directly.
 
 This should open a new Chrome and if you inspect the main page you should see
 `<script src="/mypluginscript.js"></script>` at the end of the page. This URL
-will load the local `dist/Main.js` script and will always be up to date with your
+will load the local `dist/mypluginscript.js` script and will always be up to date with your
 local build.
 
 

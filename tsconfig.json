@@ -7,7 +7,7 @@
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "module": "amd",
-    "target": "ES6",
+    "target": "ES2017",
     "moduleResolution": "node",
     "isolatedModules": true,
     "esModuleInterop": true,

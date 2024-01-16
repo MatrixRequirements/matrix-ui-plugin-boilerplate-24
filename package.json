@@ -51,8 +51,8 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "matrix-requirements-sdk": "^2.4.0-alpha.25",
-    "matrixrequirements-type-declarations": "^2.4.0-alpha.0",
+    "matrix-requirements-sdk": "^2.4.0-rc.0",
+    "matrixrequirements-type-declarations": "^2.4.0-rc.0",
     "prettier": "^3.0.1"
   }
 }

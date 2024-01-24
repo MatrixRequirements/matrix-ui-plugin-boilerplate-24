@@ -145,15 +145,15 @@ export class Plugin
     async getProjectSettingsPageAsync(): Promise<IPluginSettingPage<IProjectSettings>> {
         await this.setupProject();
 
-        if (sdkInstance.app.isConfigApp()) {
-            return new ProjectSettingsPage(<IConfigApp>(<unknown>sdkInstance.app));
+        if (sdkInstance.app.isConfigApplication) {
+            return new ProjectSettingsPage(sdkInstance.app);
         }
         return null;
     }
 
     async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings>> {
-        if (sdkInstance.app.isConfigApp()) {
-            return new ServerSettingsPage(<IConfigApp>(<unknown>sdkInstance.app));
+        if (sdkInstance.app.isConfigApplication) {
+            return new ServerSettingsPage(sdkInstance.app);
         }
         return null;
     }

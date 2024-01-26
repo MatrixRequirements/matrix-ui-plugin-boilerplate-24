@@ -24,6 +24,8 @@ import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
 
+import "./styles.css";
+
 /** This class is allows you to configure the features of your plugin.
  *
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)

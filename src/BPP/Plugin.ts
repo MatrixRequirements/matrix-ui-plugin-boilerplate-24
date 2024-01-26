@@ -23,7 +23,7 @@ import { ServerSettingsPage } from "./ServerSettingsPage/ServerSettingsPage";
 import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
-import { postProcessorExample, preProcessorExample } from './printProcessors';
+import { postProcessorExample, preProcessorExample } from "./printProcessors";
 
 /** This class is allows you to configure the features of your plugin.
  *

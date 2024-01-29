@@ -7,3 +7,5 @@ build
 .idea
 Proxy.env
 dev-proxy/chrome-profile
+.DS_Store
+.env

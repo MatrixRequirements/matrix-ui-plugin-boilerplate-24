@@ -1,11 +1,10 @@
-// @ts-nocheck
-
 import { IPluginConfig, IPluginFieldHandler } from "matrix-requirements-sdk/client";
 
 import { Plugin } from "../Plugin";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "../Interfaces";
 
 export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
+    // @ts-ignore
     private data: IPluginFieldValue;
 
     constructor(

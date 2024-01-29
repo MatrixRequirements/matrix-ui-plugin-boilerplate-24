@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import * as ReactDOM from "react-dom";
 
 import { Plugin } from "../Plugin";
@@ -21,8 +19,10 @@ export class DashboardPage implements IDashboardPage<IDashboardParameters> {
         private project: Project,
         private projectStorage: IDataStorage,
         private popupModeOrControl = false,
+        // @ts-ignore
         private currentFolder: IItem = undefined,
     ) {
+        // @ts-ignore
         this.settings = {
             ...Plugin.config.projectSettingsPage.defaultSettings,
             ...project.getItemConfig().getSettingJSON(Plugin.config.projectSettingsPage.settingName, {}),

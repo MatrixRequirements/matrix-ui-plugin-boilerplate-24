@@ -5,20 +5,14 @@
   "repository": {
     "url": "https://github.com/MatrixRequirements/matrix-ui-plugin-boilerplate-24"
   },
-  "targets": {
-    "default": {
-      "context": "browser",
-      "publicUrl": "/static/js/",
-      "distDir": "./dist"
-    }
-  },
   "scripts": {
     "pretty": "prettier --write src/",
     "clean": "rm -rf dist",
     "check": "tsc --noEmit",
     "check:metadata": "ajv --spec=draft2020 validate -s resources/plugin-metadata.json -d resources/matrix.json --strict=false",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx webpack",
+    "dev": "webpack --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
     "package": "zip -j ./dist/${npm_package_name}.zip ./dist/*.js* && zip -j -u ./dist/${npm_package_name}.zip ./resources/matrix.json",
     "proxy": "export $(grep -v '^#' Proxy.env | xargs) && ./proxy.sh",
     "eslint": "eslint src",
@@ -38,21 +32,27 @@
     "@typescript-eslint/parser": "^5.15.0",
     "ajv": "^6.12.6",
     "ajv-cli": "^5.0.0",
+    "css-loader": "^6.9.1",
+    "dotenv": "^16.4.1",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.13",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "prettier": "^3.0.1",
+    "style-loader": "^3.3.4",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1"
+    "webpack": "^5.90.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-merge": "^5.10.0"
   },
   "dependencies": {
     "matrix-requirements-sdk": "^2.4.0-rc.6",
-    "matrixrequirements-type-declarations": "^2.4.0-rc.0",
-    "prettier": "^3.0.1"
+    "matrixrequirements-type-declarations": "^2.4.0-rc.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

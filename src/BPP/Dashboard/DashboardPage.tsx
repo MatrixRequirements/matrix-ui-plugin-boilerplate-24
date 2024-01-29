@@ -1,21 +1,20 @@
-// @flow
-// import {IProjectSettings} from "./Interfaces";
 import { Plugin } from "../Plugin";
 
-import { Component } from "react";
 import * as ReactDOM from "react-dom";
 import { DashboardPageContainer } from "./Components/DashboardPageContainer";
-import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
+import { IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
 import { Project, IDataStorage, IItem, IDashboardPage, IDashboardParametersBase } from "matrix-requirements-sdk/client";
-import { sdkInstance } from "./../Instance";
+import { sdkInstance } from "../Instance";
 
 export interface IDashboardParameters extends IDashboardParametersBase {}
 
-export class Dashboard extends Component<IDashboardContent, DashboardState> {
-    render() {
-        return <div className="itemDetails"></div>;
-    }
-}
+type DashboardProps = {
+    settings: IProjectSettings;
+};
+
+export const Dashboard = (props: DashboardProps) => (
+    <div className="w-auto p-4">Hello from the Matrix dashboard plugin!</div>
+);
 
 // Glue code to support the IDashboardPage interface
 // eslint-disable-next-line no-unused-vars
@@ -37,6 +36,8 @@ export class DashboardPage implements IDashboardPage<IDashboardParameters> {
     /** Add interactive element in this function */
     renderProjectPage() {
         const element = document.createElement("div");
+        element.classList.add("addon");
+        element.style.overflow = "hidden";
         let dashboard: IDashboard = {
             header: { title: "Dashboard", showFullScreen: false },
             dashboardContent: { settings: this.settings },
@@ -46,6 +47,6 @@ export class DashboardPage implements IDashboardPage<IDashboardParameters> {
     }
 
     onResize() {
-        /* Will be triggered when resizing. */
+        console.log({ resize: "resizing the plugin page" });
     }
 }

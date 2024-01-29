@@ -25,6 +25,8 @@ import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfac
 import { FieldHandler } from "./Control/FieldHandler";
 import { postProcessorExample, preProcessorExample } from "./printProcessors";
 
+import "./styles.css";
+
 /** This class is allows you to configure the features of your plugin.
  *
  *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)

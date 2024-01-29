@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* just a hack to rewrite the bootstrap 10px base font-size */
+/* don't even know why it's 10px cause in bootstrap v3 it was also 16px */
+/* looks like a bug in bootstrap file */
+/* looks like it's not breaking any styles in the app */
+html {
+    font-size: 16px;
+}

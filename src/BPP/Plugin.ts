@@ -23,6 +23,7 @@ import { ServerSettingsPage } from "./ServerSettingsPage/ServerSettingsPage";
 import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
+import { postProcessorExample, preProcessorExample } from "./printProcessors";
 
 /** This class is allows you to configure the features of your plugin.
  *
@@ -132,6 +133,7 @@ export class Plugin
         // here is a good place to register callbacks for UI events (like displaying or saving items)
         this.core = new sdkInstance.PluginCore(this);
         this.currentProject = null;
+        this.registerPrintProcessors();
     }
 
     async getDashboardAsync(): Promise<DashboardPage> {
@@ -200,6 +202,11 @@ export class Plugin
         // here is a good place to decide based on the selection in the tree, whether the plugin should be enabled
         // if not:
         // this.enabledInContext = false;
+    }
+
+    private registerPrintProcessors() {
+        sdkInstance.printProcessorRegistry.registerPostProcessor("postProcessorExample", postProcessorExample);
+        sdkInstance.printProcessorRegistry.registerPreProcessor("postProcessorExample", preProcessorExample);
     }
 
     private async setupProject(newProjectName?: string) {

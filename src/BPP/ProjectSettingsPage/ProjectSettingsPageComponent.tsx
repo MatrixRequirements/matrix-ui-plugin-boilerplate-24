@@ -1,33 +1,35 @@
-import { useState } from "react";
-import { IProjectSettingsProp, IServerSettingsProp } from "../Interfaces";
+import { ChangeEvent, useState } from "react";
+import { IProjectSettingsProp } from "../Interfaces";
 
-export const ProjectSettingsPageComponent = (props: IProjectSettingsProp) => {
-    const [state, setState] = useState(props.projectSettings);
-    function handleChange(evt) {
-        let settings = {
+interface ProjectSettingsState {
+    myProjectSetting: string;
+    // Include other settings here as needed
+}
+
+export const ProjectSettingsPageComponent = ({ projectSettings, settingsChanged }: IProjectSettingsProp) => {
+    const [state, setState] = useState<ProjectSettingsState>(projectSettings);
+
+    const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
+        const updatedSettings = {
             ...state,
             [evt.target.name]: evt.target.value,
         };
-        setState(settings);
-        if (props.settingsChanged) {
-            props.settingsChanged(settings);
-        }
-    }
+        setState(updatedSettings);
+        settingsChanged?.(updatedSettings);
+    };
 
     return (
-        <>
-            <div>
-                <span>
-                    <label>My Project Setting</label>
-                    <input
-                        autoComplete="off"
-                        value={state.myProjectSetting}
-                        name="myProjectSetting"
-                        className="lineInput form-control"
-                        onChange={handleChange}
-                    />
-                </span>
-            </div>
-        </>
+        <div>
+            <span>
+                <label>My Project Setting</label>
+                <input
+                    autoComplete="off"
+                    value={state.myProjectSetting}
+                    name="myProjectSetting"
+                    className="lineInput form-control"
+                    onChange={handleChange}
+                />
+            </span>
+        </div>
     );
 };

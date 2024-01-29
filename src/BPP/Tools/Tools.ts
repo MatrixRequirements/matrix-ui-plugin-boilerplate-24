@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { ITool } from "matrix-requirements-sdk/client";
+
 import { Plugin } from "../Plugin";
 
 export class Tool implements ITool {

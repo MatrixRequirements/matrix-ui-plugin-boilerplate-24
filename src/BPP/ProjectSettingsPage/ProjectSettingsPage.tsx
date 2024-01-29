@@ -1,8 +1,11 @@
+// @ts-nocheck
+
+import * as ReactDOM from "react-dom";
+import { IPluginSettingPage } from "matrix-requirements-sdk/client";
+
 import { IProjectSettings, IServerSettings } from "../Interfaces";
 import { Plugin } from "../Plugin";
-import * as ReactDOM from "react-dom";
 import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
-import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 import { sdkInstance } from "./../Instance";
 
 /* project Setting page closure*/

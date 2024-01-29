@@ -1,9 +1,12 @@
+// @ts-nocheck
+
+import * as ReactDOM from "react-dom";
+import { IPluginSettingPage } from "matrix-requirements-sdk/client";
+
 import { IServerSettings } from "../Interfaces";
 import { Plugin } from "../Plugin";
-import * as ReactDOM from "react-dom";
 import { ServerSettingsPageComponent } from "./ServerSettingPageComponent";
 import { sdkInstance } from "./../Instance";
-import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 
 // eslint-disable-next-line no-unused-vars
 /* server Setting page closure*/

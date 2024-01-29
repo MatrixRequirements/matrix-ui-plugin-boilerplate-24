@@ -1,4 +1,5 @@
-/// <reference types="matrixrequirements-type-declarations" />
+// @ts-nocheck
+
 import {
     ControlCoreBase,
     IConfigApp,

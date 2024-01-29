@@ -1,9 +1,6 @@
-// @flow
-// import {IProjectSettings} from "./Interfaces";
-import { Plugin } from "../Plugin";
-
-import { Component } from "react";
 import * as ReactDOM from "react-dom";
+
+import { Plugin } from "../Plugin";
 import { DashboardPageContainer } from "./Components/DashboardPageContainer";
 import { DashboardProps, DashboardState, IDashboard, IDashboardContent, IProjectSettings } from "../Interfaces";
 import { Project, IDataStorage, IItem, IDashboardPage, IDashboardParametersBase } from "matrix-requirements-sdk/client";
@@ -11,11 +8,7 @@ import { sdkInstance } from "./../Instance";
 
 export interface IDashboardParameters extends IDashboardParametersBase {}
 
-export class Dashboard extends Component<IDashboardContent, DashboardState> {
-    render() {
-        return <div className="itemDetails"></div>;
-    }
-}
+export const Dashboard = (props: IDashboardContent) => <div className="itemDetails">Hello from Dashboard!</div>;
 
 // Glue code to support the IDashboardPage interface
 // eslint-disable-next-line no-unused-vars
@@ -26,8 +19,10 @@ export class DashboardPage implements IDashboardPage<IDashboardParameters> {
         private project: Project,
         private projectStorage: IDataStorage,
         private popupModeOrControl = false,
+        // @ts-ignore
         private currentFolder: IItem = undefined,
     ) {
+        // @ts-ignore
         this.settings = {
             ...Plugin.config.projectSettingsPage.defaultSettings,
             ...project.getItemConfig().getSettingJSON(Plugin.config.projectSettingsPage.settingName, {}),

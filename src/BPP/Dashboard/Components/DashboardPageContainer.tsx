@@ -1,22 +1,13 @@
-import { Component } from "react";
 import { DashboardProps, IProjectSettings } from "../../Interfaces";
-import { PageTitle } from "./PageTitle";
+import { DashboardPageTitle } from "./DashboardPageTitle";
 import { Dashboard } from "../DashboardPage";
 
-export class DashboardPageContainer extends Component<DashboardProps> {
-    settings: IProjectSettings;
+export const DashboardPageContainer = ({ dashboard }: DashboardProps) => (
+    <div id="itemDetails" className="layoutContainer">
+        <DashboardPageTitle title={dashboard.header.title} showFullScreen={dashboard.header.showFullScreen} />
 
-    render() {
-        return (
-            <div>
-                <div id="itemDetails" className="layoutContainer">
-                    <PageTitle
-                        title={this.props.dashboard.header.title}
-                        showFullScreen={this.props.dashboard.header.showFullScreen}
-                    />
-                    <Dashboard settings={this.props.dashboard.dashboardContent.settings}></Dashboard>
-                </div>
-            </div>
-        );
-    }
-}
+        <div className="overflow-y-auto overflow-x-hidden" style={{ height: "calc(100% - 50px)" }}>
+            <Dashboard settings={dashboard.dashboardContent.settings} />
+        </div>
+    </div>
+);

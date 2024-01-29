@@ -1,9 +1,9 @@
-/// <reference types="matrixrequirements-type-declarations" />
-import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
 import * as ReactDOM from "react-dom";
+import { IPluginFieldHandler } from "matrix-requirements-sdk/client";
+
+import { IPluginFieldOptions, IPluginFieldParameter, IPluginFieldValue, IPluginPrintParams } from "../Interfaces";
 import { ControlComponent } from "./ControlComponent";
 import { sdkInstance } from "./../Instance";
-import { IPluginFieldHandler } from "matrix-requirements-sdk/client";
 
 export class Control extends sdkInstance.ControlCore<
     IPluginFieldOptions,

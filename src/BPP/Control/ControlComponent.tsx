@@ -4,7 +4,7 @@
  * These fields can be printed in using the custom print sections.
  *
  */
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { IPluginFieldValue } from "../Interfaces";
 
 export interface IControlProp {
@@ -13,28 +13,27 @@ export interface IControlProp {
     value: IPluginFieldValue;
 }
 
-export const ControlComponent = (props: IControlProp) => {
-    const [value, setValue] = useState(props.value);
+export const ControlComponent = ({ print, valueChanged, value }: IControlProp) => {
+    const [currentValue, setCurrentValue] = useState<IPluginFieldValue>(value);
+
     const handleChange = (val: string) => {
-        setValue({ value: val, html: "" });
-        props.valueChanged({ value: val, html: "" });
+        const newValue: IPluginFieldValue = { value: val, html: "" };
+        setCurrentValue(newValue);
+        valueChanged(newValue);
     };
-    if (props.print) {
-        return <div>{value?.value}</div>;
-    }
-    return (
-        <>
-            <div>
-                <span>
-                    {" "}
-                    <input
-                        autoComplete="off"
-                        className="lineInput form-control"
-                        value={value?.value}
-                        onChange={(event) => handleChange(event.target.value)}
-                    />{" "}
-                </span>
-            </div>
-        </>
+
+    return print ? (
+        <div>{currentValue?.value}</div>
+    ) : (
+        <div>
+            <span>
+                <input
+                    autoComplete="off"
+                    className="lineInput form-control"
+                    value={currentValue?.value}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => handleChange(event.target.value)}
+                />
+            </span>
+        </div>
     );
 };

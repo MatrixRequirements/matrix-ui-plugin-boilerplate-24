@@ -1,15 +1,19 @@
+import * as ReactDOM from "react-dom";
+import { IPluginSettingPage } from "matrix-requirements-sdk/client";
+
 import { IProjectSettings, IServerSettings } from "../Interfaces";
 import { Plugin } from "../Plugin";
-import * as ReactDOM from "react-dom";
 import { ProjectSettingsPageComponent } from "./ProjectSettingsPageComponent";
-import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 import { sdkInstance } from "./../Instance";
 
 /* project Setting page closure*/
 export class ProjectSettingsPage extends sdkInstance.ConfigPage implements IPluginSettingPage<IProjectSettings> {
+    // @ts-ignore
     settingsOriginal: IProjectSettings;
+    // @ts-ignore
     settingsChanged: IProjectSettings;
 
+    // @ts-ignore
     getSettingsDOM(settings: IProjectSettings): JQuery {
         let container = document.createElement("div");
         container.classList.add("panel-body-v-scroll");
@@ -45,6 +49,7 @@ export class ProjectSettingsPage extends sdkInstance.ConfigPage implements IPlug
             );
         }
         console.log("Returning project settings");
+        // @ts-ignore
         return { ...Plugin.config.projectSettingsPage.defaultSettings, ...currentSettings };
     }
 
@@ -52,6 +57,7 @@ export class ProjectSettingsPage extends sdkInstance.ConfigPage implements IPlug
         this.initPage(
             `${Plugin.config.projectSettingsPage.title}`,
             true,
+            // @ts-ignore
             undefined,
             Plugin.config.projectSettingsPage.help,
             Plugin.config.projectSettingsPage.helpUrl,

@@ -16,7 +16,7 @@
         "allowJs": false,
         "esModuleInterop": false,
         "allowSyntheticDefaultImports": true,
-        "strict": false,
+        "strict": true,
         "typeRoots": ["./node_modules/@types", "./node_modules/matrix-type-declarations"],
     },
     "exclude": ["node_modules"],

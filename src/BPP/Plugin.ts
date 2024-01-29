@@ -1,4 +1,3 @@
-/// <reference types="matrixrequirements-type-declarations" />
 import {
     ControlCoreBase,
     IConfigApp,
@@ -15,6 +14,7 @@ import {
     Project,
     registerPlugin,
 } from "matrix-requirements-sdk/client";
+
 import { sdkInstance } from "./Instance";
 import { Control } from "./Control/Control";
 import { DashboardPage, IDashboardParameters } from "./Dashboard/DashboardPage";
@@ -131,7 +131,9 @@ export class Plugin
      */
     constructor() {
         // here is a good place to register callbacks for UI events (like displaying or saving items)
+        // @ts-ignore
         this.core = new sdkInstance.PluginCore(this);
+        // @ts-ignore
         this.currentProject = null;
         this.registerPrintProcessors();
     }
@@ -148,15 +150,19 @@ export class Plugin
         await this.setupProject();
 
         if (sdkInstance.app.isConfigApplication) {
+            // @ts-ignore
             return new ProjectSettingsPage(sdkInstance.app);
         }
+        // @ts-ignore
         return null;
     }
 
     async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings>> {
         if (sdkInstance.app.isConfigApplication) {
+            // @ts-ignore
             return new ServerSettingsPage(sdkInstance.app);
         }
+        // @ts-ignore
         return null;
     }
 
@@ -213,6 +219,7 @@ export class Plugin
         if (this.currentProject) {
             // Did we change projects?
             if (newProjectName && this.currentProject.getName() != newProjectName) {
+                // @ts-ignore
                 this.currentProject = null;
             }
         }

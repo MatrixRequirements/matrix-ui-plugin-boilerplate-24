@@ -1,9 +1,10 @@
+import * as ReactDOM from "react-dom";
+import { IPluginSettingPage } from "matrix-requirements-sdk/client";
+
 import { IServerSettings } from "../Interfaces";
 import { Plugin } from "../Plugin";
-import * as ReactDOM from "react-dom";
 import { ServerSettingsPageComponent } from "./ServerSettingPageComponent";
 import { sdkInstance } from "./../Instance";
-import { IPluginSettingPage } from "matrix-requirements-sdk/client";
 
 // eslint-disable-next-line no-unused-vars
 /* server Setting page closure*/
@@ -12,12 +13,14 @@ export class ServerSettingsPage extends sdkInstance.ConfigPage implements IPlugi
     settingsChanged?: IServerSettings;
 
     settings(): IServerSettings {
+        // @ts-ignore
         return {
             ...Plugin.config.customerSettingsPage.defaultSettings,
             ...sdkInstance.PluginCore.getServerSetting(Plugin.config.customerSettingsPage.settingName, {}),
         };
     }
     /** Customize this method to generate static HTML.  */
+    // @ts-ignore
     getSettingsDOM(settings: IServerSettings): JQuery {
         let container = document.createElement("div");
         container.classList.add("panel-body-v-scroll");
@@ -36,6 +39,7 @@ export class ServerSettingsPage extends sdkInstance.ConfigPage implements IPlugi
     /** Customize this method to add dynamic content*/
     showSimple() {
         $("#container", sdkInstance.app.itemForm).empty();
+        // @ts-ignore
         let dom = this.getSettingsDOM(this.settingsChanged);
         $("#container", sdkInstance.app.itemForm).append(dom);
     }
@@ -47,6 +51,7 @@ export class ServerSettingsPage extends sdkInstance.ConfigPage implements IPlugi
         this.initPage(
             `${Plugin.config.customerSettingsPage.title} - Server settings`,
             true,
+            // @ts-ignore
             undefined,
             Plugin.config.customerSettingsPage.help,
             Plugin.config.customerSettingsPage.helpUrl,
@@ -71,6 +76,7 @@ export class ServerSettingsPage extends sdkInstance.ConfigPage implements IPlugi
             JSON.stringify(this.settingsChanged),
         );
         def.done(() => {
+            // @ts-ignore
             this.settingsOriginal = { ...this.settingsChanged };
             this.renderSettingPage();
         });

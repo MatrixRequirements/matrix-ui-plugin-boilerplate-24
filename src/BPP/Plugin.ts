@@ -24,6 +24,7 @@ import { Tool } from "./Tools/Tools";
 import { IPluginFieldValue, IProjectSettings, IServerSettings } from "./Interfaces";
 import { FieldHandler } from "./Control/FieldHandler";
 import { postProcessorExample, preProcessorExample } from "./printProcessors";
+import { tableMathExample } from "./tableMath";
 
 /** This class is allows you to configure the features of your plugin.
  *
@@ -136,6 +137,7 @@ export class Plugin
         // @ts-ignore
         this.currentProject = null;
         this.registerPrintProcessors();
+        this.registerTableMath();
     }
 
     async getDashboardAsync(): Promise<DashboardPage> {
@@ -213,6 +215,10 @@ export class Plugin
     private registerPrintProcessors() {
         sdkInstance.printProcessorRegistry.registerPostProcessor("postProcessorExample", postProcessorExample);
         sdkInstance.printProcessorRegistry.registerPreProcessor("postProcessorExample", preProcessorExample);
+    }
+
+    private registerTableMath() {
+        sdkInstance.tableMath.registerFunction("tableMathExample", tableMathExample);
     }
 
     private async setupProject(newProjectName?: string) {

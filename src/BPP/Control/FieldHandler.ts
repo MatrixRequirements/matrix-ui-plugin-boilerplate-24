@@ -28,6 +28,7 @@ export class FieldHandler implements IPluginFieldHandler<IPluginFieldValue> {
         return Plugin.config.field.fieldType;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     initData(serializedFieldData: string): any {
         try {
             this.data = JSON.parse(serializedFieldData);

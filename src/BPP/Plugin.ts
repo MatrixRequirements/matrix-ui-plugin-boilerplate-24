@@ -231,8 +231,8 @@ export class Plugin
         }
         if (this.currentProject == null) {
             this.currentProject = newProjectName
-                ? await sdkInstance.matrixsdk.openProject(newProjectName)
-                : await sdkInstance.matrixsdk.openCurrentProjectFromSession();
+                ? (await sdkInstance.matrixsdk.openProject(newProjectName))!
+                : (await sdkInstance.matrixsdk.openCurrentProjectFromSession())!;
         }
     }
 }

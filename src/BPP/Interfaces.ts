@@ -40,7 +40,7 @@ export interface IProjectSettingsProp {
  */
 export interface IProjectSettings extends IProjectSettingsBase {
     /** example of a project setting */
-    myProjectSetting: string;
+    myProjectSetting?: string;
 }
 
 /** Setting for custom fields

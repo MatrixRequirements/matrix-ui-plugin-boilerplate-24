@@ -1,6 +1,7 @@
-import { DashboardProps, IProjectSettings } from "../../Interfaces";
+import { DashboardProps, IDashboardContent } from "../../Interfaces";
 import { DashboardPageTitle } from "./DashboardPageTitle";
-import { Dashboard } from "../DashboardPage";
+
+export const Dashboard = (props: IDashboardContent) => <div className="itemDetails">Hello from Dashboard!</div>;
 
 export const DashboardPageContainer = ({ dashboard }: DashboardProps) => (
     <div id="itemDetails" className="layoutContainer">

@@ -1,6 +1,5 @@
 import {
     ControlCoreBase,
-    IConfigApp,
     IDashboardPage,
     IDashboardParametersBase,
     IExternalPlugin,
@@ -26,10 +25,11 @@ import { FieldHandler } from "./Control/FieldHandler";
 import { postProcessorExample, preProcessorExample } from "./printProcessors";
 import { tableMathExample } from "./tableMath";
 
-/** This class is allows you to configure the features of your plugin.
+/**
+ * This class allows you to configure the features of your plugin.
  *
- *  You can also implement functions to into the plugin (at start in the constructor, when loading a project, when loading an item)
- *
+ * You can also implement functions to integrate the plugin (at start in the constructor,
+ * when loading a project, when loading an item).
  */
 export class Plugin
     implements
@@ -41,11 +41,6 @@ export class Plugin
             IDashboardParameters
         >
 {
-    /**This part enables which
-     *
-     * See IPluginConfig interface for explanation of parameters
-     */
-
     static config: IPluginConfig<IServerSettings, IProjectSettings> = {
         /*  Page in admin client to configure settings across all projects - set enabled to false if not needed.
             The page itself is implemented in the _ServerSettingsPage.ts
@@ -123,48 +118,40 @@ export class Plugin
     core: PluginCore;
     PLUGIN_VERSION = "<PLUGIN_VERSION_PLACEHOLDER>";
     PLUGIN_NAME = "<PLUGIN_NAME_PLACEHOLDER>";
-    private currentProject: Project;
+
+    private currentProject: Project | null = null;
 
     /**
-     * The constructor is loaded once after all the source code is loaded by the browser.
-     * Nothing is known about the instance, project, user etc.
-     * You can use it to initialize things like callbacks after item changes
+     * Constructor is loaded once after all the source code is loaded by the browser.
+     * At this point, nothing is known about the instance, project, user, etc.
+     * Use it to initialize things like callbacks after item changes.
      */
     constructor() {
-        // here is a good place to register callbacks for UI events (like displaying or saving items)
-        // @ts-ignore
         this.core = new sdkInstance.PluginCore(this);
-        // @ts-ignore
-        this.currentProject = null;
         this.registerPrintProcessors();
         this.registerTableMath();
     }
 
     async getDashboardAsync(): Promise<DashboardPage> {
-        // Whoa, now is my chance to load from the web
-        // I can do "slow" things here if necessary.
         await this.setupProject();
-        // TODO: projectStorage should be available on Project.
         return new DashboardPage(this.currentProject, sdkInstance.globalMatrix.projectStorage);
     }
 
-    async getProjectSettingsPageAsync(): Promise<IPluginSettingPage<IProjectSettings>> {
+    async getProjectSettingsPageAsync(): Promise<IPluginSettingPage<IProjectSettings> | null> {
         await this.setupProject();
 
         if (sdkInstance.app.isConfigApplication) {
-            // @ts-ignore
             return new ProjectSettingsPage(sdkInstance.app);
         }
-        // @ts-ignore
+
         return null;
     }
 
-    async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings>> {
+    async getServerSettingsPageAsync(): Promise<IPluginSettingPage<IServerSettings> | null> {
         if (sdkInstance.app.isConfigApplication) {
-            // @ts-ignore
             return new ServerSettingsPage(sdkInstance.app);
         }
-        // @ts-ignore
+
         return null;
     }
 
@@ -176,7 +163,7 @@ export class Plugin
 
     async getToolAsync(): Promise<Tool> {
         await this.setupProject();
-        return Promise.resolve(new Tool());
+        return new Tool();
     }
 
     getConfig() {
@@ -188,26 +175,22 @@ export class Plugin
     }
 
     /**
-     * This method is called each time  a project has been loaded and initialized.
+     * Called each time a project has been loaded and initialized.
      * At the time it is called, all project settings, categories etc are defined.
-     *
-     * @param project // id of the loaded project
      */
-    onInitProject(project: string) {
+    onInitProject(project: string): void {
         // here is a good place to decide based on the project (maybe some project setting), whether the plugin should be enabled
-
         // if not:
         // this.enabledInContext = false;
         this.setupProject(project);
     }
 
-    /** this method is called just before the rendering of an item is done
+    /**
+     * Called just before the rendering of an item is done.
      * It is also called when opening the create item dialog.
-     *
-     * @param _item: the item which is being loaded in the UI
      */
-    onInitItem(item: IItem) {
-        // here is a good place to decide based on the selection in the tree, whether the plugin should be enabled
+    onInitItem(item: IItem): void {
+        // Here is a good place to decide based on the selection in the tree, whether the plugin should be enabled
         // if not:
         // this.enabledInContext = false;
     }
@@ -222,14 +205,11 @@ export class Plugin
     }
 
     private async setupProject(newProjectName?: string) {
-        if (this.currentProject) {
-            // Did we change projects?
-            if (newProjectName && this.currentProject.getName() != newProjectName) {
-                // @ts-ignore
-                this.currentProject = null;
-            }
+        if (this.currentProject && newProjectName && this.currentProject.getName() != newProjectName) {
+            this.currentProject = null;
         }
-        if (this.currentProject == null) {
+
+        if (!this.currentProject) {
             this.currentProject = newProjectName
                 ? (await sdkInstance.matrixsdk.openProject(newProjectName))!
                 : (await sdkInstance.matrixsdk.openCurrentProjectFromSession())!;

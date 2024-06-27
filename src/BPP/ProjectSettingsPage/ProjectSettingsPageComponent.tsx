@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { IProjectSettingsProp } from "../Interfaces";
 
 interface ProjectSettingsState {
-    myProjectSetting: string;
+    myProjectSetting?: string;
     // Include other settings here as needed
 }
 
